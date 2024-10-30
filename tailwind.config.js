@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         "main-color": "var(--main-color)",
+        "main-color-90": "var(--main-color-90)",
         "secondary-color": "var(--secondary-color)"
       },
     },
