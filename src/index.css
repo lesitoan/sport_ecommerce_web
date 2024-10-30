@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 62.5%;
+}
+
+:root {
+    font-size: 1.5rem;
+    vertical-align: baseline;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    overflow: scroll;
+
+    --main-color: #312783;
+}
