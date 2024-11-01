@@ -5,7 +5,7 @@ const CardProduct = () => {
                 <img src="/productImages/1.webp" alt="product" />
             </div>
             <div className="text-[#000] p-2.5">
-                <h4 className="font-[700] text-[16px] mb-1">Áo bóng đá câu lạc bộ PSg tím than 2024-2025</h4>
+                <h4 className="font-[700] text-[16px] mb-1">Áo bóng đá câu lạc bộ PSg tím than 2024-2025 </h4>
                 <ul className="text-[14px]">
                     <li><span className="text-red-600 font-[600]">80.000Đ</span> (hang thun lạnh)</li>
                     <li><span className="text-red-600 font-[600]">80.000Đ</span> (hang thun lạnh)</li>
