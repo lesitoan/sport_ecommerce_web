@@ -13,10 +13,10 @@ export const useGetAllProducts = () => {
     return [isLoading, products];
 }
 
-export const useGetProductsByCategory = () => {
+export const useGetProductsByCategory = (categoryName) => {
     const { isPending: isLoading, isError, data: products, error } = useQuery({
         queryKey: ['products'],
-        queryFn: getProductsByCategory
+        queryFn: async () => await getProductsByCategory({ categoryName })
     })
     if (isError) {
         console.log("Error: ", error.message);

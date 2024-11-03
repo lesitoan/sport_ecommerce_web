@@ -6,7 +6,7 @@ import { useGetAllProducts, useGetProductsByCategory } from "../hooks/productsHo
 
 const HomePage = () => {
 
-    const [isLoading, products] = useGetProductsByCategory();
+    const [isLoading, products] = useGetProductsByCategory('ao_bong_da');
     if (isLoading) {
         console.log("...");
     } else {
