@@ -1,4 +1,4 @@
-import { FaMinus, FaSearch, FaShoppingCart } from 'react-icons/fa';
+import { FaGripLinesVertical, FaMinus, FaSearch, FaShoppingCart, FaSlack } from 'react-icons/fa';
 
 
 const Header = () => {
@@ -15,10 +15,21 @@ const Header = () => {
                         <li>Hệ thống</li>
                     </ul>
                     <div className='flex gap-1'>
-                        <input className='focus:outline-0 rounded' type="text" placeholder='Từ khóa tìm kiếm' />
+                        <input className='focus:outline-0 rounded xl:min-w-[400px]' type="text" placeholder='Từ khóa tìm kiếm' />
                         <button><FaSearch /></button>
                     </div>
                     <h5 className='text-lg'><FaShoppingCart /></h5>
+                </div>
+                {/* avatar / login btn */}
+                <div>
+                    {/* <div className='flex cursor-pointer justify-center items-center h-[45px] w-[45px] rounded-full border-solid border border-x-slate-400 shadow-2xl'>
+                        <img className='h-[100%] rounded-full ' src="/avatar.jpg" alt="avatar" />
+                    </div> */}
+                    <ul className='flex gap-1 justify-center items-center'>
+                        <li className='hover:text-main-color hover:underline font-[500]'><a href="/login">Đăng nhập</a></li>
+                        <li><FaGripLinesVertical /></li>
+                        <li className='hover:text-main-color hover:underline font-[500]'><a href="/login">Đăng kí</a></li>
+                    </ul>
                 </div>
             </div>
 

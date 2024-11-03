@@ -1,7 +1,19 @@
+import { useEffect } from "react";
 import CardProduct from "../ui/CardProduct";
 import SlideShowImage from "../ui/SlideShowImage";
+import { getAllProducts } from "../services/productsApi";
+import { useGetAllProducts, useGetProductsByCategory } from "../hooks/productsHooks";
 
 const HomePage = () => {
+
+    const [isLoading, products] = useGetProductsByCategory();
+    if (isLoading) {
+        console.log("...");
+    } else {
+
+        console.log("products: ", products);
+    }
+
     return (
         <>
             <div className="w-[99vw] relative left-1/2 -translate-x-1/2">
