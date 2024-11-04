@@ -1,41 +1,20 @@
-import CardProduct from "../ui/CardProduct";
+import { useParams } from "react-router-dom";
 import Pagination from "../ui/Pagination";
+import { useGetProductsByCategory } from "../hooks/productsHooks";
+import BoxProducts from "../ui/BoxProducts";
+
+const NUMBER_ITEM_PER_PAGE = 25;
 
 const ProductPage = () => {
+    const { categorySlug } = useParams();
+    const [isLoading, products] = useGetProductsByCategory(categorySlug);
+    if (isLoading) return <div>ĐANG TẢI ...</div>
+    if (products?.products && products?.products.length == 0) return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">CHƯA CÓ SẢN PHẨM</div>
     return (
         <>
-            <div className="mb-[60px] mt-[25px]">
-                <h3 className="font-[600] text-[35px] mb-2">Áo câu lạc bộ</h3>
-                <div className="w-[100%] flex justify-between flex-wrap">
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                </div>
-                < Pagination />
-                <hr className="border-t-2 border-main-color mt-3" />
-            </div>
+            <BoxProducts productsCategory={products} numOfItems={NUMBER_ITEM_PER_PAGE} />
+            {products?.products && products?.products.length > NUMBER_ITEM_PER_PAGE && <Pagination />}
+            <hr className="border-t-2 border-main-color mt-3 mb-10" />
         </>
     )
 }
