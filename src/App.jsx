@@ -3,6 +3,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage"
@@ -24,7 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="products" element={<ProductsPage />} />
+            <Route path="/category/:categorySlug" element={<ProductsPage />} />
             <Route path="products/:prodName" element={<ProductDetailPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="payment" element={<PaymentPage />} />
@@ -34,6 +35,7 @@ function App() {
         </Routes>
 
       </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   )
 }

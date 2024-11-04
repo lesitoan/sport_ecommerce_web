@@ -1,79 +1,26 @@
-import { useEffect } from "react";
-import CardProduct from "../ui/CardProduct";
 import SlideShowImage from "../ui/SlideShowImage";
-import { getAllProducts } from "../services/productsApi";
-import { useGetAllProducts, useGetProductsByCategory } from "../hooks/productsHooks";
+import { useGetProductsByCategory } from "../hooks/productsHooks";
+import BoxProducts from "../ui/BoxProducts";
 
 const HomePage = () => {
 
-    const [isLoading, products] = useGetProductsByCategory('ao_bong_da');
-    if (isLoading) {
-        console.log("...");
-    } else {
-
-        console.log("products: ", products);
-    }
+    const [aoBongDaCLBLoading, aoBongDaCLB] = useGetProductsByCategory('ao_bong_da_clb');
+    const [aoBongDaTuyenLoading, aoBongDaTuyen] = useGetProductsByCategory('ao_bong_da_doi_tuyen');
+    const [giayBongDaLoading, giayBongDa] = useGetProductsByCategory('giay_bong_da');
+    const [phuKienBongDaLoading, phuKienBongDa] = useGetProductsByCategory('phu_kien_bong_da');
+    const [quanAoBongChuyenLoading, quanAoBongChuyen] = useGetProductsByCategory('phu_kien_bong_chuyen');
 
     return (
         <>
             <div className="w-[99vw] relative left-1/2 -translate-x-1/2">
                 <SlideShowImage />
             </div>
-            {/* CLB */}
-            <div className="mb-[40px] mt-[25px]">
-                <h3 className="font-[600] text-[35px] mb-2">Áo câu lạc bộ</h3>
-                <div className="w-[100%] flex justify-between">
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                </div>
-            </div>
-            {/* CLB */}
-            <div className="mb-[40px] mt-[25px]">
-                <h3 className="font-[600] text-[35px] mb-2">Áo câu lạc bộ</h3>
-                <div className="w-[100%] flex justify-between">
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                </div>
-            </div>
-            {/* CLB */}
-            <div className="mb-[40px] mt-[25px]">
-                <h3 className="font-[600] text-[35px] mb-2">Áo câu lạc bộ</h3>
-                <div className="w-[100%] flex justify-between">
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                </div>
-            </div>
-            {/* CLB */}
-            <div className="mb-[40px] mt-[25px]">
-                <h3 className="font-[600] text-[35px] mb-2">Áo câu lạc bộ</h3>
-                <div className="w-[100%] flex justify-between">
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                </div>
-            </div>
-            {/* CLB */}
-            <div className="mb-[40px] mt-[25px]">
-                <h3 className="font-[600] text-[35px] mb-2">Áo câu lạc bộ</h3>
-                <div className="w-[100%] flex justify-between">
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                </div>
-            </div>
+            {!aoBongDaCLBLoading && <BoxProducts productsCategory={aoBongDaCLB} numOfItems={5} />}
+            {!aoBongDaTuyenLoading && <BoxProducts productsCategory={aoBongDaTuyen} numOfItems={5} />}
+            {!giayBongDaLoading && <BoxProducts productsCategory={giayBongDa} numOfItems={5} />}
+            {!phuKienBongDaLoading && <BoxProducts productsCategory={phuKienBongDa} numOfItems={5} />}
+            {!quanAoBongChuyenLoading && <BoxProducts productsCategory={quanAoBongChuyen} numOfItems={5} />}
+
 
             {/* cẩm nang thể thao */}
             <div className="mb-[40px] mt-[25px]">

@@ -11,16 +11,19 @@ export const getAllProducts = async () => {
     return products;
 }
 
-export const getProductsByCategory = async ({ categoryName }) => {
-    if (!categoryName) return [];
-    const { data: products, error } = await supabase.from('products').select(`
-        id,
-        categories ( categoryName ),
-        clubAndNationalTeams (clubName)
-      `).eq('categories.categoryName', 'ao_bong_da')
+export const getProductsByCategory = async ({ categorySlug }) => {
+    if (!categorySlug) return [];
+
+    let query = supabase.from('categories').select(`
+        *,
+        products (*)
+    `).eq('categorySlug', `${categorySlug}`);
+
+    const { data, error } = await query;
     if (error) {
         throw new Error("có lỗi !!!!!!!!!!");
     }
+    const products = data[0];
     return products;
 }
 
