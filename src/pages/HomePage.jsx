@@ -1,6 +1,7 @@
 import SlideShowImage from "../ui/SlideShowImage";
 import { useGetProductsByCategory } from "../hooks/productsHooks";
 import BoxProducts from "../ui/BoxProducts";
+import Spinner from "../ui/Spinner";
 
 const HomePage = () => {
 
@@ -15,11 +16,11 @@ const HomePage = () => {
             <div className="w-[99vw] relative left-1/2 -translate-x-1/2">
                 <SlideShowImage />
             </div>
-            {!aoBongDaCLBLoading && <BoxProducts productsCategory={aoBongDaCLB} numOfItems={5} />}
-            {!aoBongDaTuyenLoading && <BoxProducts productsCategory={aoBongDaTuyen} numOfItems={5} />}
-            {!giayBongDaLoading && <BoxProducts productsCategory={giayBongDa} numOfItems={5} />}
-            {!phuKienBongDaLoading && <BoxProducts productsCategory={phuKienBongDa} numOfItems={5} />}
-            {!quanAoBongChuyenLoading && <BoxProducts productsCategory={quanAoBongChuyen} numOfItems={5} />}
+            {aoBongDaCLBLoading ? <Spinner /> : <BoxProducts productsCategory={aoBongDaCLB} numOfItems={5} />}
+            {aoBongDaTuyenLoading ? <Spinner /> : <BoxProducts productsCategory={aoBongDaTuyen} numOfItems={5} />}
+            {giayBongDaLoading ? <Spinner /> : <BoxProducts productsCategory={giayBongDa} numOfItems={5} />}
+            {phuKienBongDaLoading ? <Spinner /> : <BoxProducts productsCategory={phuKienBongDa} numOfItems={5} />}
+            {quanAoBongChuyenLoading ? <Spinner /> : <BoxProducts productsCategory={quanAoBongChuyen} numOfItems={5} />}
 
 
             {/* cẩm nang thể thao */}

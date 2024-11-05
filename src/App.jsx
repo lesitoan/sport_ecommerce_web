@@ -11,6 +11,7 @@ import NotFound404Page from "./pages/NotFound404Page"
 import PaymentPage from "./pages/PaymentPage"
 import ProductDetailPage from "./pages/ProductDetailPage"
 import ProductsPage from "./pages/ProductsPage"
+import FindProductsPage from "./pages/FindProductsPage"
 
 import Layout from "./ui/Layout";
 
@@ -27,6 +28,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="/category/:categorySlug" element={<ProductsPage />} />
             <Route path="products/:prodName" element={<ProductDetailPage />} />
+            <Route path="find/:prodSlug" element={<FindProductsPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="payment" element={<PaymentPage />} />
             <Route path="*" element={<NotFound404Page />} />
