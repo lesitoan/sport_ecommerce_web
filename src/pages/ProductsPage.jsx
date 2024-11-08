@@ -7,13 +7,15 @@ import { NUMBER_ITEM_PER_PAGE } from "../utils/constant";
 
 const ProductPage = () => {
     const { categorySlug } = useParams();
-    const [isLoading, products] = useGetProductsByCategory(categorySlug);
+    const { isLoading, data } = useGetProductsByCategory(categorySlug);
     if (isLoading) return <div className="h-[80vh] flex items-center justify-center"><Spinner /></div>
-    if (products?.products && products?.products.length == 0) return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">CHƯA CÓ SẢN PHẨM</div>
+    if (!data || !data?.products || !data?.products.length === 0) {
+        return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">CHƯA CÓ SẢN PHẨM</div>
+    }
     return (
         <>
-            <BoxProducts productsCategory={products} numOfItems={NUMBER_ITEM_PER_PAGE} />
-            {/* {products?.products && products?.products.length > NUMBER_ITEM_PER_PAGE && <Pagination currPage={1} numberPages={10} />} */}
+            <BoxProducts products={data.products} category={data?.categoryName} />
+            <Pagination count={data.count} />
             <hr className="border-t-2 border-main-color mt-3 mb-10" />
         </>
     )

@@ -17,7 +17,7 @@ const Layout = () => {
                     <Outlet />
                 </div>
             )} */}
-            <div className='max-w-[1500px] m-auto'>
+            <div className='2xl:max-w-[1500px] xl:max-w-[1200px] m-auto'>
                 <Outlet />
             </div>
 

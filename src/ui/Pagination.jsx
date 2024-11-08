@@ -5,7 +5,6 @@ const Pagination = ({ count }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const currPage = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
     const numberPages = Math.ceil(count / NUMBER_ITEM_PER_PAGE);
-
     const handleClickPage = (pageIndex) => {
         searchParams.set("page", pageIndex);
         setSearchParams(searchParams);

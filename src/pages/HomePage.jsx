@@ -4,24 +4,22 @@ import BoxProducts from "../ui/BoxProducts";
 import Spinner from "../ui/Spinner";
 
 const HomePage = () => {
-
-    const [aoBongDaCLBLoading, aoBongDaCLB] = useGetProductsByCategory('ao_bong_da_clb');
-    const [aoBongDaTuyenLoading, aoBongDaTuyen] = useGetProductsByCategory('ao_bong_da_doi_tuyen');
-    const [giayBongDaLoading, giayBongDa] = useGetProductsByCategory('giay_bong_da');
-    const [phuKienBongDaLoading, phuKienBongDa] = useGetProductsByCategory('phu_kien_bong_da');
-    const [quanAoBongChuyenLoading, quanAoBongChuyen] = useGetProductsByCategory('phu_kien_bong_chuyen');
+    const { isLoading: aoBongDaCLBLoading, data: aoBongDaCLB } = useGetProductsByCategory('ao_bong_da_clb');
+    const { isLoading: aoBongDaTuyenLoading, data: aoBongDaTuyen } = useGetProductsByCategory('ao_bong_da_doi_tuyen');
+    const { isLoading: giayBongDaLoading, data: giayBongDa } = useGetProductsByCategory('giay_bong_da');
+    const { isLoading: phuKienBongDaLoading, data: phuKienBongDa } = useGetProductsByCategory('phu_kien_bong_da');
+    const { isLoading: quanAoBongChuyenLoading, data: quanAoBongChuyen } = useGetProductsByCategory('phu_kien_bong_chuyen');
 
     return (
         <>
             <div className="w-[99vw] relative left-1/2 -translate-x-1/2">
                 <SlideShowImage />
             </div>
-            {aoBongDaCLBLoading ? <Spinner /> : <BoxProducts productsCategory={aoBongDaCLB} numOfItems={5} />}
-            {aoBongDaTuyenLoading ? <Spinner /> : <BoxProducts productsCategory={aoBongDaTuyen} numOfItems={5} />}
-            {giayBongDaLoading ? <Spinner /> : <BoxProducts productsCategory={giayBongDa} numOfItems={5} />}
-            {phuKienBongDaLoading ? <Spinner /> : <BoxProducts productsCategory={phuKienBongDa} numOfItems={5} />}
-            {quanAoBongChuyenLoading ? <Spinner /> : <BoxProducts productsCategory={quanAoBongChuyen} numOfItems={5} />}
-
+            {aoBongDaCLBLoading ? <Spinner /> : (aoBongDaCLB?.products && <BoxProducts products={aoBongDaCLB.products} categoryName={aoBongDaCLB?.categoryName} limit={5} />)}
+            {aoBongDaTuyenLoading ? <Spinner /> : (aoBongDaTuyen?.products && <BoxProducts products={aoBongDaTuyen.products} categoryName={aoBongDaTuyen?.categoryName} limit={5} />)}
+            {giayBongDaLoading ? <Spinner /> : (giayBongDa?.products && <BoxProducts products={giayBongDa.products} categoryName={giayBongDa?.categoryName} limit={5} />)}
+            {phuKienBongDaLoading ? <Spinner /> : (phuKienBongDa?.products && <BoxProducts products={phuKienBongDa.products} categoryName={phuKienBongDa?.categoryName} limit={5} />)}
+            {quanAoBongChuyenLoading ? <Spinner /> : (quanAoBongChuyen?.products && <BoxProducts products={quanAoBongChuyen.products} categoryName={quanAoBongChuyen?.categoryName} limit={5} />)}
 
             {/* cẩm nang thể thao */}
             <div className="mb-[40px] mt-[25px]">

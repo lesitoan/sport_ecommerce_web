@@ -7,7 +7,7 @@ const HeaderButtom = () => {
     return (
         <div className='bg-main-color w-full' >
             <ul
-                className='w-[1500px] m-auto flex gap-x-6 gap-y-2 flex-wrap py-3 text-[#fff] text-[14px]
+                className='2xl:max-w-[1500px] xl:max-w-[1200px] m-auto flex gap-x-6 gap-y-2 flex-wrap py-3 text-[#fff] text-[14px]
                 font-[500] cursor-pointer
             '>
                 {!isLoading && categories.map((category, index) => (
