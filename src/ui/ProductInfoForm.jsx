@@ -1,8 +1,30 @@
 import { FaCartShopping } from "react-icons/fa6";
 import Button from "./Button";
 import { FaFacebookMessenger } from "react-icons/fa";
+import Option from "./Option";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const ProductInfoForm = ({ product }) => {
+    // const [totalPrice, setTotalPrice] = useState(product?.price ? Number(product?.price) : 0);
+    let totalPrice = product?.price ? Number(product?.price) : 0;
+    const [type, setType] = useState({});
+    const [size, setSize] = useState({});
+    const [color, setColor] = useState({});
+    const handleSetTotalPrice = () => {
+        const priceDefault = product?.price ? Number(product?.price) : 0;
+        const typeaddCharge = type?.addCharge ? Number(type?.addCharge) : 0;
+        const sizeaddCharge = size?.addCharge ? Number(size?.addCharge) : 0;
+        const coloraddCharge = color?.addCharge ? Number(color?.addCharge) : 0;
+        // setTotalPrice(priceDefault + typeaddCharge + sizeaddCharge + coloraddCharge);
+        totalPrice = priceDefault + typeaddCharge + sizeaddCharge + coloraddCharge;
+    }
+    handleSetTotalPrice();
+
+    const handleAddToShoppingCard = () => {
+        console.log('dsds')
+    }
+
     return (
         <div className="flex justify-between mb-10 mt-10">
             <div className="w-[30%]">
@@ -28,68 +50,15 @@ const ProductInfoForm = ({ product }) => {
             </div>
             <div className="w-[68%] p-3">
                 <h3 className="font-[700] text-[26px] mb-1">{product.productName}</h3>
-                {/* loại vải */}
-                <h6 className="mb-1">Bạn đang chọn: <span className="font-[600]">Hàng thun lạnh</span></h6>
-                <ul className="flex justify-start gap-2 mb-4">
-                    <li
-                        className="flex flex-col items-center justify-center rounded
-                        w-[150px] h-[60px] border border-main-color cursor-pointer hover:bg-blue-200"
-                    >
-                        <p>Hàng thun lạnh</p>
-                        <p className="font-[600] text-red-600">80.000đ</p>
-                    </li>
-                    <li
-                        className="flex flex-col items-center justify-center rounded
-                        w-[150px] h-[60px] border border-main-color cursor-pointer hover:bg-blue-200"
-                    >
-                        <p>Hàng thun co giãn</p>
-                        <p className="font-[600] text-red-600">100.000đ</p>
-                    </li>
-                    <li
-                        className="flex flex-col items-center justify-center rounded
-                        w-[150px] h-[60px] border border-main-color cursor-pointer hover:bg-blue-200"
-                    >
-                        <p>Hàng mè caro</p>
-                        <p className="font-[600] text-red-600">120.000đ</p>
-                    </li>
-                </ul>
-                {/* -------- */}
-                <h6 className="mb-1">Bạn đang chọn: <span className="font-[600]">Size S</span></h6>
-                <ul className="flex justify-start gap-2 mb-4">
-                    <li
-                        className="flex flex-col items-center justify-center rounded
-                        w-[100px] h-[40px] border border-main-color cursor-pointer hover:bg-blue-200"
-                    >
-                        <p>S</p>
-                    </li>
-                    <li
-                        className="flex flex-col items-center justify-center rounded
-                        w-[100px] h-[40px] border border-main-color cursor-pointer hover:bg-blue-200"
-                    >
-                        <p>M</p>
-                    </li>
-                    <li
-                        className="flex flex-col items-center justify-center rounded
-                        w-[100px] h-[40px] border border-main-color cursor-pointer hover:bg-blue-200"
-                    >
-                        <p>L</p>
-                    </li>
-                    <li
-                        className="flex flex-col items-center justify-center rounded
-                        w-[100px] h-[40px] border border-main-color cursor-pointer hover:bg-blue-200"
-                    >
-                        <p>XL</p>
-                    </li>
-                    <li
-                        className="flex flex-col items-center justify-center rounded
-                        w-[100px] h-[40px] border border-main-color cursor-pointer hover:bg-blue-200"
-                    >
-                        <p>XXL</p>
-                    </li>
-                </ul>
+                <Option types={product?.type} onType={setType} currType={type} />
+                <Option types={product?.size} onType={setSize} currType={size} />
+                <Option types={product?.color} onType={setColor} currType={color} />
+
+                <h3 className="font-[700] text-[26px] mb-4 text-red-600">{totalPrice}<span>&#8363;</span></h3>
+
                 <div className="flex items-center justify-start gap-2">
-                    <Button>MUA NGAY</Button>
-                    <Button><FaCartShopping /></Button>
+                    <Button><Link to='/payment'>MUA NGAY</Link></Button>
+                    <Button onClick={handleAddToShoppingCard}><FaCartShopping /></Button>
                     <Button><FaFacebookMessenger /></Button>
                 </div>
             </div>

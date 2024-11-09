@@ -3,12 +3,12 @@ import CardProduct from "../ui/CardProduct";
 import ProductInfoForm from "../ui/ProductInfoForm";
 import { useGetProductBySlug } from "../hooks/productsHooks";
 import Spinner from "../ui/Spinner";
+import { useState } from "react";
 
 const ProductDetailPage = () => {
     const { prodSlug } = useParams();
-    console.log(prodSlug)
     const { isLoading, product } = useGetProductBySlug(prodSlug);
-
+    console.log(product);
     if (isLoading) return <div className="h-[80vh] flex items-center justify-center"><Spinner /></div>
     if (!product) return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">KHÔNG TÌM THẤY SẢN PHẨM</div>
     return <div>
