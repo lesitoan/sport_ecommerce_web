@@ -1,22 +1,26 @@
 import { useParams } from "react-router-dom";
-import CardProduct from "../ui/CardProduct";
 import ProductInfoForm from "../ui/ProductInfoForm";
-import { useGetProductBySlug } from "../hooks/productsHooks";
+import { useGetProductBySlug, useGetProductsByCategory } from "../hooks/productsHooks";
 import Spinner from "../ui/Spinner";
-import { useState } from "react";
+import BoxProducts from "../ui/BoxProducts";
 
 const ProductDetailPage = () => {
     const { prodSlug } = useParams();
     const { isLoading, product } = useGetProductBySlug(prodSlug);
     console.log(product);
+    const { isLoading: isLoadingRelatedProducts, data: relatedProducts } = useGetProductsByCategory('ao_bong_da_clb');
     if (isLoading) return <div className="h-[80vh] flex items-center justify-center"><Spinner /></div>
     if (!product) return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">KHÔNG TÌM THẤY SẢN PHẨM</div>
+
+    // sản phẩm liên quan
+    //------------------- 
+
     return <div>
         {/* image, price, size */}
         <ProductInfoForm product={product} />
         <hr className="border-t-2 border-main-color mb-2" />
         {/* ------------ */}
-        {/* <div>
+        <div>
             <h3 className="font-[600] text-[35px] mb-2">Chi tiết sản phẩm</h3>
             <p className="mb-8">3. HƯỚNG DẪN BẢO QUẢN
                 - Không sử dụng chất tẩy <br />
@@ -49,19 +53,10 @@ const ProductDetailPage = () => {
 
                 Hân hạnh được phục vụ Quý Khách!
             </p>
-        </div> */}
+        </div>
         {/* ------------ */}
         <hr className="border-t-2 border-main-color mb-2" />
-        {/* <div className="mb-[40px] mt-[25px]">
-            <h3 className="font-[600] text-[35px] mb-2">Sản phẩm liên quam</h3>
-            <div className="w-[100%] flex justify-between">
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-            </div>
-        </div> */}
+        {isLoadingRelatedProducts ? <Spinner /> : (relatedProducts?.products && <BoxProducts products={relatedProducts.products} categoryName={"Sản phẩm liên quan"} limit={5} />)}
     </div>
 }
 

@@ -1,16 +1,21 @@
-import { FaCartShopping } from "react-icons/fa6";
-import Button from "./Button";
-import { FaFacebookMessenger } from "react-icons/fa";
-import Option from "./Option";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FaCartShopping } from "react-icons/fa6";
+import { FaFacebookMessenger } from "react-icons/fa";
+import { toast } from 'react-toastify';
+
+import Button from "./Button";
+import Option from "./Option";
+
 
 const ProductInfoForm = ({ product }) => {
-    // const [totalPrice, setTotalPrice] = useState(product?.price ? Number(product?.price) : 0);
+    const navigate = useNavigate();
+
     let totalPrice = product?.price ? Number(product?.price) : 0;
     const [type, setType] = useState({});
     const [size, setSize] = useState({});
     const [color, setColor] = useState({});
+
     const handleSetTotalPrice = () => {
         const priceDefault = product?.price ? Number(product?.price) : 0;
         const typeaddCharge = type?.addCharge ? Number(type?.addCharge) : 0;
@@ -22,7 +27,41 @@ const ProductInfoForm = ({ product }) => {
     handleSetTotalPrice();
 
     const handleAddToShoppingCard = () => {
-        console.log('dsds')
+        try {
+            const cartItem = {
+                id: product.id,
+                productName: product.productName,
+                price: totalPrice ? totalPrice : 0,
+                type: type ? type.name : null,
+                color: color ? color.name : null,
+                size: size ? size.name : null,
+                image: null
+            }
+            let productLocalStorage = localStorage.getItem('shoppingCard');
+            let txt;
+            if (productLocalStorage) {
+                productLocalStorage = JSON.parse(productLocalStorage);
+                if (productLocalStorage.length >= 7) {
+                    toast.error("Giỏ hàng đã đầy, hãy thanh toán ngay để mua thêm !", {
+                        position: "top-center"
+                    });
+                    return null;
+                }
+                txt = JSON.stringify([...productLocalStorage, cartItem]);
+            } else {
+                txt = JSON.stringify([cartItem]);
+            }
+            localStorage.setItem('shoppingCard', `${txt}`);
+            toast.success('Đã thêm vào giỏ hàng thành công !', {
+                position: "top-center"
+            });
+            return 1;
+        } catch (err) {
+            toast.error('Có lỗi xảy ra, vui lòng thử lại !', {
+                position: "top-center"
+            });
+            return null;
+        }
     }
 
     return (
@@ -57,9 +96,13 @@ const ProductInfoForm = ({ product }) => {
                 <h3 className="font-[700] text-[26px] mb-4 text-red-600">{totalPrice}<span>&#8363;</span></h3>
 
                 <div className="flex items-center justify-start gap-2">
-                    <Button><Link to='/payment'>MUA NGAY</Link></Button>
+                    <Button onClick={() => {
+                        const check = handleAddToShoppingCard();
+                        console.log(check)
+                        if (check) navigate("/payment");
+                    }}>MUA NGAY</Button>
                     <Button onClick={handleAddToShoppingCard}><FaCartShopping /></Button>
-                    <Button><FaFacebookMessenger /></Button>
+                    <Button ><FaFacebookMessenger /></Button>
                 </div>
             </div>
         </div>

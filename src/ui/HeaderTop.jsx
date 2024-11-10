@@ -15,6 +15,8 @@ const HeaderTop = () => {
         }
     }
 
+    const ShoppingCardLength = JSON.parse(localStorage.getItem("shoppingCard") || "[]").length;
+
     return (
         <div className="flex justify-between items-center px-8 py-2">
             <Link to='/'><img src="/logo.png" alt="logo" /></Link>
@@ -34,7 +36,10 @@ const HeaderTop = () => {
                     />
                     <button onClick={handleSubmitFindBtn}><FaSearch /></button>
                 </div>
-                <h5 className='text-lg'><FaShoppingCart /></h5>
+                <Link to="payment" className='text-lg cursor-pointer hover:text-main-color relative'>
+                    <FaShoppingCart />
+                    {ShoppingCardLength ? <span className="flex justify-center min-w-[20px] text-[12px] font-[600] text-white absolute top-[-10px] right-[-10px] bg-red-600 leading-[20px] rounded-full" >{ShoppingCardLength}</span> : null}
+                </Link>
             </div>
             {/* avatar / login btn */}
             <div>

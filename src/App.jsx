@@ -3,7 +3,10 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage"
@@ -38,6 +41,7 @@ function App() {
 
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={true} />
+      <ToastContainer limit={3} autoClose={1000} />
     </QueryClientProvider>
   )
 }
