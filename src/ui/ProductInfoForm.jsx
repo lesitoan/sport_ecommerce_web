@@ -35,7 +35,8 @@ const ProductInfoForm = ({ product }) => {
                 type: type ? type.name : null,
                 color: color ? color.name : null,
                 size: size ? size.name : null,
-                image: null
+                image: null,
+                quantity: 1
             }
             let productLocalStorage = localStorage.getItem('shoppingCard');
             let txt;
