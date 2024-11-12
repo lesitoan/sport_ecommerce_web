@@ -17,14 +17,14 @@ const CardProdHorizontal = ({ product, dispatch }) => {
                         <div className="flex justify-start gap-2 text-[12px] items-center">
                             <span
                                 className="font-[400] cursor-pointer hover:bg-main-color hover:text-white px-[3px] py-[3px] rounded opacity-50"
-                                onClick={() => dispatch({ type: 'decrease', payload: { id } })}
+                                onClick={() => dispatch({ type: 'decrease', payload: { id, type, size, color } })}
                             >
                                 <FaMinus />
                             </span>
                             <span className="font-[600]">{quantity}</span>
                             <span
                                 className="font-[400] cursor-pointer hover:bg-main-color hover:text-white px-[3px] py-[3px] rounded opacity-50"
-                                onClick={() => dispatch({ type: 'increase', payload: { id } })}
+                                onClick={() => dispatch({ type: 'increase', payload: { id, type, size, color } })}
                             >
                                 <FaPlus />
                             </span>

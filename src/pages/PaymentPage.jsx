@@ -11,23 +11,29 @@ const reducer = (state, action) => {
             case "increase":
                 products = state.map(prod => {
                     if (prod.id !== action?.payload.id) return prod;
+                    const checkType = prod?.type ? prod.type === action?.payload.type : 1;
+                    const checkSize = prod?.size ? prod.size === action?.payload.size : 1;
+                    const checkColor = prod?.color ? prod.color === action?.payload.color : 1;
+                    if (!checkType || !checkSize || !checkColor) return prod;
                     return { ...prod, quantity: prod.quantity + 1 }
                 })
                 break;
             case "decrease":
                 products = state.map(prod => {
                     if (prod.id !== action?.payload.id || prod.quantity === 1) return prod;
+                    const checkType = prod?.type ? prod.type === action?.payload.type : 1;
+                    const checkSize = prod?.size ? prod.size === action?.payload.size : 1;
+                    const checkColor = prod?.color ? prod.color === action?.payload.color : 1;
+                    if (!checkType || !checkSize || !checkColor) return prod;
                     return { ...prod, quantity: prod.quantity - 1 }
                 })
                 break;
             case "delete":
-                console.log(action.payload);
                 products = state.filter(prod => {
                     if (prod.id !== action?.payload.id) return true;
                     const checkType = prod?.type ? prod.type === action?.payload.type : 1;
                     const checkSize = prod?.size ? prod.size === action?.payload.size : 1;
                     const checkColor = prod?.color ? prod.color === action?.payload.color : 1;
-                    console.log(checkType, checkSize, checkColor);
                     if (checkType && checkSize && checkColor) return false; // bị xóa
                     return true;
                 });
