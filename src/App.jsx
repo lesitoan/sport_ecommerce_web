@@ -15,6 +15,7 @@ import PaymentPage from "./pages/PaymentPage"
 import ProductDetailPage from "./pages/ProductDetailPage"
 import ProductsPage from "./pages/ProductsPage"
 import FindProductsPage from "./pages/FindProductsPage"
+import AccountPage from "./pages/AccountPage"
 
 import Layout from "./ui/Layout";
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="find/:prodSlug" element={<FindProductsPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="payment" element={<PaymentPage />} />
+            <Route path="my-account" element={<AccountPage />} />
             <Route path="*" element={<NotFound404Page />} />
           </Route>
 

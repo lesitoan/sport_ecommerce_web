@@ -36,7 +36,7 @@ const HeaderTop = () => {
                     />
                     <button onClick={handleSubmitFindBtn}><FaSearch /></button>
                 </div>
-                <Link to="payment" className='text-lg cursor-pointer hover:text-main-color relative'>
+                <Link to="my-account" className='text-lg cursor-pointer hover:text-main-color relative'>
                     <FaShoppingCart />
                     {ShoppingCardLength ? <span className="flex justify-center min-w-[20px] text-[12px] font-[600] text-white absolute top-[-10px] right-[-10px] bg-red-600 leading-[20px] rounded-full" >{ShoppingCardLength}</span> : null}
                 </Link>
