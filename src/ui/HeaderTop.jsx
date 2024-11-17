@@ -36,7 +36,7 @@ const HeaderTop = () => {
                     />
                     <button onClick={handleSubmitFindBtn}><FaSearch /></button>
                 </div>
-                <Link to="my-account" className='text-lg cursor-pointer hover:text-main-color relative'>
+                <Link to="my-account?section=gio_hang" className='text-lg cursor-pointer hover:text-main-color relative'>
                     <FaShoppingCart />
                     {ShoppingCardLength ? <span className="flex justify-center min-w-[20px] text-[12px] font-[600] text-white absolute top-[-10px] right-[-10px] bg-red-600 leading-[20px] rounded-full" >{ShoppingCardLength}</span> : null}
                 </Link>
@@ -47,9 +47,9 @@ const HeaderTop = () => {
                         <img className='h-[100%] rounded-full ' src="/avatar.jpg" alt="avatar" />
                     </div> */}
                 <ul className='flex gap-1 justify-center items-center'>
-                    <li className='hover:text-main-color hover:underline font-[500]'><Link to='login'>Đăng nhập</Link></li>
+                    <li className='hover:text-main-color hover:underline font-[500]'><Link to='sign-in'>Đăng nhập</Link></li>
                     <li><FaGripLinesVertical /></li>
-                    <li className='hover:text-main-color hover:underline font-[500]'><Link to='login'>Đăng kí</Link></li>
+                    <li className='hover:text-main-color hover:underline font-[500]'><Link to='sign-up'>Đăng kí</Link></li>
                 </ul>
             </div>
         </div>

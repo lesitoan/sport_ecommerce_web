@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom';
 import supabase from '../config/supabase';
 import { NUMBER_ITEM_PER_PAGE } from '../utils/constant';
 

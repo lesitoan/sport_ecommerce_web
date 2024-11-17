@@ -26,7 +26,7 @@ export const useGetProductsByCategory = (categorySlug) => {
     const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
     const { isPending: isLoading, isError, data, error } = useQuery({
-        queryKey: [categorySlug],
+        queryKey: [categorySlug, page],
         queryFn: async () => await getProductsByCategory({ categorySlug, page }),
         // gcTime: 30 * 1000
     })

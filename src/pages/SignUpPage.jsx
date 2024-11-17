@@ -1,7 +1,7 @@
-import SignInForm from '../ui/SignInForm';
 import SignUpForm from '../ui/SignUpForm';
 
-const LoginPage = () => {
+const SignUpPage = () => {
+
     return (
         <>
             <SignUpForm />
@@ -9,4 +9,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage;
+export default SignUpPage;

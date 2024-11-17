@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { FaFacebook, FaGoogle, FaMinus } from 'react-icons/fa';
 import Button from './Button';
 
@@ -42,7 +43,9 @@ const SignInForm = () => {
                     <span
                         className='italic'>
                         chưa có tài khoản:
-                        <a className='text-blue-600 font-[500] hover:underline ' href="#">  Đăng kí</a>
+                        <span
+                            className='text-blue-600 font-[500] hover:underline cursor-pointer'
+                        ><Link to='/sign-up'>Đăng kí</Link></span>
                     </span>
                     <FaMinus />
                     <span

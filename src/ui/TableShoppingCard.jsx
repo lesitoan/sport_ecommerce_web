@@ -63,22 +63,22 @@ const TableShoppingCard = () => {
     if (state.length == 0) return <h4>Chưa có sản phẩm</h4>
     return (
         <div className="">
-            <table class="w-full text-[16px] text-left rtl:text-right">
-                <thead class="text-xs">
+            <table className="w-full text-[16px] text-left">
+                <thead className=" bg-main-color text-white">
                     <tr>
-                        <th scope="col" class="pr-1 py-3">
+                        <th scope="col" className="pl-2 pr-1 py-2">
                             Hình ảnh
                         </th>
-                        <th scope="col" class="pr-10 py-3">
+                        <th scope="col" className="pr-10 py-2">
                             Tên sản phẩm
                         </th>
-                        <th scope="col" class="pr-2 py-3">
+                        <th scope="col" className="pr-2 py-2">
                             Số lượng
                         </th>
-                        <th scope="col" class="pr-2 py-3">
+                        <th scope="col" className="pr-2 py-2">
                             Tổng giá tiền
                         </th>
-                        <th scope="col" class="py-3">
+                        <th scope="col" className=" py-2">
                             Hành động
                         </th>
                     </tr>

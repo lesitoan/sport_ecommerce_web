@@ -9,7 +9,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import HomePage from "./pages/HomePage"
-import LoginPage from "./pages/LoginPage"
 import NotFound404Page from "./pages/NotFound404Page"
 import PaymentPage from "./pages/PaymentPage"
 import ProductDetailPage from "./pages/ProductDetailPage"
@@ -18,6 +17,8 @@ import FindProductsPage from "./pages/FindProductsPage"
 import AccountPage from "./pages/AccountPage"
 
 import Layout from "./ui/Layout";
+import SignInPage from "./pages/SignInPage";
+import SignUpPage from "./pages/SignUpPage";
 
 
 const queryClient = new QueryClient();
@@ -33,7 +34,8 @@ function App() {
             <Route path="/category/:categorySlug" element={<ProductsPage />} />
             <Route path="products/:prodSlug" element={<ProductDetailPage />} />
             <Route path="find/:prodSlug" element={<FindProductsPage />} />
-            <Route path="login" element={<LoginPage />} />
+            <Route path="sign-in" element={<SignInPage />} />
+            <Route path="sign-up" element={<SignUpPage />} />
             <Route path="payment" element={<PaymentPage />} />
             <Route path="my-account" element={<AccountPage />} />
             <Route path="*" element={<NotFound404Page />} />
