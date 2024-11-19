@@ -20,6 +20,7 @@ import Layout from "./ui/Layout";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -34,11 +35,15 @@ function App() {
             <Route path="/category/:categorySlug" element={<ProductsPage />} />
             <Route path="products/:prodSlug" element={<ProductDetailPage />} />
             <Route path="find/:prodSlug" element={<FindProductsPage />} />
-            <Route path="sign-in" element={<SignInPage />} />
             <Route path="sign-up" element={<SignUpPage />} />
+            <Route path="sign-in" element={<SignInPage />} />
+            <Route path="*" element={<NotFound404Page />} />
+          </Route>
+
+          {/* auth router */}
+          <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="payment" element={<PaymentPage />} />
             <Route path="my-account" element={<AccountPage />} />
-            <Route path="*" element={<NotFound404Page />} />
           </Route>
 
         </Routes>

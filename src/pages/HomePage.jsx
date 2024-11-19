@@ -2,6 +2,7 @@ import SlideShowImage from "../ui/SlideShowImage";
 import { useGetProductsByCategory } from "../hooks/productsHooks";
 import BoxProducts from "../ui/BoxProducts";
 import Spinner from "../ui/Spinner";
+import Modal from "../ui/Modal";
 
 const HomePage = () => {
     const { isLoading: aoBongDaCLBLoading, data: aoBongDaCLB } = useGetProductsByCategory('ao_bong_da_clb');
@@ -44,6 +45,7 @@ const HomePage = () => {
                 </div>
                 <hr className="border-t-2 border-main-color mt-3" />
             </div>
+
         </>
     )
 }

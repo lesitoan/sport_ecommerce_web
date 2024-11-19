@@ -7,6 +7,7 @@ import TableOrders from "../ui/TableOrders";
 import PaymentForm from "../ui/PaymentForm";
 import MyInfoForm from "../ui/MyInfoForm";
 import ChangePasswordForm from "../ui/ChangePasswordForm";
+import Logout from "../ui/Logout";
 
 const AccountPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -57,8 +58,11 @@ const AccountPage = () => {
                         tài khoản
                     </li>
 
-                    <li className="px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out flex gap-1 items-center">
-                        <FaSignOutAlt /><span>Đăng xuất</span>
+                    <li
+                        className="px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out flex gap-1 items-center"
+                    >
+                        <FaSignOutAlt /><Logout />
+
                     </li>
                 </ul>
             </div>
