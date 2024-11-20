@@ -49,4 +49,18 @@ export const getCurrentUser = async () => {
 export const logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
+    localStorage.clear();
+}
+
+export const changePassword = async ({ newPassword }) => {
+    if (!newPassword) return null;
+    // const { data } = await supabase.auth.updateUser({
+    //     data: {
+    //         userName: "TOANDZ123"
+    //     }
+    // })
+    console.log(data)
+    console.log("changePw")
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    if (error) throw new Error(error.message);
 }

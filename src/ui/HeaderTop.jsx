@@ -23,7 +23,7 @@ const HeaderTop = () => {
             <Link to='/'><img src="/logo.png" alt="logo" /></Link>
             <div className='flex gap-7'>
                 <h5 className='hidden xl:inline-block'>Hotline: <span className='text-[red] font-[600]'>012345347343 / 3246437432</span></h5>
-                <ul className='gap-2 hidden lg:flex'>
+                <ul className='gap-2 hidden xl:flex'>
                     <li>Giới thiệu</li>
                     <li>Tin tức</li>
                     <li>Hệ thống</li>

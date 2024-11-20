@@ -2,7 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     signUp as signUpApi,
     signIn as signInApi, getCurrentUser,
-    logout as logoutApi
+    logout as logoutApi,
+    changePassword as changePasswordApi
 } from "../services/authApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -56,6 +57,7 @@ export const useUser = () => {
     const { isLoading, data: user } = useQuery({
         queryKey: ["user"],
         queryFn: getCurrentUser,
+        retry: 1,
     });
 
     return { isLoading, user, isAuthenticated: user?.role === 'authenticated' };
@@ -74,4 +76,24 @@ export const useLogout = () => {
 
     return { logout, isLoading };
 }
+
+export const useChangePassword = () => {
+    const { mutate: changePassword, isLoading, isSuccess } = useMutation({
+        mutationFn: changePasswordApi,
+        onSuccess: () => {
+            toast.success('Đổi mật khẩu thành công !', {
+                position: "top-center"
+            });
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error('Đổi mật khẩu thất bại !', {
+                position: "top-center"
+            });
+        }
+    })
+
+    return { changePassword, isLoading, isSuccess };
+}
+
 

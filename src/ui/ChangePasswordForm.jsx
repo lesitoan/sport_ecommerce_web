@@ -1,11 +1,22 @@
 import { useForm } from "react-hook-form"
 
 import Button from './Button';
+import { useChangePassword, useLogout } from "../hooks/authHook";
+import { useEffect } from "react";
 
 const ChangePasswordForm = () => {
-    const { register, handleSubmit, formState: { errors }, watch } = useForm()
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm()
+    const { changePassword, isLoading, isSuccess } = useChangePassword();
+    const { logout } = useLogout();
+    const onSubmit = (data) => {
+        console.log(data);
+        changePassword({ newPassword: data.newPassword });
+    }
 
-    const onSubmit = (data) => console.log(data)
+
+    useEffect(() => {
+        if (isSuccess) logout();
+    }, [isSuccess])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -18,9 +29,10 @@ const ChangePasswordForm = () => {
                         placeholder="Mật khẩu cũ *"
                         type="password"
                         name="password"
-                        {...register("password", { required: "địa chỉ này không được để trống*", maxLength: { value: 100, message: "Vượt quá 100 kí tự" } })}
+                        disabled={isLoading}
+                        {...register("password", { required: "mật khẩu không được để trống*" })}
                     />
-                    {errors?.address && <span className='text-red-700 italic text-[14px] py-10'>{errors.address?.message}</span>}
+                    {errors?.password && <span className='text-red-700 italic text-[14px] py-10'>{errors.password?.message}</span>}
                 </div>
 
                 {/* new pw */}
@@ -30,9 +42,17 @@ const ChangePasswordForm = () => {
                         placeholder="Mật khẩu mới *"
                         type="password"
                         name="newPassword"
-                        {...register("newPassword", { required: "địa chỉ này không được để trống*", maxLength: { value: 100, message: "Vượt quá 100 kí tự" } })}
+                        disabled={isLoading}
+                        {...register("newPassword",
+                            {
+                                required: "Mật khẩu không được để trống",
+                                pattern: { value: /^[^\s]*$/, message: "Mật khẩu mới không hợp lệ" },
+                                minLength: { value: 8, message: "Mật khẩu mới phải lớn hơn 8 kí tự" }
+                            }
+                        )}
                     />
-                    {errors?.address && <span className='text-red-700 italic text-[14px] py-10'>{errors.address?.message}</span>}
+
+                    {errors?.newPassword && <span className='text-red-700 italic text-[14px] py-10'>{errors.newPassword?.message}</span>}
                 </div>
                 {/* new pw confirm */}
                 <div className="md:col-span-5 w-[100%]">
@@ -41,16 +61,18 @@ const ChangePasswordForm = () => {
                         placeholder="Xác nhận mật khẩu mới *"
                         type="password"
                         name="newPasswordConfirm"
-                        {...register("newPasswordConfirm", { required: "địa chỉ này không được để trống*", maxLength: { value: 100, message: "Vượt quá 100 kí tự" } })}
+                        disabled={isLoading}
+                        {...register("newPasswordConfirm", {
+                            required: "mật khẩu không được để trống*",
+                            validate: (curValue) => curValue === getValues().newPassword || "không khớp với mật khẩu mới"
+                        })}
                     />
-                    {errors?.address && <span className='text-red-700 italic text-[14px] py-10'>{errors.address?.message}</span>}
+                    {errors?.newPasswordConfirm && <span className='text-red-700 italic text-[14px] py-10'>{errors.newPasswordConfirm?.message}</span>}
                 </div>
 
             </div>
             <div className="flex flex-wrap justify-center gap-4 mt-2">
-                <Button onClick={(e) => {
-                    event.preventDefault();
-                }}>
+                <Button>
                     <div className='flex items-center justify-center gap-2'>
                         Thay đổi mật khẩu
                     </div>
