@@ -1,8 +1,6 @@
-import { useReducer } from "react";
-import RowCard from "./RowCard";
-import Button from "./Button";
-import { useNavigate } from "react-router-dom";
 import OrderRow from "./OrderRow";
+import { useGetOrderByUserId } from "../hooks/orderHook";
+import Spinner from "./Spinner";
 
 const fakeOrders = [
     {
@@ -38,10 +36,15 @@ const fakeOrders = [
 ]
 
 const TableOrders = () => {
-    const orders = fakeOrders;
+    // const orders = fakeOrders;
 
+    // useEffect(() => {
+    //     getOrders({ userId: "d9c1c871-0428-420e-95a8-f398c133c635" })
+    // }, [])
+    const { isLoading, orders } = useGetOrderByUserId("d9c1c871-0428-420e-95a8-f398c133c635")
 
-    if (orders.length === 0) return <h4>Chưa có đơn hàng</h4>
+    if (orders?.length === 0) return <h4>Chưa có đơn hàng</h4>
+    if (isLoading) return <div className="mt-10"><Spinner /></div>
     return (
         <div className="">
             <table className="w-full text-[16px] text-left">
@@ -65,12 +68,19 @@ const TableOrders = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    {/* {fakeOrders.map((order) => (
+                        <OrderRow
+                            key={order.id}
+                            order={order}
+                        />
+                    ))} */}
                     {orders.map((order) => (
                         <OrderRow
                             key={order.id}
                             order={order}
                         />
-                    ))}
+                    ))
+                    }
                 </tbody>
             </table>
         </div>

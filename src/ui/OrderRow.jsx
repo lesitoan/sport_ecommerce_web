@@ -3,13 +3,13 @@ import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
 import { FaEllipsis } from "react-icons/fa6";
 
 const OrderRow = ({ order }) => {
-    const { id, orderDate, status, paymentMethod, products,
+    const { id, created_at: orderDate, status, paymentMethod,
         totalPrice, note, orderAddress, numsProducs, ShippingFee
     } = order;
     const [showDetal, setShowDetail] = useState(true);
 
 
-    if (!id || !products) return null;
+    if (!id) return null;
 
     return (
         <>
@@ -18,10 +18,13 @@ const OrderRow = ({ order }) => {
                     <span>{`#${id}`}</span>
                 </td>
                 <td className="pr-3 py-4 max-w-[100px]">
-                    <span>{orderDate}</span>
+                    <span>{
+                        (new Date(orderDate)).getDate() + '/' + ((new Date(orderDate)).getMonth() + 1) + '/' + (new Date(orderDate)).getFullYear()
+                    }
+                    </span>
                 </td>
                 <td className="pr-3 py-4">
-                    <span className={`${status === "đã nhận hàng" ? 'text-green-500' : 'text-yellow-400'} font-[500]`}>{status}</span>
+                    <span className={`${status === "đã nhận hàng" ? 'text-green-500' : 'text-yellow-400'} font-[500]`}>{status || "Chờ nhận hàng"}</span>
 
                 </td>
                 <td className="pr-3 py-4">
@@ -34,7 +37,7 @@ const OrderRow = ({ order }) => {
                     <FaEllipsis />
                 </td>
             </tr>
-            <tr className={`border-b-2 border-gray-200 ${showDetal && 'hidden'}`}>
+            {/* <tr className={`border-b-2 border-gray-200 ${showDetal && 'hidden'}`}>
                 <td className="px-3 py-4" colSpan={5}>
                     <ul className="flex flex-col">
                         {products.length > 0 && (
@@ -73,7 +76,7 @@ const OrderRow = ({ order }) => {
                         </li>
                     </ul>
                 </td>
-            </tr>
+            </tr> */}
         </>
     )
 }

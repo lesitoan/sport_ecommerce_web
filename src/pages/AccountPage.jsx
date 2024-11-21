@@ -8,6 +8,8 @@ import PaymentForm from "../ui/PaymentForm";
 import MyInfoForm from "../ui/MyInfoForm";
 import ChangePasswordForm from "../ui/ChangePasswordForm";
 import Logout from "../ui/Logout";
+import AddressAndInfoForm from "../ui/AddressAndInfoForm";
+import AddresssSession from "../ui/AddressSession";
 
 const AccountPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -99,7 +101,7 @@ const AccountPage = () => {
                 {/* địa chỉ */}
                 {
                     activeSection === "dia_chi" && (
-                        <PaymentForm />
+                        <AddresssSession />
                     )
                 }
 

@@ -3,7 +3,8 @@ import {
     signUp as signUpApi,
     signIn as signInApi, getCurrentUser,
     logout as logoutApi,
-    changePassword as changePasswordApi
+    changePassword as changePasswordApi,
+    updateUser as updateUserApi
 } from "../services/authApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -66,7 +67,7 @@ export const useUser = () => {
 export const useLogout = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-    const { mutate: logout, isLoading } = useMutation({
+    const { mutate: logout, isPending: isLoading } = useMutation({
         mutationFn: logoutApi,
         onSuccess: () => {
             queryClient.removeQueries(); // xóa catch
@@ -78,7 +79,7 @@ export const useLogout = () => {
 }
 
 export const useChangePassword = () => {
-    const { mutate: changePassword, isLoading, isSuccess } = useMutation({
+    const { mutate: changePassword, isPending: isLoading, isSuccess } = useMutation({
         mutationFn: changePasswordApi,
         onSuccess: () => {
             toast.success('Đổi mật khẩu thành công !', {
@@ -94,6 +95,25 @@ export const useChangePassword = () => {
     })
 
     return { changePassword, isLoading, isSuccess };
+}
+
+export const useUpdateUser = () => {
+    const { mutate: updateUser, isPending: isLoading, isSuccess } = useMutation({
+        mutationFn: updateUserApi,
+        onSuccess: () => {
+            toast.success('Thay đổi địa chỉ giao hàng thành công !', {
+                position: "top-center"
+            });
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error('Thay đổi địa chỉ thất bại !', {
+                position: "top-center"
+            });
+        }
+    })
+
+    return { updateUser, isLoading, isSuccess };
 }
 
 

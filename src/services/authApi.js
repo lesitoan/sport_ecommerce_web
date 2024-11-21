@@ -64,3 +64,18 @@ export const changePassword = async ({ newPassword }) => {
     const { error } = await supabase.auth.updateUser({ password: newPassword })
     if (error) throw new Error(error.message);
 }
+
+export const updateUser = async ({ addressOrder }) => {
+    const { fullName, phoneNumber, address, addressDetail } = addressOrder;
+    if (!fullName || !phoneNumber || !address || !addressDetail) return null;
+    const { data, error } = await supabase.auth.updateUser({
+        data: {
+            fullName,
+            phoneNumber,
+            address,
+            addressDetail
+        }
+    })
+    if (error) throw new Error(error.message);
+    console.log(data);
+}
