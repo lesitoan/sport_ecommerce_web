@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
 import { FaEllipsis } from "react-icons/fa6";
+import { useGetOrderDetailByOrderId } from "../hooks/orderHook";
+import OrderDetail from "./OrderDetails";
 
 const OrderRow = ({ order }) => {
     const { id, created_at: orderDate, status, paymentMethod,
         totalPrice, note, orderAddress, numsProducs, ShippingFee
     } = order;
-    const [showDetal, setShowDetail] = useState(true);
+    const [showDetal, setShowDetail] = useState(false);
 
 
     if (!id) return null;
@@ -37,46 +39,7 @@ const OrderRow = ({ order }) => {
                     <FaEllipsis />
                 </td>
             </tr>
-            {/* <tr className={`border-b-2 border-gray-200 ${showDetal && 'hidden'}`}>
-                <td className="px-3 py-4" colSpan={5}>
-                    <ul className="flex flex-col">
-                        {products.length > 0 && (
-                            products.map((prod, index) => (
-                                <ul key={index} className="flex justify-between mb-1">
-                                    <li>{prod?.productName}</li>
-                                    <li className="italic text-[15px]">{`${prod?.type ? prod?.type + ', ' : ''} ${prod?.size ? 'size: ' + prod?.size + ', ' : ''} ${prod?.color ? prod?.color : ''}`}</li>
-                                    <li>{`${prod?.price} đ`}</li>
-                                </ul>
-                            ))
-                        )}
-                        <li className="flex mb-1">
-                            <span className="block font-[500] min-w-[200px]">Tổng tiền:</span>
-                            <span>{totalPrice}</span>
-
-                        </li>
-                        <li className="flex mb-1">
-                            <span className="block font-[500] min-w-[200px]">Phí giao hàng</span>
-                            <span>{ShippingFee}</span>
-                        </li>
-                        <li className="flex mb-1">
-                            <span className="block font-[500] min-w-[200px]">Phương thức thanh toán:</span>
-                            <span>{paymentMethod}</span>
-                        </li>
-                        <li className="flex mb-1">
-                            <span className="block font-[500] min-w-[200px]">Tổng cộng:</span>
-                            <span className="text-red-500 font-[500]">{Number(totalPrice) + Number(ShippingFee || 0)}</span>
-                        </li>
-                        <li className="flex mb-1">
-                            <span className="block font-[500] min-w-[200px]">Địa chỉ nhận hàng:</span>
-                            <span>{orderAddress}</span>
-                        </li>
-                        <li className="flex mb-1">
-                            <span className="block font-[500] min-w-[200px]">Ghi chú:</span>
-                            <span>{note}</span>
-                        </li>
-                    </ul>
-                </td>
-            </tr> */}
+            {showDetal && <OrderDetail isShow={showDetal} order={order} />}
         </>
     )
 }

@@ -55,3 +55,13 @@ export const getOrders = async ({ userId }) => {
     console.log(orders)
     return { orders };
 }
+
+export const getOrderDetails = async ({ orderId }) => {
+    const { data: orderDetails, error } = await supabase.from('orderDetails').select('*').eq('orderId', orderId);
+    if (error) {
+        console.log(error);
+        throw new Error("có lỗi lấy đơn hàng chi tiết !!!!!!!!!!");
+    }
+    console.log(orderDetails)
+    return { orderDetails };
+}

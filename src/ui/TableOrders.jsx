@@ -1,6 +1,9 @@
 import OrderRow from "./OrderRow";
-import { useGetOrderByUserId } from "../hooks/orderHook";
+import { useGetOrderByUserId, useGetOrderDetailByOrderId } from "../hooks/orderHook";
 import Spinner from "./Spinner";
+import { useUser } from "../hooks/authHook";
+import { getOrderDetails } from "../services/orderApi";
+import { useEffect } from "react";
 
 const fakeOrders = [
     {
@@ -37,11 +40,8 @@ const fakeOrders = [
 
 const TableOrders = () => {
     // const orders = fakeOrders;
-
-    // useEffect(() => {
-    //     getOrders({ userId: "d9c1c871-0428-420e-95a8-f398c133c635" })
-    // }, [])
-    const { isLoading, orders } = useGetOrderByUserId("d9c1c871-0428-420e-95a8-f398c133c635")
+    const { user } = useUser();
+    const { isLoading, orders } = useGetOrderByUserId(user?.id)
 
     if (orders?.length === 0) return <h4>Chưa có đơn hàng</h4>
     if (isLoading) return <div className="mt-10"><Spinner /></div>
