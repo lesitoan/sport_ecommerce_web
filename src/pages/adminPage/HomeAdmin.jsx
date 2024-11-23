@@ -4,7 +4,7 @@ import StatsCards from '../../ui/adminUi/StatsCards';
 const HomeAdmin = () => {
     return (
         <div>
-            <h3 className="font-[600] text-[28px] uppercase">Trang tổng quan</h3>
+            <h3 className="font-[600] text-[28px] uppercase">Tổng quan</h3>
             <div className="w-[100%] h-[3px] bg-main-color mt-1 mb-6"></div>
 
             <StatsCards />
