@@ -19,10 +19,15 @@ body {
 :root {
     font-size: 1.5rem;
     vertical-align: baseline;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     overflow: scroll;
 
     --main-color: #312783;
     --main-color-90: #322783ea;
+    --max-width-xl: 1200px;
+    --max-width-2xl: 1500px;
+
+    --card-width-xl: 250px;
+    --card-width-2xl: 280px;
 }

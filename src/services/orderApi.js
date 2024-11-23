@@ -6,24 +6,29 @@ export const createOrder = async ({ data }) => {
 
     const totalQuantity = products.reduce((total, prod) => total + prod.quantity, 0);
     const totalPrice = products.reduce((total, prod) => total + prod.price * prod.quantity, 0);
-    console.log(totalQuantity)
-    console.log(totalPrice)
-    const { data: order, error } = await supabase.from('orders').insert([{
-        // products,
-        address,
-        paymentStatus: false,
-        deliveryFee: 30000,
-        addressDetail,
-        fullName,
-        phoneNumber,
-        totalQuantity,
-        totalPrice,
-        _userId: userId
-    }]).select();
-    console.log("order: ", order);
+    console.log(totalQuantity);
+    console.log(totalPrice);
+    const { data: order, error } = await supabase
+        .from('orders')
+        .insert([
+            {
+                // products,
+                address,
+                paymentStatus: false,
+                deliveryFee: 30000,
+                addressDetail,
+                fullName,
+                phoneNumber,
+                totalQuantity,
+                totalPrice,
+                _userId: userId,
+            },
+        ])
+        .select();
+    console.log('order: ', order);
     if (error) {
         console.log(error);
-        throw new Error("có lỗi tạo đơn hàng !!!!!!!!!!");
+        throw new Error('có lỗi tạo đơn hàng !!!!!!!!!!');
     }
     const orderDetailsData = products.map((prod) => {
         return {
@@ -34,34 +39,37 @@ export const createOrder = async ({ data }) => {
             size: prod.size,
             color: prod.color,
             quantity: prod.quantity,
-        }
-    })
-    console.log("orderDetailsData: ", orderDetailsData);
-    const { data: orderDetails, error: errorDetail } = await supabase.from('orderDetails').insert(orderDetailsData).select();
+        };
+    });
+    console.log('orderDetailsData: ', orderDetailsData);
+    const { data: orderDetails, error: errorDetail } = await supabase
+        .from('orderDetails')
+        .insert(orderDetailsData)
+        .select();
     if (errorDetail) {
         console.log(errorDetail);
-        throw new Error("có lỗi tạo đơn hàng !!!!!!!!!!");
+        throw new Error('có lỗi tạo đơn hàng !!!!!!!!!!');
     }
-    console.log(orderDetails)
+    console.log(orderDetails);
     return { orderDetails };
-}
+};
 
 export const getOrders = async ({ userId }) => {
     const { data: orders, error } = await supabase.from('orders').select('*').eq('_userId', userId);
     if (error) {
         console.log(error);
-        throw new Error("có lỗi lấy đơn hàng !!!!!!!!!!");
+        throw new Error('có lỗi lấy đơn hàng !!!!!!!!!!');
     }
-    console.log(orders)
+    console.log(orders);
     return { orders };
-}
+};
 
 export const getOrderDetails = async ({ orderId }) => {
     const { data: orderDetails, error } = await supabase.from('orderDetails').select('*').eq('orderId', orderId);
     if (error) {
         console.log(error);
-        throw new Error("có lỗi lấy đơn hàng chi tiết !!!!!!!!!!");
+        throw new Error('có lỗi lấy đơn hàng chi tiết !!!!!!!!!!');
     }
-    console.log(orderDetails)
+    console.log(orderDetails);
     return { orderDetails };
-}
+};

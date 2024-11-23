@@ -1,14 +1,16 @@
-import { useForm } from "react-hook-form"
+import { useForm } from 'react-hook-form';
 
-import Button from './Button';
-import { useUser } from "../hooks/authHook";
+import { useUser } from '../hooks/authHook';
 
 const MyInfoForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = (data) => console.log(data);
     const { user } = useUser();
-
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mb-5">
@@ -35,9 +37,14 @@ const MyInfoForm = () => {
                         name="email"
                         value={user?.user_metadata?.email}
                         disabled
-                        {...register("email", { required: "SĐT không được để trống*", maxLength: { value: 10, message: "Vượt quá 10 kí tự" } })}
+                        {...register('email', {
+                            required: 'SĐT không được để trống*',
+                            maxLength: { value: 10, message: 'Vượt quá 10 kí tự' },
+                        })}
                     />
-                    {errors?.phoneNumber && <span className='text-red-700 italic text-[14px] py-10'>{errors.phoneNumber?.message}</span>}
+                    {errors?.phoneNumber && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors.phoneNumber?.message}</span>
+                    )}
                 </div>
 
                 {/* userName */}
@@ -49,11 +56,15 @@ const MyInfoForm = () => {
                         name="userName"
                         value={user?.user_metadata?.userName}
                         disabled
-                        {...register("userName", { required: "địa chỉ này không được để trống*", maxLength: { value: 100, message: "Vượt quá 100 kí tự" } })}
+                        {...register('userName', {
+                            required: 'địa chỉ này không được để trống*',
+                            maxLength: { value: 100, message: 'Vượt quá 100 kí tự' },
+                        })}
                     />
-                    {errors?.address && <span className='text-red-700 italic text-[14px] py-10'>{errors.address?.message}</span>}
+                    {errors?.address && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors.address?.message}</span>
+                    )}
                 </div>
-
             </div>
             {/* <div className="flex flex-wrap justify-center gap-4 mt-2">
                 <Button onClick={(e) => {
@@ -65,7 +76,7 @@ const MyInfoForm = () => {
                 </Button>
             </div> */}
         </form>
-    )
-}
+    );
+};
 
 export default MyInfoForm;

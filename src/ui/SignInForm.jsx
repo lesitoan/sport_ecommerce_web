@@ -7,18 +7,22 @@ import { useEffect } from 'react';
 
 const SignInForm = () => {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
     const { signIn, isLoading, isSuccess } = useSignIn();
     const onSubmit = (data) => {
         const { email, password } = data;
         signIn({ email, password });
-    }
+    };
 
     useEffect(() => {
         if (isSuccess) {
             navigate('/');
         }
-    }, [isSuccess])
+    }, [isSuccess, navigate]);
 
     return (
         <div className="flex justify-center">
@@ -34,15 +38,14 @@ const SignInForm = () => {
                                 type="email"
                                 name="email"
                                 disabled={isLoading}
-                                {...register("email",
-                                    {
-                                        required: "email không được để trống",
-                                        pattern: { value: /\S+@\S+\.\S+/, message: "email không hợp lệ" },
-                                    }
-                                )}
+                                {...register('email', {
+                                    required: 'email không được để trống',
+                                    pattern: { value: /\S+@\S+\.\S+/, message: 'email không hợp lệ' },
+                                })}
                             />
-                            {errors?.email && <span className='text-red-700 italic text-[14px]'>{errors.email?.message}</span>}
-
+                            {errors?.email && (
+                                <span className="text-red-700 italic text-[14px]">{errors.email?.message}</span>
+                            )}
                         </div>
                     </div>
                     <div className="mb-4">
@@ -54,43 +57,40 @@ const SignInForm = () => {
                                 type="password"
                                 name="password"
                                 disabled={isLoading}
-                                {...register("password",
-                                    {
-                                        required: "Mật khẩu không được để trống",
-                                        // pattern: { value: /^[^\s]*$/, message: "Mật khẩu không hợp lệ" },
-                                        // minLength: { value: 8, message: "Mật khẩu phải lớn hơn 8 kí tự" }
-                                    }
-                                )}
+                                {...register('password', {
+                                    required: 'Mật khẩu không được để trống',
+                                    // pattern: { value: /^[^\s]*$/, message: "Mật khẩu không hợp lệ" },
+                                    // minLength: { value: 8, message: "Mật khẩu phải lớn hơn 8 kí tự" }
+                                })}
                             />
-                            {errors?.password && <span className='text-red-700 italic text-[14px]'>{errors.password?.message}</span>}
+                            {errors?.password && (
+                                <span className="text-red-700 italic text-[14px]">{errors.password?.message}</span>
+                            )}
                         </div>
                     </div>
-                    <Button disable={isLoading}>{!isLoading ? "Đăng nhập" : "Đang đăng nhập..."}</Button>
+                    <Button disable={isLoading}>{!isLoading ? 'Đăng nhập' : 'Đang đăng nhập...'}</Button>
                 </form>
-                <div className='flex gap-2 items-center justify-center mt-4 text-[16px]'>
-                    <span className='italic'>Đăng nhập bằng: </span>
-                    <FaGoogle className='text-[25px] text-red-600 cursor-pointer'></FaGoogle>
-                    <FaFacebook className='text-[25px] text-blue-600 cursor-pointer'></FaFacebook>
+                <div className="flex gap-2 items-center justify-center mt-4 text-[16px]">
+                    <span className="italic">Đăng nhập bằng: </span>
+                    <FaGoogle className="text-[25px] text-red-600 cursor-pointer"></FaGoogle>
+                    <FaFacebook className="text-[25px] text-blue-600 cursor-pointer"></FaFacebook>
                 </div>
-                <div className='flex gap-2 items-center justify-center mt-4 text-[16px]'>
-                    <span
-                        className='italic'>
+                <div className="flex gap-2 items-center justify-center mt-4 text-[16px]">
+                    <span className="italic">
                         chưa có tài khoản:
-                        <span
-                            className='text-blue-600 font-[500] hover:underline cursor-pointer'
-                        ><Link to='/sign-up'>Đăng kí</Link></span>
+                        <span className="text-blue-600 font-[500] hover:underline cursor-pointer">
+                            <Link to="/sign-up">Đăng kí</Link>
+                        </span>
                     </span>
                     <FaMinus />
-                    <span
-                        className='italic'>
+                    <span className="italic">
                         Quên mật khẩu:
-                        <a className='text-blue-600 font-[500] hover:underline ' href="#">  reset password</a>
+                        <p clpssName="text-blue-600 font-[500] hover:underline "> reset password</p>
                     </span>
-
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default SignInForm;

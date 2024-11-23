@@ -9,30 +9,30 @@ export const signUp = async ({ userName, email, password, passwordConfirm }) => 
         options: {
             data: {
                 userName,
-            }
-        }
+            },
+        },
     });
     if (error) {
         console.log(error);
         throw new Error(error.message);
     }
     return data;
-}
+};
 
 export const signIn = async ({ email, password }) => {
     const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password
-    })
+        password,
+    });
     if (error) {
         console.log(error);
         throw new Error(error.message);
     }
     return data;
-}
+};
 
 export const getCurrentUser = async () => {
-    console.log("getCurrentUser");
+    console.log('getCurrentUser');
     const { data: session } = await supabase.auth.getSession();
     console.log(session);
     if (!session) return null;
@@ -44,13 +44,13 @@ export const getCurrentUser = async () => {
     }
     console.log(data);
     return data?.user;
-}
+};
 
 export const logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
     localStorage.clear();
-}
+};
 
 export const changePassword = async ({ newPassword }) => {
     if (!newPassword) return null;
@@ -59,11 +59,11 @@ export const changePassword = async ({ newPassword }) => {
     //         userName: "TOANDZ123"
     //     }
     // })
-    console.log(data)
-    console.log("changePw")
-    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    // console.log(data)
+    console.log('changePw');
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
     if (error) throw new Error(error.message);
-}
+};
 
 export const updateUser = async ({ addressOrder }) => {
     const { fullName, phoneNumber, address, addressDetail } = addressOrder;
@@ -73,9 +73,9 @@ export const updateUser = async ({ addressOrder }) => {
             fullName,
             phoneNumber,
             address,
-            addressDetail
-        }
-    })
+            addressDetail,
+        },
+    });
     if (error) throw new Error(error.message);
     console.log(data);
-}
+};

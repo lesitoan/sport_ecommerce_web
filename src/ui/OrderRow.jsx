@@ -1,48 +1,46 @@
-import { useEffect, useState } from "react";
-import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
-import { FaEllipsis } from "react-icons/fa6";
-import { useGetOrderDetailByOrderId } from "../hooks/orderHook";
-import OrderDetail from "./OrderDetails";
+import { FaEllipsis } from 'react-icons/fa6';
+import OrderDetail from './OrderDetails';
+import { useState } from 'react';
 
 const OrderRow = ({ order }) => {
-    const { id, created_at: orderDate, status, paymentMethod,
-        totalPrice, note, orderAddress, numsProducs, ShippingFee
-    } = order;
+    const { id, created_at: orderDate, status, totalPrice } = order;
     const [showDetal, setShowDetail] = useState(false);
-
 
     if (!id) return null;
 
     return (
         <>
-            <tr className={`${!showDetal && 'bg-gray-300'} border-b-2 border-gray-200 hover:bg-gray-300 transition-all`}>
+            <tr
+                className={`${!showDetal && 'bg-gray-300'} border-b-2 border-gray-200 hover:bg-gray-300 transition-all`}
+            >
                 <td className="pl-3">
                     <span>{`#${id}`}</span>
                 </td>
                 <td className="pr-3 py-4 max-w-[100px]">
-                    <span>{
-                        (new Date(orderDate)).getDate() + '/' + ((new Date(orderDate)).getMonth() + 1) + '/' + (new Date(orderDate)).getFullYear()
-                    }
+                    <span>
+                        {new Date(orderDate).getDate() +
+                            '/' +
+                            (new Date(orderDate).getMonth() + 1) +
+                            '/' +
+                            new Date(orderDate).getFullYear()}
                     </span>
                 </td>
                 <td className="pr-3 py-4">
-                    <span className={`${status === "đã nhận hàng" ? 'text-green-500' : 'text-yellow-400'} font-[500]`}>{status || "Chờ nhận hàng"}</span>
-
+                    <span className={`${status === 'đã nhận hàng' ? 'text-green-500' : 'text-yellow-400'} font-[500]`}>
+                        {status || 'Chờ nhận hàng'}
+                    </span>
                 </td>
                 <td className="pr-3 py-4">
                     <span>{totalPrice}</span>
                 </td>
-                <td
-                    className="py-4 cursor-pointer"
-                    onClick={() => setShowDetail(prevStatus => !prevStatus)}
-                >
+                <td className="py-4 cursor-pointer" onClick={() => setShowDetail((prevStatus) => !prevStatus)}>
                     <FaEllipsis />
                 </td>
             </tr>
             {showDetal && <OrderDetail isShow={showDetal} order={order} />}
         </>
-    )
-}
+    );
+};
 
 export default OrderRow;
 

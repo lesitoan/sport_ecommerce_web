@@ -1,10 +1,11 @@
-import { FaXmark } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { FaXmark } from 'react-icons/fa6';
 
 const Modal = ({ show, onShow, submit }) => {
     return (
         <div
-            className={`${!show && 'hidden'} text-[18px] fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 hover:text-black lowercase bg-black/50`}
+            className={`${
+                !show && 'hidden'
+            } text-[18px] fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 hover:text-black lowercase bg-black/50`}
         >
             {/* Overlay */}
             <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -37,15 +38,17 @@ const Modal = ({ show, onShow, submit }) => {
                         data-modal-hide="popup-modal"
                         type="button"
                         className="ms-3 text-white bg-main-color hover:bg-white hover:text-black transition-all font-medium rounded-lg inline-flex items-center px-5 py-2.5 text-center"
-                        onClick={() => { if (submit) submit(); onShow(false) }}
+                        onClick={() => {
+                            if (submit) submit();
+                            onShow(false);
+                        }}
                     >
                         Đồng ý
                     </button>
                 </div>
             </div>
         </div>
-
-    )
-}
+    );
+};
 
 export default Modal;

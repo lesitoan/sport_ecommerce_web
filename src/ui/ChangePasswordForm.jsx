@@ -1,22 +1,26 @@
-import { useForm } from "react-hook-form"
+import { useForm } from 'react-hook-form';
 
 import Button from './Button';
-import { useChangePassword, useLogout } from "../hooks/authHook";
-import { useEffect } from "react";
+import { useChangePassword, useLogout } from '../hooks/authHook';
+import { useEffect } from 'react';
 
 const ChangePasswordForm = () => {
-    const { register, handleSubmit, formState: { errors }, getValues } = useForm()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        getValues,
+    } = useForm();
     const { changePassword, isLoading, isSuccess } = useChangePassword();
     const { logout } = useLogout();
     const onSubmit = (data) => {
         console.log(data);
         changePassword({ newPassword: data.newPassword });
-    }
-
+    };
 
     useEffect(() => {
         if (isSuccess) logout();
-    }, [isSuccess])
+    }, [isSuccess, logout]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -30,9 +34,11 @@ const ChangePasswordForm = () => {
                         type="password"
                         name="password"
                         disabled={isLoading}
-                        {...register("password", { required: "mật khẩu không được để trống*" })}
+                        {...register('password', { required: 'mật khẩu không được để trống*' })}
                     />
-                    {errors?.password && <span className='text-red-700 italic text-[14px] py-10'>{errors.password?.message}</span>}
+                    {errors?.password && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors.password?.message}</span>
+                    )}
                 </div>
 
                 {/* new pw */}
@@ -43,16 +49,16 @@ const ChangePasswordForm = () => {
                         type="password"
                         name="newPassword"
                         disabled={isLoading}
-                        {...register("newPassword",
-                            {
-                                required: "Mật khẩu không được để trống",
-                                pattern: { value: /^[^\s]*$/, message: "Mật khẩu mới không hợp lệ" },
-                                minLength: { value: 8, message: "Mật khẩu mới phải lớn hơn 8 kí tự" }
-                            }
-                        )}
+                        {...register('newPassword', {
+                            required: 'Mật khẩu không được để trống',
+                            pattern: { value: /^[^\s]*$/, message: 'Mật khẩu mới không hợp lệ' },
+                            minLength: { value: 8, message: 'Mật khẩu mới phải lớn hơn 8 kí tự' },
+                        })}
                     />
 
-                    {errors?.newPassword && <span className='text-red-700 italic text-[14px] py-10'>{errors.newPassword?.message}</span>}
+                    {errors?.newPassword && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors.newPassword?.message}</span>
+                    )}
                 </div>
                 {/* new pw confirm */}
                 <div className="md:col-span-5 w-[100%]">
@@ -62,24 +68,26 @@ const ChangePasswordForm = () => {
                         type="password"
                         name="newPasswordConfirm"
                         disabled={isLoading}
-                        {...register("newPasswordConfirm", {
-                            required: "mật khẩu không được để trống*",
-                            validate: (curValue) => curValue === getValues().newPassword || "không khớp với mật khẩu mới"
+                        {...register('newPasswordConfirm', {
+                            required: 'mật khẩu không được để trống*',
+                            validate: (curValue) =>
+                                curValue === getValues().newPassword || 'không khớp với mật khẩu mới',
                         })}
                     />
-                    {errors?.newPasswordConfirm && <span className='text-red-700 italic text-[14px] py-10'>{errors.newPasswordConfirm?.message}</span>}
+                    {errors?.newPasswordConfirm && (
+                        <span className="text-red-700 italic text-[14px] py-10">
+                            {errors.newPasswordConfirm?.message}
+                        </span>
+                    )}
                 </div>
-
             </div>
             <div className="flex flex-wrap justify-center gap-4 mt-2">
                 <Button>
-                    <div className='flex items-center justify-center gap-2'>
-                        Thay đổi mật khẩu
-                    </div>
+                    <div className="flex items-center justify-center gap-2">Thay đổi mật khẩu</div>
                 </Button>
             </div>
         </form>
-    )
-}
+    );
+};
 
 export default ChangePasswordForm;

@@ -1,27 +1,33 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaFacebook, FaGoogle, FaMinus } from 'react-icons/fa';
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
 import Button from './Button';
 import { useSignUp } from '../hooks/authHook';
-import { getCurrentUser } from '../services/authApi';
-import { useEffect } from 'react';
 
 const SignUpForm = () => {
     const navigate = useNavigate();
-    const { register, handleSubmit, getValues, formState: { errors } } = useForm();
+    const {
+        register,
+        handleSubmit,
+        getValues,
+        formState: { errors },
+    } = useForm();
     const { signUp, isLoading, isSuccess } = useSignUp();
 
     const onSubmit = (data) => {
         const { email, password, userName, passwordConfirm } = data;
         if (!email || !password || !userName || !passwordConfirm) return;
         signUp({
-            email, password, userName, passwordConfirm
-        })
-    }
-    if (isSuccess) {
-        setTimeout(() => navigate('/sign-in'), 2000)
+            email,
+            password,
+            userName,
+            passwordConfirm,
+        });
     };
+    if (isSuccess) {
+        setTimeout(() => navigate('/sign-in'), 2000);
+    }
 
     return (
         <div className="flex justify-center">
@@ -37,17 +43,18 @@ const SignUpForm = () => {
                                 type="text"
                                 name="userName"
                                 disabled={isLoading}
-                                {...register(
-                                    "userName",
-                                    {
-                                        required: "userName không được để trống",
-                                        pattern: { value: /^[a-z0-9_]+$/, message: "UserName chỉ chứa các kí tự a-z, A-Z, 0-9, _" },
-                                        minLength: { value: 5, message: "UserName phải lớn hơn 5 kí tự" }
+                                {...register('userName', {
+                                    required: 'userName không được để trống',
+                                    pattern: {
+                                        value: /^[a-z0-9_]+$/,
+                                        message: 'UserName chỉ chứa các kí tự a-z, A-Z, 0-9, _',
                                     },
-
-                                )}
+                                    minLength: { value: 5, message: 'UserName phải lớn hơn 5 kí tự' },
+                                })}
                             />
-                            {errors?.userName && <span className='text-red-700 italic text-[14px]'>{errors.userName?.message}</span>}
+                            {errors?.userName && (
+                                <span className="text-red-700 italic text-[14px]">{errors.userName?.message}</span>
+                            )}
                         </div>
                     </div>
                     <div className="mb-4">
@@ -59,15 +66,14 @@ const SignUpForm = () => {
                                 type="email"
                                 name="email"
                                 disabled={isLoading}
-                                {...register("email",
-                                    {
-                                        required: "email không được để trống",
-                                        pattern: { value: /\S+@\S+\.\S+/, message: "email không hợp lệ" },
-                                    }
-                                )}
+                                {...register('email', {
+                                    required: 'email không được để trống',
+                                    pattern: { value: /\S+@\S+\.\S+/, message: 'email không hợp lệ' },
+                                })}
                             />
-                            {errors?.email && <span className='text-red-700 italic text-[14px]'>{errors.email?.message}</span>}
-
+                            {errors?.email && (
+                                <span className="text-red-700 italic text-[14px]">{errors.email?.message}</span>
+                            )}
                         </div>
                     </div>
                     <div className="mb-4">
@@ -79,15 +85,15 @@ const SignUpForm = () => {
                                 type="password"
                                 name="password"
                                 disabled={isLoading}
-                                {...register("password",
-                                    {
-                                        required: "Mật khẩu không được để trống",
-                                        pattern: { value: /^[^\s]*$/, message: "Mật khẩu không hợp lệ" },
-                                        minLength: { value: 8, message: "Mật khẩu phải lớn hơn 8 kí tự" }
-                                    }
-                                )}
+                                {...register('password', {
+                                    required: 'Mật khẩu không được để trống',
+                                    pattern: { value: /^[^\s]*$/, message: 'Mật khẩu không hợp lệ' },
+                                    minLength: { value: 8, message: 'Mật khẩu phải lớn hơn 8 kí tự' },
+                                })}
                             />
-                            {errors?.password && <span className='text-red-700 italic text-[14px]'>{errors.password?.message}</span>}
+                            {errors?.password && (
+                                <span className="text-red-700 italic text-[14px]">{errors.password?.message}</span>
+                            )}
                         </div>
                     </div>
                     <div className="mb-4">
@@ -99,44 +105,42 @@ const SignUpForm = () => {
                                 type="password"
                                 name="passwordConfirm"
                                 disabled={isLoading}
-                                {...register("passwordConfirm",
-                                    {
-                                        required: "Xác nhận mật khẩu không được để trống",
-                                        validate: (curValue) => curValue === getValues().password || "Mật khẩu xác nhận không khớp"
-                                    }
-                                )}
+                                {...register('passwordConfirm', {
+                                    required: 'Xác nhận mật khẩu không được để trống',
+                                    validate: (curValue) =>
+                                        curValue === getValues().password || 'Mật khẩu xác nhận không khớp',
+                                })}
                             />
-                            {errors?.passwordConfirm && <span className='text-red-700 italic text-[14px]'>{errors.passwordConfirm?.message}</span>}
-
+                            {errors?.passwordConfirm && (
+                                <span className="text-red-700 italic text-[14px]">
+                                    {errors.passwordConfirm?.message}
+                                </span>
+                            )}
                         </div>
                     </div>
-                    <Button disable={isLoading}>{!isLoading ? "Đăng kí" : "Đang tạo tài khoản..."}</Button>
+                    <Button disable={isLoading}>{!isLoading ? 'Đăng kí' : 'Đang tạo tài khoản...'}</Button>
                 </form>
-                <div className='flex gap-2 items-center justify-center mt-4 text-[16px]'>
-                    <span className='italic'>Đăng nhập bằng: </span>
-                    <FaGoogle className='text-[25px] text-red-600 cursor-pointer'></FaGoogle>
-                    <FaFacebook className='text-[25px] text-blue-600 cursor-pointer'></FaFacebook>
+                <div className="flex gap-2 items-center justify-center mt-4 text-[16px]">
+                    <span className="italic">Đăng nhập bằng: </span>
+                    <FaGoogle className="text-[25px] text-red-600 cursor-pointer"></FaGoogle>
+                    <FaFacebook className="text-[25px] text-blue-600 cursor-pointer"></FaFacebook>
                 </div>
-                <div className='flex gap-2 items-center justify-center mt-4 text-[16px]'>
-                    <span
-                        className='italic'>
+                <div className="flex gap-2 items-center justify-center mt-4 text-[16px]">
+                    <span className="italic">
                         Đã có tài khoản:
-                        <span
-                            className='text-blue-600 font-[500] hover:underline cursor-pointer'
-                        ><Link to='/sign-in'>Đăng nhập</Link></span>
-
+                        <span className="text-blue-600 font-[500] hover:underline cursor-pointer">
+                            <Link to="/sign-in">Đăng nhập</Link>
+                        </span>
                     </span>
                     <FaMinus />
-                    <span
-                        className='italic'>
+                    <span className="italic">
                         Quên mật khẩu:
-                        <a className='text-blue-600 font-[500] hover:underline ' href="#">  reset password</a>
+                        <p clpssName="text-blue-600 font-[500] hover:underline"> reset password</p>
                     </span>
-
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default SignUpForm;

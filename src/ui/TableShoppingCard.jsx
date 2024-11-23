@@ -1,36 +1,35 @@
-import { toast } from "react-toastify";
-import { useReducer } from "react";
-import CardProdHorizontal from "./CardProdHorizontal";
-import RowCard from "./RowCard";
-import Button from "./Button";
-import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { useReducer } from 'react';
+import RowCard from './RowCard';
+import Button from './Button';
+import { useNavigate } from 'react-router-dom';
 
 const reducer = (state, action) => {
     try {
         let products = [];
         switch (action.type) {
-            case "increase":
-                products = state.map(prod => {
+            case 'increase':
+                products = state.map((prod) => {
                     if (prod.id !== action?.payload.id) return prod;
                     const checkType = prod?.type ? prod.type === action?.payload.type : 1;
                     const checkSize = prod?.size ? prod.size === action?.payload.size : 1;
                     const checkColor = prod?.color ? prod.color === action?.payload.color : 1;
                     if (!checkType || !checkSize || !checkColor) return prod;
-                    return { ...prod, quantity: prod.quantity + 1 }
-                })
+                    return { ...prod, quantity: prod.quantity + 1 };
+                });
                 break;
-            case "decrease":
-                products = state.map(prod => {
+            case 'decrease':
+                products = state.map((prod) => {
                     if (prod.id !== action?.payload.id || prod.quantity === 1) return prod;
                     const checkType = prod?.type ? prod.type === action?.payload.type : 1;
                     const checkSize = prod?.size ? prod.size === action?.payload.size : 1;
                     const checkColor = prod?.color ? prod.color === action?.payload.color : 1;
                     if (!checkType || !checkSize || !checkColor) return prod;
-                    return { ...prod, quantity: prod.quantity - 1 }
-                })
+                    return { ...prod, quantity: prod.quantity - 1 };
+                });
                 break;
-            case "delete":
-                products = state.filter(prod => {
+            case 'delete':
+                products = state.filter((prod) => {
                     if (prod.id !== action?.payload.id) return true;
                     const checkType = prod?.type ? prod.type === action?.payload.type : 1;
                     const checkSize = prod?.size ? prod.size === action?.payload.size : 1;
@@ -40,14 +39,13 @@ const reducer = (state, action) => {
                 });
                 break;
             default:
-                throw new Error("Unkown");
-
+                throw new Error('Unkown');
         }
         localStorage.setItem('shoppingCard', JSON.stringify(products));
         return products;
     } catch (err) {
         toast.error('Có lỗi xảy ra, vui lòng thử lại !', {
-            position: "top-center"
+            position: 'top-center',
         });
         console.log(err);
         return state;
@@ -56,11 +54,11 @@ const reducer = (state, action) => {
 
 const TableShoppingCard = () => {
     const navigate = useNavigate();
-    const products = JSON.parse(localStorage.getItem("shoppingCard") || "[]");
+    const products = JSON.parse(localStorage.getItem('shoppingCard') || '[]');
     const [state, dispatch] = useReducer(reducer, products);
     const totalPrice = state.reduce((total, prod) => total + prod?.price * prod?.quantity || 0, 0);
 
-    if (state.length == 0) return <h4>Chưa có sản phẩm</h4>
+    if (state.length === 0) return <h4>Chưa có sản phẩm</h4>;
     return (
         <div className="">
             <table className="w-full text-[16px] text-left">
@@ -84,14 +82,10 @@ const TableShoppingCard = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {state.length === 0 ? <h4>Chưa có sản phẩm</h4> : (
-                        state.map((prod, index) => (
-                            <RowCard
-                                key={index}
-                                product={prod}
-                                dispatch={dispatch}
-                            />
-                        ))
+                    {state.length === 0 ? (
+                        <h4>Chưa có sản phẩm</h4>
+                    ) : (
+                        state.map((prod, index) => <RowCard key={index} product={prod} dispatch={dispatch} />)
                     )}
                 </tbody>
             </table>
@@ -105,12 +99,16 @@ const TableShoppingCard = () => {
                 </>
             )}
             <div className="flex justify-center mt-5">
-                <Button onClick={() => {
-                    navigate('/payment')
-                }}>HOÀN TẤT ĐƠN HÀNG</Button>
+                <Button
+                    onClick={() => {
+                        navigate('/payment');
+                    }}
+                >
+                    HOÀN TẤT ĐƠN HÀNG
+                </Button>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default TableShoppingCard;

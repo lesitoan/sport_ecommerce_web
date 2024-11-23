@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react';
-import { useForm } from "react-hook-form"
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 import Button from './Button';
@@ -9,37 +9,37 @@ const getLocation = async ({ type, code, _dispatch }) => {
     // dispatchs({ type: "START_GET_DATA" })
     try {
         let url;
-        if (!type || type === "provinces") {
-            url = "https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1";
-        } else if (type === "districts") {
+        if (!type || type === 'provinces') {
+            url = 'https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1';
+        } else if (type === 'districts') {
             url = `https://vn-public-apis.fpo.vn/districts/getByProvince?provinceCode=${code}&limit=-1`;
         } else {
             url = `https://vn-public-apis.fpo.vn/wards/getByDistrict?districtCode=${code}&limit=-1`;
         }
         const response = await axios.get(url);
-        if (!type || type === "provinces") {
-            _dispatch({ type: "getProvinces", payload: { provinces: response?.data?.data?.data } })
-        } else if (type === "districts") {
-            _dispatch({ type: "getDistricts", payload: { districts: response?.data?.data?.data } })
+        if (!type || type === 'provinces') {
+            _dispatch({ type: 'getProvinces', payload: { provinces: response?.data?.data?.data } });
+        } else if (type === 'districts') {
+            _dispatch({ type: 'getDistricts', payload: { districts: response?.data?.data?.data } });
         } else {
-            _dispatch({ type: "getWards", payload: { wards: response?.data?.data?.data } })
+            _dispatch({ type: 'getWards', payload: { wards: response?.data?.data?.data } });
         }
     } catch (error) {
         console.error(error);
     }
-}
+};
 
 const reducer = (state, action) => {
     try {
         switch (action.type) {
-            case "getProvinces":
+            case 'getProvinces':
                 return { ...state, provinces: action.payload.provinces };
-            case "getDistricts":
+            case 'getDistricts':
                 return { ...state, districts: action.payload.districts, wards: [] };
-            case "getWards":
+            case 'getWards':
                 return { ...state, wards: action.payload.wards };
             default:
-                throw new Error("Unkown");
+                throw new Error('Unkown');
         }
     } catch (err) {
         console.log(err);
@@ -47,37 +47,40 @@ const reducer = (state, action) => {
     }
 };
 
-
 const AddressAndInfoForm = () => {
-    const { register, handleSubmit, formState: { errors }, watch } = useForm()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        watch,
+    } = useForm();
     const [state, dispatch] = useReducer(reducer, { provinces: [], districts: [], wards: [] });
-    const { updateUser, isLoading, isSuccess } = useUpdateUser();
+    const { updateUser, isLoading } = useUpdateUser();
     const onSubmit = (data) => {
-        console.log(data)
+        console.log(data);
         const { fullName, phoneNumber, wards: address, addressDetail } = data;
         updateUser({ addressOrder: { fullName, phoneNumber, address, addressDetail } });
-
-    }
-    console.log(isLoading)
+    };
+    console.log(isLoading);
 
     const startClickProvince = watch('fullName') ? true : false; //chỉ khi điền tên thì mới load api địa chỉ
     useEffect(() => {
         if (startClickProvince) {
-            getLocation({ type: "provinces", code: 0, _dispatch: dispatch })
+            getLocation({ type: 'provinces', code: 0, _dispatch: dispatch });
         }
-    }, [startClickProvince])
+    }, [startClickProvince]);
 
-    const selectedProvince = watch("provinces");
+    const selectedProvince = watch('provinces');
     useEffect(() => {
         if (selectedProvince) {
-            getLocation({ type: "districts", code: selectedProvince, _dispatch: dispatch })
+            getLocation({ type: 'districts', code: selectedProvince, _dispatch: dispatch });
         }
     }, [selectedProvince]);
 
-    const selectDistricts = watch("districts");
+    const selectDistricts = watch('districts');
     useEffect(() => {
         if (selectDistricts) {
-            getLocation({ type: "wards", code: selectDistricts, _dispatch: dispatch })
+            getLocation({ type: 'wards', code: selectDistricts, _dispatch: dispatch });
         }
     }, [selectDistricts]);
 
@@ -93,9 +96,14 @@ const AddressAndInfoForm = () => {
                         type="text"
                         name="fullName"
                         disabled={isLoading}
-                        {...register("fullName", { required: "Họ và tên không được để trống*", maxLength: { value: 50, message: "Vượt quá 50 kí tự" } })}
+                        {...register('fullName', {
+                            required: 'Họ và tên không được để trống*',
+                            maxLength: { value: 50, message: 'Vượt quá 50 kí tự' },
+                        })}
                     />
-                    {errors?.fullName && <span className='text-red-700 italic text-[14px] py-10'>{errors.fullName?.message}</span>}
+                    {errors?.fullName && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors.fullName?.message}</span>
+                    )}
                 </div>
 
                 {/* phone */}
@@ -106,31 +114,36 @@ const AddressAndInfoForm = () => {
                         type="text"
                         name="phoneNumber"
                         disabled={isLoading}
-                        {...register("phoneNumber", { required: "SĐT không được để trống*", maxLength: { value: 10, message: "Vượt quá 10 kí tự" } })}
+                        {...register('phoneNumber', {
+                            required: 'SĐT không được để trống*',
+                            maxLength: { value: 10, message: 'Vượt quá 10 kí tự' },
+                        })}
                     />
-                    {errors?.phoneNumber && <span className='text-red-700 italic text-[14px] py-10'>{errors.phoneNumber?.message}</span>}
+                    {errors?.phoneNumber && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors.phoneNumber?.message}</span>
+                    )}
                 </div>
 
                 {/* provinces */}
                 <div className="md:col-span-5 w-[31.5%]">
                     <select
-                        onChange={() => console.log("provinces")}
+                        onChange={() => console.log('provinces')}
                         name="provinces"
                         disabled={isLoading}
                         className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
-                        {...register("provinces", { required: "TỈnh/thành phố không được để trống*" })}
+                        {...register('provinces', { required: 'TỈnh/thành phố không được để trống*' })}
                     >
                         <option value="">Chọn tỉnh/thành phố *</option>
-                        {state?.provinces?.length > 0 && (
+                        {state?.provinces?.length > 0 &&
                             state?.provinces.map((province) => (
-                                <option
-                                    key={province.code}
-                                    value={province.code}
-                                >{province.name_with_type}</option>
-                            ))
-                        )}
+                                <option key={province.code} value={province.code}>
+                                    {province.name_with_type}
+                                </option>
+                            ))}
                     </select>
-                    {errors?.provinces && <span className='text-red-700 italic text-[14px] py-10'>{errors?.provinces?.message}</span>}
+                    {errors?.provinces && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors?.provinces?.message}</span>
+                    )}
                 </div>
 
                 {/* districts */}
@@ -139,19 +152,19 @@ const AddressAndInfoForm = () => {
                         name="districts"
                         disabled={isLoading}
                         className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
-                        {...register("districts", { required: "Quận/huyện không được để trống*" })}
+                        {...register('districts', { required: 'Quận/huyện không được để trống*' })}
                     >
                         <option value="">Chọn quân/huyện *</option>
-                        {state?.districts?.length > 0 && (
+                        {state?.districts?.length > 0 &&
                             state?.districts.map((district) => (
-                                <option
-                                    key={district.code}
-                                    value={district.code}
-                                >{district.name_with_type}</option>
-                            ))
-                        )}
+                                <option key={district.code} value={district.code}>
+                                    {district.name_with_type}
+                                </option>
+                            ))}
                     </select>
-                    {errors?.districts && <span className='text-red-700 italic text-[14px] py-10'>{errors?.districts?.message}</span>}
+                    {errors?.districts && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors?.districts?.message}</span>
+                    )}
                 </div>
 
                 {/* wards */}
@@ -160,19 +173,19 @@ const AddressAndInfoForm = () => {
                         name="wards"
                         disabled={isLoading}
                         className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
-                        {...register("wards", { required: "Xã/phường không được để trống*" })}
+                        {...register('wards', { required: 'Xã/phường không được để trống*' })}
                     >
                         <option value="">Chọn xã/phường *</option>
-                        {state?.wards?.length > 0 && (
+                        {state?.wards?.length > 0 &&
                             state?.wards.map((ward) => (
-                                <option
-                                    key={ward.code}
-                                    value={ward.path_with_type}
-                                >{ward.name_with_type}</option>
-                            ))
-                        )}
+                                <option key={ward.code} value={ward.path_with_type}>
+                                    {ward.name_with_type}
+                                </option>
+                            ))}
                     </select>
-                    {errors?.wards && <span className='text-red-700 italic text-[14px] py-10'>{errors?.wards?.message}</span>}
+                    {errors?.wards && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors?.wards?.message}</span>
+                    )}
                 </div>
 
                 {/* specific address*/}
@@ -183,17 +196,22 @@ const AddressAndInfoForm = () => {
                         type="text"
                         name="addressDetail"
                         disabled={isLoading}
-                        {...register("addressDetail", { required: "địa chỉ này không được để trống*", maxLength: { value: 100, message: "Vượt quá 100 kí tự" } })}
+                        {...register('addressDetail', {
+                            required: 'địa chỉ này không được để trống*',
+                            maxLength: { value: 100, message: 'Vượt quá 100 kí tự' },
+                        })}
                     />
-                    {errors?.addressDetail && <span className='text-red-700 italic text-[14px] py-10'>{errors.addressDetail?.message}</span>}
+                    {errors?.addressDetail && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors.addressDetail?.message}</span>
+                    )}
                 </div>
             </div>
 
             <div className="flex flex-wrap justify-center gap-4 mt-2">
-                <Button disable={isLoading}>{!isLoading ? "Lưu địa chỉ" : "Đang thay đổi ..."}</Button>
+                <Button disable={isLoading}>{!isLoading ? 'Lưu địa chỉ' : 'Đang thay đổi ...'}</Button>
             </div>
         </form>
-    )
-}
+    );
+};
 
 export default AddressAndInfoForm;
