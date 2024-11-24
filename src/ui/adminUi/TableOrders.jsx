@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import { FaPen, FaTrash } from 'react-icons/fa';
 import { FaEllipsis } from 'react-icons/fa6';
 
-const TableProducts = memo(() => {
+const TableOrders = memo(() => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const handleShowDetails = (product) => {
         setSelectedProduct(product);
@@ -11,20 +11,6 @@ const TableProducts = memo(() => {
 
     return (
         <div className="overflow-x-auto">
-            <div className="mb-2">
-                <select
-                    name="category"
-                    className="bg-main-color text-white font-[500] mt-1 block w-[20vw] px-3 py-2  outline-none cursor-pointer rounded-sm"
-                >
-                    <option value="1">Áo bóng đá</option>
-                    <option value="2">Giày bóng đá</option>
-                    <option value="3">Phụ kiện bóng đá</option>
-                    <option value="4">Quần áo bóng chuyền</option>
-                    <option value="5">Danh mục 5</option>
-                    <option value="6">Danh mục 6</option>
-                    <option value="7">Danh mục 7</option>
-                </select>
-            </div>
             <div className="max-h-96 overflow-y-scroll">
                 <table className="w-full text-[16px] text-left">
                     <thead className="bg-main-color text-white sticky top-0">
@@ -33,17 +19,13 @@ const TableProducts = memo(() => {
                                 STT
                             </th>
                             <th scope="col" className="py-2 pr-4">
-                                Tên sản phẩm
+                                Tên khách hàng
                             </th>
                             <th scope="col" className="py-2 px-4">
-                                Danh mục
+                                Trạng thái
                             </th>
                             <th scope="col" className="py-2 px-4">
-                                Số lượng
-                            </th>
-
-                            <th scope="col" className="py-2 px-4">
-                                giá tiền
+                                Giá tiền
                             </th>
                             <th scope="col" className="py-2 px-4">
                                 hành động
@@ -52,15 +34,10 @@ const TableProducts = memo(() => {
                     </thead>
                     <tbody className="">
                         {Array.from({ length: 16 }).map((_, index) => {
-                            const product = {
-                                name: `Sản phẩm ${index + 1}`,
-                                quantity: Math.floor(Math.random() * 100),
+                            const order = {
+                                customerName: `Khách hàng ${index + 1}`,
+                                status: `Trạng thái ${index + 1}`,
                                 price: (Math.random() * 1000000).toFixed(2),
-                                brand: `Hãng ${index + 1}`,
-                                color: `Màu ${index + 1}`,
-                                size: `Size ${index + 1}`,
-                                option: `Tùy chọn ${index + 1}`,
-                                imageUrl: `https://via.placeholder.com/50?text=Image+${index + 1}`,
                             };
 
                             return (
@@ -71,19 +48,16 @@ const TableProducts = memo(() => {
                                     } hover:bg-gray-400`}
                                 >
                                     <td className="py-2 pl-4">{index + 1}</td>
-                                    <td className="py-2 pr-4 break-words xl:max-w-[250px]">
-                                        Áo Bóng Đá Đội Tuyển Bồ Đào Nha Đen Loang 2024-2025
-                                    </td>
-                                    <td className="py-2 px-4">Áo bóng đá</td>
-                                    <td className="py-2 px-4">{product.quantity}</td>
-                                    <td className="py-2 px-4">{product.price} VND</td>
-                                    <td className=" py-2 px-4">
-                                        <div className="flex gap-3 ">
+                                    <td className="py-2 pr-4 break-words xl:max-w-[250px]">{order.customerName}</td>
+                                    <td className="py-2 px-4">{order.status}</td>
+                                    <td className="py-2 px-4">{order.price} VND</td>
+                                    <td className="py-2 px-4">
+                                        <div className="flex gap-3">
                                             <FaPen className="cursor-pointer hover:text-main-color transition-all"></FaPen>
                                             <FaTrash className="cursor-pointer hover:text-red-600 transition-all"></FaTrash>
                                             <FaEllipsis
                                                 className="cursor-pointer hover:text-main-color transition-all"
-                                                onClick={() => handleShowDetails(product)}
+                                                onClick={() => handleShowDetails(order)}
                                             ></FaEllipsis>
                                         </div>
                                     </td>
@@ -128,4 +102,4 @@ const TableProducts = memo(() => {
         </div>
     );
 });
-export default TableProducts;
+export default TableOrders;

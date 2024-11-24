@@ -1,4 +1,4 @@
-import { FaHome } from 'react-icons/fa';
+import { FaHome, FaShoppingCart } from 'react-icons/fa';
 import { FaBox, FaChartBar, FaUser } from 'react-icons/fa6';
 import { Link, Outlet } from 'react-router-dom';
 
@@ -17,6 +17,10 @@ const Nav = () => {
                     <li className="flex items-center px-4 py-2 mb-1 font-[500] cursor-pointer hover:text-black hover:bg-white transition-all">
                         <FaBox className="mr-2"></FaBox>
                         <Link to="products">Sản phẩm</Link>
+                    </li>
+                    <li className="flex items-center px-4 py-2 mb-1 font-[500] cursor-pointer hover:text-black hover:bg-white transition-all">
+                        <FaShoppingCart className="mr-2"></FaShoppingCart>
+                        <Link to="orders">Đơn đặt hàng</Link>
                     </li>
                     <li className="flex items-center px-4 py-2 mb-1 font-[500] cursor-pointer hover:text-black hover:bg-white transition-all">
                         <FaUser className="mr-2"></FaUser>

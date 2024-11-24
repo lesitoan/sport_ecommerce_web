@@ -24,6 +24,7 @@ import HomeAdmin from './pages/adminPage/HomeAdmin';
 import ProductsAdmin from './pages/adminPage/ProductsAdmin';
 import UsersAdmin from './pages/adminPage/UsersAdmin';
 import AnalysisAdmin from './pages/adminPage/AnalysisAdmin';
+import OrdersAdmin from './pages/adminPage/OrdersAdmin';
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ function App() {
                     <Route path="/admin" element={<Nav />}>
                         <Route index element={<HomeAdmin />} />
                         <Route path="products" element={<ProductsAdmin />} />
+                        <Route path="orders" element={<OrdersAdmin />} />
                         <Route path="users" element={<UsersAdmin />} />
                         <Route path="analysis" element={<AnalysisAdmin />} />
                     </Route>
