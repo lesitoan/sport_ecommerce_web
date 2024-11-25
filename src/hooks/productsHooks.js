@@ -9,19 +9,19 @@ export const useFindProductsByName = (slug) => {
     const {
         isPending: isLoading,
         isError,
-        data: { products, count } = {},
+        data,
         error,
     } = useQuery({
         queryKey: [slug, page],
         queryFn: async () => findProductsByName({ slug, page }),
-        gcTime: 10 * 1000, // 60s
+        gcTime: 60 * 1000, // 60s
     });
 
     if (isError) {
-        console.log('Error: ', error.message);
+        console.log('useFindProductsByName Error: ', error.message);
         throw new Error(error.message);
     }
-    return { isLoading, products, count };
+    return { isLoading, data };
 };
 
 export const useGetProductsByCategory = (categorySlug) => {
@@ -39,7 +39,7 @@ export const useGetProductsByCategory = (categorySlug) => {
         // gcTime: 30 * 1000
     });
     if (isError) {
-        console.log('Error: ', error.message);
+        console.log('useGetProductsByCategory Error: ', error.message);
         throw new Error(error.message);
     }
     return { isLoading, data };

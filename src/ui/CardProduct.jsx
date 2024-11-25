@@ -1,32 +1,30 @@
 import { Link } from 'react-router-dom';
 
 const CardProduct = ({ product }) => {
+    let thumnail = '/productImages/1.webp';
+    if (product?.images && product?.images.length > 0) {
+        const img = product.images.find((img) => img.isThumbnail === true);
+        thumnail = img?.url || thumnail;
+    }
     return (
         <div className="w-[var(--card-width-xl)] 2xl:w-[var(--card-width-2xl)] bg-white mb-4">
             <div className="w-[100%] cursor-pointer">
                 <Link to={`/products/${product?.slug}`}>
-                    <img src="/productImages/1.webp" alt="product" />
+                    <img src={thumnail} alt="product" />
                 </Link>
             </div>
-            <div className="text-[#000] p-2.5">
-                <Link to={`/products/${product?.slug}`}>
-                    <h4 className="font-[700] text-[16px] mb-1">{product?.productName || 'unKnow'}</h4>
-                </Link>
-                <ul className="text-[14px]">
-                    <li>
-                        <span className="text-red-600 font-[600]">80.000Đ</span> (hang thun lạnh)
-                    </li>
-                    <li>
-                        <span className="text-red-600 font-[600]">80.000Đ</span> (hang thun lạnh)
-                    </li>
-                    <li>
-                        <span className="text-red-600 font-[600]">80.000Đ</span> (hang thun lạnh)
-                    </li>
-                </ul>
+            <h4 className="min-h-[60px] text-[18px] text-[#000] font-[700] mt-2">
+                <Link to={`/products/${product?.slug}`}>{product?.productName || 'unKnow'}</Link>
+            </h4>
+
+            <div className="min-h-[100px] text-[18px] text-[#000]">
+                <h4 className="text-red-600 font-[600] mb-1">{`${product?.price || 0} `}&#8363;</h4>
                 {/* <a className="underline underline-offset-4" href="#">Xem chi tiết</a> */}
-                <Link className="underline underline-offset-4" to={`/products/${product?.slug}`}>
-                    Xem chi tiết
-                </Link>
+                <button className="bg-main-color text-white w-[100%] rounded-sm py-2 hover:bg-white hover:text-black transition-all">
+                    <Link className="" to={`/products/${product?.slug}`}>
+                        Xem chi tiết
+                    </Link>
+                </button>
             </div>
         </div>
     );

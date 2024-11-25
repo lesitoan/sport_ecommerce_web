@@ -6,7 +6,7 @@ import Spinner from '../ui/Spinner';
 
 const FindProductsPage = () => {
     const { prodSlug } = useParams();
-    const { isLoading, products, count } = useFindProductsByName(prodSlug);
+    const { isLoading, data } = useFindProductsByName(prodSlug);
 
     if (isLoading)
         return (
@@ -14,12 +14,12 @@ const FindProductsPage = () => {
                 <Spinner />
             </div>
         );
-    if (products && products.length === 0)
+    if (data?.products && data?.products.length === 0)
         return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">KHÔNG TÌM THẤY SẢN PHẨM</div>;
     return (
         <>
-            <BoxProducts products={products} />
-            <Pagination count={count} />
+            <BoxProducts products={data.products} />
+            <Pagination count={data?.count} />
             <hr className="border-t-2 border-main-color mt-3 mb-10" />
         </>
     );

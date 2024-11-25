@@ -9,7 +9,7 @@ const HomePage = () => {
     const { isLoading: giayBongDaLoading, data: giayBongDa } = useGetProductsByCategory('giay_bong_da');
     const { isLoading: phuKienBongDaLoading, data: phuKienBongDa } = useGetProductsByCategory('phu_kien_bong_da');
     const { isLoading: quanAoBongChuyenLoading, data: quanAoBongChuyen } =
-        useGetProductsByCategory('phu_kien_bong_chuyen');
+        useGetProductsByCategory('quan_ao_bong_chuyen');
 
     return (
         <>
@@ -20,7 +20,11 @@ const HomePage = () => {
                 <Spinner />
             ) : (
                 aoBongDaCLB?.products && (
-                    <BoxProducts products={aoBongDaCLB.products} categoryName={aoBongDaCLB?.categoryName} limit={5} />
+                    <BoxProducts
+                        products={aoBongDaCLB.products}
+                        categoryName={aoBongDaCLB?.category?.categoryName}
+                        limit={5}
+                    />
                 )
             )}
             {aoBongDaTuyenLoading ? (
@@ -29,7 +33,7 @@ const HomePage = () => {
                 aoBongDaTuyen?.products && (
                     <BoxProducts
                         products={aoBongDaTuyen.products}
-                        categoryName={aoBongDaTuyen?.categoryName}
+                        categoryName={aoBongDaTuyen?.category?.categoryName}
                         limit={5}
                     />
                 )
@@ -38,7 +42,11 @@ const HomePage = () => {
                 <Spinner />
             ) : (
                 giayBongDa?.products && (
-                    <BoxProducts products={giayBongDa.products} categoryName={giayBongDa?.categoryName} limit={5} />
+                    <BoxProducts
+                        products={giayBongDa.products}
+                        categoryName={giayBongDa?.category?.categoryName}
+                        limit={5}
+                    />
                 )
             )}
             {phuKienBongDaLoading ? (
@@ -47,7 +55,7 @@ const HomePage = () => {
                 phuKienBongDa?.products && (
                     <BoxProducts
                         products={phuKienBongDa.products}
-                        categoryName={phuKienBongDa?.categoryName}
+                        categoryName={phuKienBongDa?.category?.categoryName}
                         limit={5}
                     />
                 )
@@ -58,7 +66,7 @@ const HomePage = () => {
                 quanAoBongChuyen?.products && (
                     <BoxProducts
                         products={quanAoBongChuyen.products}
-                        categoryName={quanAoBongChuyen?.categoryName}
+                        categoryName={quanAoBongChuyen?.category?.categoryName}
                         limit={5}
                     />
                 )
