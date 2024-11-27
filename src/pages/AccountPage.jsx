@@ -2,7 +2,7 @@ import { FaSignOutAlt } from 'react-icons/fa';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import TableShoppingCard from '../ui/TableShoppingCard';
+import TableShoppingCarts from '../ui/TableShoppingCarts';
 import TableOrders from '../ui/TableOrders';
 import MyInfoForm from '../ui/MyInfoForm';
 import ChangePasswordForm from '../ui/ChangePasswordForm';
@@ -89,7 +89,7 @@ const AccountPage = () => {
                 )}
 
                 {/* giỏ hàng*/}
-                {activeSection === 'gio_hang' && <TableShoppingCard />}
+                {activeSection === 'gio_hang' && <TableShoppingCarts />}
 
                 {/* đơn hàng */}
                 {activeSection === 'don_hang' && <TableOrders />}

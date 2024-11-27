@@ -1,8 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import { findProductsByName, getProductBySlug, getProductsByCategory } from '../services/productsApi';
+import {
+    getProductsByName,
+    getProductBySlug,
+    getProductsByCategory,
+    addProductToCart as addProductToCartApi,
+    getShoppingCartsByUserId,
+    updateCartQuantityById as updateCartQuantityByIdApi,
+} from '../services/productsApi';
+import { toast } from 'react-toastify';
 
-export const useFindProductsByName = (slug) => {
+export const useGetProductsByName = (slug) => {
     const [searchParams] = useSearchParams();
     const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
 
@@ -13,7 +21,7 @@ export const useFindProductsByName = (slug) => {
         error,
     } = useQuery({
         queryKey: [slug, page],
-        queryFn: async () => findProductsByName({ slug, page }),
+        queryFn: async () => getProductsByName({ slug, page }),
         gcTime: 60 * 1000, // 60s
     });
 
@@ -61,4 +69,70 @@ export const useGetProductBySlug = (slug) => {
         throw new Error(error.message);
     }
     return { isLoading, product };
+};
+
+export const useAddProductToCart = () => {
+    const {
+        mutate: addProductToCart,
+        isPending: isLoading,
+        isSuccess,
+    } = useMutation({
+        mutationFn: addProductToCartApi,
+        onSuccess: () => {
+            toast.success('Thêm sản phẩm thành công !', {
+                position: 'top-center',
+            });
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error('Thêm sản phẩm thất bại !', {
+                position: 'top-center',
+            });
+        },
+    });
+
+    return { addProductToCart, isLoading, isSuccess };
+};
+
+export const useGetShoppingCartsByUserId = (userId) => {
+    const {
+        isPending: isLoading,
+        isError,
+        data: shoppingCarts,
+        error,
+    } = useQuery({
+        queryKey: ['shoppingCarts'],
+        queryFn: async () => await getShoppingCartsByUserId({ userId }),
+        gcTime: 15 * 1000, // 15s
+    });
+    if (isError) {
+        console.log('useshoppingCarts: ', error.message);
+        throw new Error(error.message);
+    }
+    return { isLoading, shoppingCarts };
+};
+
+export const UseUpdateCartQuantityById = () => {
+    const queryClient = useQueryClient();
+    const {
+        mutate: updateCartQuantityById,
+        isPending: isLoading,
+        isSuccess,
+    } = useMutation({
+        mutationFn: updateCartQuantityByIdApi,
+        onSuccess: () => {
+            // queryClient.refetchQueries(['shoppingCarts'], { active: true, exact: true });
+            toast.success('thay đổi số lượng thành công !', {
+                position: 'top-center',
+            });
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error('Thay đổi số lượng thất bại !', {
+                position: 'top-center',
+            });
+        },
+    });
+
+    return { updateCartQuantityById, isLoading, isSuccess };
 };

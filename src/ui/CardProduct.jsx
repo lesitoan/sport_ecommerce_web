@@ -20,7 +20,7 @@ const CardProduct = ({ product }) => {
             <div className="min-h-[100px] text-[18px] text-[#000]">
                 <h4 className="text-red-600 font-[600] mb-1">{`${product?.price || 0} `}&#8363;</h4>
                 {/* <a className="underline underline-offset-4" href="#">Xem chi tiết</a> */}
-                <button className="bg-main-color text-white w-[100%] rounded-sm py-2 hover:bg-white hover:text-black transition-all">
+                <button className="bg-white text-black w-[100%] border-2 border-main-color rounded-sm py-[8px] hover:bg-main-color hover:text-white transition-all">
                     <Link className="" to={`/products/${product?.slug}`}>
                         Xem chi tiết
                     </Link>

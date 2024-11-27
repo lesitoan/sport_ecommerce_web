@@ -1,30 +1,35 @@
-const Option = ({ types, onType, currType }) => {
-    if (!types || types.length === 0) return null;
-    if (typeof types === 'string') types = JSON.parse(types);
-
-    const handClick = (type) => {
-        if (type?.name === currType?.name) return;
-        onType(type);
-    };
+const Option = ({ attributeType, handleSetAttributes, currentAttribute }) => {
+    if (!attributeType || attributeType?.data?.length === 0) return null;
+    const data = attributeType.data;
 
     return (
-        <div>
+        <div className="w-[100%]">
             <h6 className="mb-1">
-                Bạn đang chọn: <span className="font-[600]">{currType?.name}</span>
+                Bạn đang chọn:{' '}
+                <span className="font-[600]">{`${attributeType?.name} ${
+                    currentAttribute?.name ? currentAttribute?.data.value : ''
+                }`}</span>
             </h6>
-            <ul className="flex justify-start gap-2 mb-4">
-                {types.map((type, index) => (
+            <ul className="flex justify-start flex-wrap gap-2 mb-4">
+                {data.map((item, index) => (
                     <li
                         key={index}
                         className={`${
-                            type?.name === currType?.name && 'bg-main-color !cursor-not-allowed !text-white'
+                            currentAttribute?.data.value === item.value &&
+                            'bg-main-color !cursor-not-allowed !text-white'
                         } flex flex-col items-center justify-center rounded min-w-[100px] px-2 py-1 border border-main-color cursor-pointer hover:bg-blue-200`}
                         onClick={() => {
-                            handClick(type);
+                            handleSetAttributes({
+                                name: attributeType?.name,
+                                data: {
+                                    value: item?.value,
+                                    price: item?.price,
+                                    id: item?.id,
+                                },
+                            });
                         }}
                     >
-                        <p>{type?.name}</p>
-                        {/* {Number(size?.addCharge) > 0 && <p className="font-[600] text-red-600">{size.addCharge}đ</p>} */}
+                        <p>{item?.value}</p>
                     </li>
                 ))}
             </ul>

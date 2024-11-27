@@ -24,7 +24,7 @@ const ProductDetailPage = () => {
     return (
         <div>
             {/* image, price, size */}
-            {/* {<ProductInfoForm product={product} />} */}
+            {<ProductInfoForm product={product} />}
             <hr className="border-t-2 border-main-color mb-2" />
             {/* ------------ */}
             <div>

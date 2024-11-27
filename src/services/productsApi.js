@@ -3,7 +3,7 @@ import supabase from '../config/supabase';
 import { getCategoryBySlug } from './categoryApi';
 import { NUMBER_ITEM_PER_PAGE } from '../utils/constant';
 
-export const findProductsByName = async ({ slug, page }) => {
+export const getProductsByName = async ({ slug, page }) => {
     let query = supabase
         .from('products')
         .select(`id,productName,price,slug,images (url,isThumbnail)`, { count: 'exact' });
@@ -24,35 +24,6 @@ export const findProductsByName = async ({ slug, page }) => {
 
 export const getProductsByCategory = async ({ categorySlug, page }) => {
     if (!categorySlug) return [];
-
-    // let query = supabase
-    //     .from('categories')
-    //     .select(
-    //         `
-    //     *,
-    //     products (*)
-    // `,
-    //     )
-    //     .eq('categorySlug', `${categorySlug}`);
-
-    // let { data, error } = await query;
-
-    // if (error) {
-    //     console.log('getProductsByCategory err:  ', error.message);
-    //     throw new Error(error.message);
-    // }
-    // if (data.length === 0 || data[0]?.products.length === 0) return {};
-
-    // const count = data[0]?.products.length;
-    // if (page) {
-    //     const begin = (page - 1) * NUMBER_ITEM_PER_PAGE;
-    //     const end = begin + NUMBER_ITEM_PER_PAGE;
-    //     if (data[0] && data[0].products.length > 0) {
-    //         const products = data[0].products.slice(begin, end);
-    //         data = { ...data[0], products, count };
-    //     }
-    // }
-    // return data;
     const categoryData = await getCategoryBySlug(categorySlug);
     if (!categoryData || !categoryData?.id) return {};
 
@@ -86,7 +57,6 @@ export const getProductsByCategory = async ({ categorySlug, page }) => {
 
 export const getProductBySlug = async ({ slug }) => {
     if (!slug) return null;
-    console.log('slug: ', slug);
     let query = supabase
         .from('products')
         .select(`id,productName,price,slug,images (url,isThumbnail)`)
@@ -99,28 +69,112 @@ export const getProductBySlug = async ({ slug }) => {
     //get attributes
     const attributes = await getAttributesByProductId({ id: product.id });
     if (attributes) product.attributes = attributes;
-    console.log('product: ', product);
     return product;
 };
 
-export const getAttributesByProductId = async ({ id }) => {
+const getAttributesByProductId = async ({ id }) => {
     if (!id) return null;
     console.log('id: ', id);
     let { data, error } = await supabase
         .from('productDetails')
-        .select(`quantity, attributes (name, value, price)`)
+        .select(`quantity, attributes (name, value, price, id)`)
         .eq('productId', id);
     if (error) {
         throw new Error('getAttributesByProductId err:  ', error.message);
     }
+    if (data.length === 0) return [];
+
     data = data.map((item) => {
         return {
-            quantity: item.quantity,
             name: item.attributes.name,
-            value: item.attributes.value,
-            price: item.attributes.price,
+            data: {
+                value: item.attributes.value,
+                price: item.attributes.price,
+                quantity: item.quantity,
+                id: item.attributes.id,
+            },
         };
     });
 
+    const attributes = [];
+    data.forEach((item) => {
+        const index = attributes.findIndex((attr) => attr.name === item.name);
+        if (index === -1) {
+            attributes.push({
+                name: item.name,
+                data: [item.data],
+            });
+        } else {
+            attributes[index].data.push(item.data);
+        }
+    });
+
+    return attributes;
+};
+
+export const addProductToCart = async ({ userId, productId, quantity, attributes }) => {
+    quantity = quantity || 1;
+    if (!userId || !productId) return;
+
+    // 1. Thêm sản phẩm vào bảng shoppingCarts
+    const { data: cartData, error: cartError } = await supabase
+        .from('shoppingCarts')
+        .insert([
+            {
+                userId: userId,
+                productId: productId,
+                quantity: quantity,
+            },
+        ])
+        .select('id')
+        .single();
+
+    if (cartError) {
+        throw new Error('addProductToCart err:  ', cartError.message);
+    }
+    console.log(cartData);
+
+    // 2. Thêm các thuộc tính vào bảng selectedAttributes
+    const selectedAttributes = attributes.map((attribute) => ({
+        shoppingCartId: cartData.id,
+        attributeId: attribute.data?.id,
+        // orderDetailId: attribute.orderDetailId
+    }));
+
+    const { error: attributesError } = await supabase.from('selectedAttributes').insert(selectedAttributes);
+
+    if (attributesError) {
+        throw new Error('attributesError err:  ', attributesError.message);
+    }
+};
+
+export const getShoppingCartsByUserId = async ({ userId }) => {
+    if (!userId) return [];
+    console.log('userId: ', userId);
+    const { data, error } = await supabase
+        .from('shoppingCarts')
+        .select(`*, products (productName, images (url)), selectedAttributes (attributes (id, name, price, value))`)
+        .eq('userId', userId);
+
+    if (error) {
+        throw new Error('getShoppingCartByUserId err:  ', error.message);
+    }
     return data;
+};
+
+export const deleteShoppingCartById = async ({ cartId }) => {
+    if (!cartId) return;
+    const { error } = await supabase.from('shoppingCarts').delete().eq('id', cartId);
+    if (error) {
+        throw new Error('deleteShoppingCartById err:  ', error.message);
+    }
+};
+
+export const updateCartQuantityById = async ({ cartId, quantity }) => {
+    if (!cartId || !quantity) return;
+    console.log(cartId);
+    const { error } = await supabase.from('shoppingCarts').update({ quantity: quantity }).eq('id', cartId);
+    if (error) {
+        throw new Error('updateCartQuantityById err:  ', error.message);
+    }
 };

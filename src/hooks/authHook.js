@@ -38,6 +38,7 @@ export const useSignIn = () => {
         mutate: signIn,
         isPending: isLoading,
         isSuccess,
+        data,
     } = useMutation({
         mutationFn: signInApi,
         onError: (error) => {
@@ -60,7 +61,7 @@ export const useSignIn = () => {
             });
         },
     });
-    return { signIn, isLoading, isSuccess };
+    return { signIn, isLoading, isSuccess, data };
 };
 
 export const useUser = () => {

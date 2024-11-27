@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 import Pagination from '../ui/Pagination';
-import { useFindProductsByName } from '../hooks/productsHooks';
+import { useGetProductsByName } from '../hooks/productsHooks';
 import BoxProducts from '../ui/BoxProducts';
 import Spinner from '../ui/Spinner';
 
 const FindProductsPage = () => {
     const { prodSlug } = useParams();
-    const { isLoading, data } = useFindProductsByName(prodSlug);
+    const { isLoading, data } = useGetProductsByName(prodSlug);
 
     if (isLoading)
         return (
