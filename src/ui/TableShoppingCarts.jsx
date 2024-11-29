@@ -9,14 +9,14 @@ const TableShoppingCarts = () => {
     const navigate = useNavigate();
     const { user } = useUser();
     const { shoppingCarts, isLoading } = useGetShoppingCartsByUserId(user?.id);
-    const totalPrice = 0;
 
-    if (isLoading) return <h4>Đang tải...</h4>;
     if (shoppingCarts) {
         console.log('shoppingCarts: ', shoppingCarts);
     }
-    if (!shoppingCarts || shoppingCarts.length === 0) return <h4>Chưa có sản phẩm</h4>;
     if (isLoading) return <Spinner />;
+    if (!shoppingCarts || shoppingCarts.length === 0) return <h4>Chưa có sản phẩm</h4>;
+    const totalPrice = shoppingCarts.reduce((total, cart) => total + cart?.price * cart?.quantity || 0, 0);
+
     return (
         <div className="">
             <table className="w-full text-[16px] text-left">
@@ -32,7 +32,7 @@ const TableShoppingCarts = () => {
                             Số lượng
                         </th>
                         <th scope="col" className="pr-2 py-2">
-                            Tổng giá tiền
+                            Giá tiền
                         </th>
                         <th scope="col" className=" py-2">
                             Hành động

@@ -1,13 +1,30 @@
 import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
-import { updateCartQuantityById } from '../services/productsApi';
+import { useEffect, useState } from 'react';
+
+import { UseUpdateCartQuantityById, UseDeleteShoppingCartById } from '../hooks/productsHooks';
 
 const RowCart = ({ cart }) => {
     const id = cart?.id;
     const productName = cart?.products?.productName;
-    const price = cart?.price || 100000;
+    const price = cart?.price || 0;
     const quantity = cart?.quantity;
     const attributes = cart?.selectedAttributes || [];
     const image = cart?.products?.images[0]?.url || '/productImages/1.webp';
+
+    const [currQuantity, setCurrQuantity] = useState(quantity);
+
+    const { updateCartQuantityById } = UseUpdateCartQuantityById();
+    const { deleteShoppingCartById, isLoading: deleting } = UseDeleteShoppingCartById();
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (currQuantity !== quantity) {
+                updateCartQuantityById({ cartId: id, prevQuantity: quantity, currQuantity: currQuantity, price });
+            }
+        }, 1400);
+        return () => clearTimeout(timer);
+    }, [currQuantity]);
+
     if (!id || !productName || !price || !quantity) return null;
 
     return (
@@ -23,29 +40,39 @@ const RowCart = ({ cart }) => {
             </td>
             <td className="pr-2 py-4">
                 <div className="flex justify-start gap-2 items-center">
-                    <span
+                    <button
                         className="cursor-pointer hover:bg-main-color hover:text-white px-[3px] py-[3px] rounded opacity-50"
                         onClick={() => {
-                            if (quantity > 1) updateCartQuantityById({ cartId: id, quantity: quantity - 1 });
+                            if (currQuantity > 1) {
+                                setCurrQuantity((quan) => quan - 1);
+                            }
                         }}
+                        disabled={deleting}
                     >
                         <FaMinus />
-                    </span>
-                    <span>{quantity}</span>
-                    <span
+                    </button>
+                    <span>{currQuantity}</span>
+                    <button
                         className="cursor-pointer hover:bg-main-color hover:text-white px-[3px] py-[3px] rounded opacity-50"
-                        onClick={() => updateCartQuantityById({ cartId: id, quantity: quantity + 1 })}
+                        onClick={() => {
+                            setCurrQuantity((quan) => quan + 1);
+                        }}
+                        disabled={deleting}
                     >
                         <FaPlus />
-                    </span>
+                    </button>
                 </div>
             </td>
-            <td className="pr-2 py-4">{price * quantity}</td>
+            <td className="pr-2 py-4">{price}</td>
             <td className="py-4">
-                <FaTrashAlt
-                    className="cursor-pointer hover:text-red-500"
-                    // onClick={() => dispatch({ type: 'delete', payload: { id, type, size, color } })}
-                ></FaTrashAlt>
+                <button
+                    className="flex gap-1 justify-center items-center bg-red-600 w-[80px] text-white py-[6px]  cursor-pointer rounded-md hover:bg-red-500"
+                    onClick={() => deleteShoppingCartById({ cartId: id })}
+                    disabled={deleting}
+                >
+                    <FaTrashAlt />
+                    <span>xóa</span>
+                </button>
             </td>
         </tr>
     );

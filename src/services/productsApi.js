@@ -112,9 +112,11 @@ const getAttributesByProductId = async ({ id }) => {
     return attributes;
 };
 
-export const addProductToCart = async ({ userId, productId, quantity, attributes }) => {
+export const addProductToCart = async ({ userId, product, quantity, attributes }) => {
     quantity = quantity || 1;
-    if (!userId || !productId) return;
+    if (!userId || !product) return;
+    const price =
+        Number(product?.price || 0) + attributes.reduce((total, attr) => total + Number(attr.data.price || 0), 0);
 
     // 1. Thêm sản phẩm vào bảng shoppingCarts
     const { data: cartData, error: cartError } = await supabase
@@ -122,8 +124,9 @@ export const addProductToCart = async ({ userId, productId, quantity, attributes
         .insert([
             {
                 userId: userId,
-                productId: productId,
+                productId: product.id,
                 quantity: quantity,
+                price,
             },
         ])
         .select('id')
@@ -153,8 +156,11 @@ export const getShoppingCartsByUserId = async ({ userId }) => {
     console.log('userId: ', userId);
     const { data, error } = await supabase
         .from('shoppingCarts')
-        .select(`*, products (productName, images (url)), selectedAttributes (attributes (id, name, price, value))`)
-        .eq('userId', userId);
+        .select(
+            `*, products (productName, images (url)), selectedAttributes ( id, attributes (id, name, price, value))`,
+        )
+        .eq('userId', userId)
+        .order('id', { ascending: true });
 
     if (error) {
         throw new Error('getShoppingCartByUserId err:  ', error.message);
@@ -163,17 +169,30 @@ export const getShoppingCartsByUserId = async ({ userId }) => {
 };
 
 export const deleteShoppingCartById = async ({ cartId }) => {
-    if (!cartId) return;
-    const { error } = await supabase.from('shoppingCarts').delete().eq('id', cartId);
-    if (error) {
-        throw new Error('deleteShoppingCartById err:  ', error.message);
+    if (!cartId) {
+        throw new Error('xóa sản phẩm thất bại !');
+    }
+    const { error: attrsError } = await supabase.from('selectedAttributes').delete().eq('shoppingCartId', cartId);
+    if (attrsError) {
+        throw new Error('deleteShoppingCartById err:  ', attrsError.message);
+    }
+    const { error: cartError } = await supabase.from('shoppingCarts').delete().eq('id', cartId);
+    if (cartError) {
+        throw new Error('deleteShoppingCartById err:  ', cartError.message);
     }
 };
 
-export const updateCartQuantityById = async ({ cartId, quantity }) => {
-    if (!cartId || !quantity) return;
-    console.log(cartId);
-    const { error } = await supabase.from('shoppingCarts').update({ quantity: quantity }).eq('id', cartId);
+export const updateCartQuantityById = async ({ cartId, prevQuantity, currQuantity, price }) => {
+    if (!cartId || currQuantity === prevQuantity) {
+        throw new Error('có lỗi xảy ra khi thay đổi số lương sản phẩm !');
+    }
+    const newPrice = (price / prevQuantity) * currQuantity;
+    console.log('newPrice: ', newPrice);
+    console.log('currQuantity: ', currQuantity);
+    const { error } = await supabase
+        .from('shoppingCarts')
+        .update({ quantity: currQuantity, price: newPrice })
+        .eq('id', cartId);
     if (error) {
         throw new Error('updateCartQuantityById err:  ', error.message);
     }

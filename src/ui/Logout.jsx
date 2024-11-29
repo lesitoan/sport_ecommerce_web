@@ -8,7 +8,7 @@ const Logout = () => {
 
     const handleClickLogout = () => {
         setShowModal(true);
-    }
+    };
 
     return (
         <>
@@ -16,11 +16,13 @@ const Logout = () => {
                 // className={`${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'} flex justify-center items-center bg-main-color text-white px-3 py-[10px] rounded-md`}
                 onClick={handleClickLogout}
             >
-                <span>{isLoading ? "Đang đăng xuất" : "Đăng xuất"}</span>
+                <span>{isLoading ? 'Đang đăng xuất' : 'Đăng xuất'}</span>
             </div>
-            <Modal show={showModal} onShow={setShowModal} submit={logout} />
+            <Modal show={showModal} onShow={setShowModal} submit={logout}>
+                <h3>Bạn có chắc muốn đăng xuất !</h3>
+            </Modal>
         </>
-    )
-}
+    );
+};
 
 export default Logout;

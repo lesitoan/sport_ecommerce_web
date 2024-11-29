@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 import Button from './Button';
-import { useUpdateUser } from '../hooks/authHook';
+import { useUpdateUser, useUser } from '../hooks/authHook';
+import { useAddShippingAddress } from '../hooks/addressHook';
 
 const getLocation = async ({ type, code, _dispatch }) => {
     // dispatchs({ type: "START_GET_DATA" })
@@ -56,10 +57,14 @@ const AddressAndInfoForm = () => {
     } = useForm();
     const [state, dispatch] = useReducer(reducer, { provinces: [], districts: [], wards: [] });
     const { updateUser, isLoading } = useUpdateUser();
+    const { user } = useUser();
+    const { addShippingAddressByUserId } = useAddShippingAddress();
+
     const onSubmit = (data) => {
         console.log(data);
-        const { fullName, phoneNumber, wards: address, addressDetail } = data;
-        updateUser({ addressOrder: { fullName, phoneNumber, address, addressDetail } });
+        // const { fullName, phoneNumber, wards: address, addressDetail } = data;
+        // updateUser({ addressOrder: { fullName, phoneNumber, address, addressDetail } });
+        addShippingAddressByUserId({ userId: user?.id, address: data });
     };
     console.log(isLoading);
 
@@ -86,7 +91,7 @@ const AddressAndInfoForm = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <h3 className="font-[600] text-[22px] mb-1">THAY ĐỔI THÔNG TIN GIAO HÀNG</h3>
+            <h3 className="font-[600] text-[22px] mb-1">THÊM ĐỊA CHỈ GIAO HÀNG</h3>
             <div className="flex flex-wrap justify-between">
                 {/* name */}
                 <div className="md:col-span-5 w-[49%]">
@@ -131,7 +136,7 @@ const AddressAndInfoForm = () => {
                         name="provinces"
                         disabled={isLoading}
                         className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
-                        {...register('provinces', { required: 'TỈnh/thành phố không được để trống*' })}
+                        // {...register('provinces', { required: 'TỈnh/thành phố không được để trống*' })}
                     >
                         <option value="">Chọn tỉnh/thành phố *</option>
                         {state?.provinces?.length > 0 &&
@@ -152,7 +157,7 @@ const AddressAndInfoForm = () => {
                         name="districts"
                         disabled={isLoading}
                         className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
-                        {...register('districts', { required: 'Quận/huyện không được để trống*' })}
+                        // {...register('districts', { required: 'Quận/huyện không được để trống*' })}
                     >
                         <option value="">Chọn quân/huyện *</option>
                         {state?.districts?.length > 0 &&
@@ -173,7 +178,7 @@ const AddressAndInfoForm = () => {
                         name="wards"
                         disabled={isLoading}
                         className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
-                        {...register('wards', { required: 'Xã/phường không được để trống*' })}
+                        // {...register('wards', { required: 'Xã/phường không được để trống*' })}
                     >
                         <option value="">Chọn xã/phường *</option>
                         {state?.wards?.length > 0 &&

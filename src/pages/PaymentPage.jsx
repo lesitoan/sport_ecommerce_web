@@ -1,149 +1,105 @@
-import { FaMoneyBill1Wave, FaPen, FaTruckFast } from 'react-icons/fa6';
+import { useState } from 'react';
+
 import CardProdHorizontal from '../ui/CardProdHorizontal';
 import Button from '../ui/Button';
-import { FaArrowCircleLeft } from 'react-icons/fa';
+import Spinner from '../ui/Spinner';
+
 import { useUser } from '../hooks/authHook';
-import { Link, useNavigate } from 'react-router-dom';
 import { useCreateOrder } from '../hooks/orderHook';
-import { useEffect } from 'react';
+import { useGetShoppingCartsByUserId } from '../hooks/productsHooks';
+import { useGetShippingAddresses } from '../hooks/addressHook';
+import ShippingInfo from '../ui/ShippingInfo';
+import { FaArrowCircleLeft } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Modal from '../ui/Modal';
 
 const PaymentPage = () => {
     const navigate = useNavigate();
-    const products = JSON.parse(localStorage.getItem('shoppingCard') || '[]');
-    const totalPrice = products.reduce((total, prod) => total + prod?.price * prod?.quantity || 0, 0);
     const { user } = useUser();
-    const { createOrder, isSuccess } = useCreateOrder();
+    const [shippingInfo, setShippingInfo] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
+    const { shoppingCarts, isLoading: cartLoading } = useGetShoppingCartsByUserId(user?.id);
+    const { shippingAddresses, isLoading: addressesLoading } = useGetShippingAddresses(user?.id);
+
+    const { createOrder, isSuccess, isLoading: isCreating } = useCreateOrder();
 
     const handleSumit = () => {
-        const prods = JSON.parse(localStorage.getItem('shoppingCard') || '[]');
-        if (prods.length === 0) return;
-        const orderData = {
-            products: prods,
-            fullName: user?.user_metadata?.fullName,
-            phoneNumber: user?.user_metadata?.phoneNumber,
-            address: user?.user_metadata?.address,
-            addressDetail: user?.user_metadata?.addressDetail,
-            userId: user?.id,
-        };
-        createOrder({ data: orderData });
+        if (!shippingInfo) {
+            toast.error('Vui lòng chọn địa chỉ giao hàng !', {
+                position: 'top-center',
+            });
+            return;
+        }
+        createOrder({ shippingInfo, userId: user.id, shoppingCarts });
     };
 
-    useEffect(() => {
-        if (isSuccess) {
-            navigate('/my-account?section=don_hang');
-        }
-    }, [isSuccess, navigate]);
+    if (isSuccess) {
+        // navigate('/my-account?section=don_hang');
+    }
+
+    if (addressesLoading || cartLoading)
+        return (
+            <div className="min-h-[80vh] flex items-center justify-center">
+                <Spinner />
+            </div>
+        );
+    if (!shoppingCarts || shoppingCarts.length === 0)
+        return (
+            <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">
+                <span>HÃY CHỌN SẢN PHẨM TRƯỚC KHI THANH TOÁN !</span>
+                <Link to="/" className="text-blue-600 underline ml-3">
+                    Trang chủ
+                </Link>
+            </div>
+        );
+
+    const totalPrice = shoppingCarts.reduce((total, cart) => total + cart?.price * cart?.quantity || 0, 0);
 
     return (
         <div className="flex justify-between min-h-[80vh] mt-10 mb-10">
             <div className="w-[54%]">
                 {/* <PaymentForm /> */}
-                {!user?.user_metadata?.addressDetail ? (
-                    <div className="text-[18px] text-center">
-                        hãy ấn vào thêm địa chỉ và tiếp tục thanh toán đơn hàng
-                        <br />
-                        <Link className="text-blue-600 hover:underline" to="/my-account?section=dia_chi">
-                            Thêm địa chỉ
-                        </Link>
-                    </div>
-                ) : (
-                    <>
-                        <div className="mb-6">
-                            <h3 className="font-[600] text-[22px] mb-1">THÔNG TIN GIAO HÀNG</h3>
-                            {user?.user_metadata?.addressDetail && (
-                                <div className="flex items-center justify-between text-[16px] border-b border-[#e1e1e1] py-2">
-                                    <div>
-                                        <p className="">{user?.user_metadata?.fullName}</p>
-                                        <p className="">{user?.user_metadata?.phoneNumber}</p>
-                                        <p className="">{user?.user_metadata?.address}</p>
-                                        <p className="">{user?.user_metadata?.addressDetail}</p>
-                                    </div>
-                                    <div>
-                                        <button
-                                            className="text-[18px] mr-3"
-                                            onClick={() => navigate('/my-account?section=dia_chi')}
-                                        >
-                                            <FaPen />
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
+                <Modal show={showModal} onShow={setShowModal} submit={handleSumit}>
+                    <h3>Bạn chắc chắn muốn đăt đơn hàng này ?</h3>
+                </Modal>
+                <ShippingInfo
+                    shippingAddresses={shippingAddresses}
+                    onShippingInfo={setShippingInfo}
+                    shippingInfo={shippingInfo}
+                />
+                <div className="flex flex-wrap justify-center gap-4 mt-8">
+                    <Button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(-1);
+                        }}
+                        disable={isCreating}
+                    >
+                        <div className="flex items-center justify-center gap-2">
+                            <FaArrowCircleLeft className="text-[25px]"></FaArrowCircleLeft>
+                            Quay lại giỏ hàng
                         </div>
-                        <h3 className="font-[600] text-[22px] mb-2 mt-5">PHƯƠNG THỨC THANH TOÁN</h3>
-                        <div className="flex flex-wrap justify-between">
-                            <div className="flex justify-between items-center border-solid border-2 border-main-color p-2 gap-3 md:col-span-5 w-[49%] cursor-pointer hover:bg-main-color hover:text-white">
-                                <FaTruckFast className="text-[45px] text-orange-400"></FaTruckFast>
-                                <p>
-                                    <input
-                                        type="text"
-                                        name="paymentMethod"
-                                        className="hidden"
-                                        defaultValue="thanh_toan_khi_nhan_hang"
-                                    />
-                                    <span className="font-[600] text-[16px]">Thanh toán khi nhận hàng </span>
-                                    <br />
-                                    <span className="text-[14px]">
-                                        Quý khách sẽ thanh toán bằng tiền mặt khi nhận hàng
-                                    </span>
-                                </p>
-                            </div>
-                            <div className="flex justify-between items-center border-solid border-2 p-2 gap-3 md:col-span-5 w-[49%] cursor-not-allowed opacity-80">
-                                <FaMoneyBill1Wave className="text-[45px] text-orange-400"></FaMoneyBill1Wave>
-                                <p>
-                                    <span className="font-[600] text-[16px]">Thanh toán chuyển khoản</span>
-                                    <br />
-                                    <span className="text-[14px]">
-                                        Thanh toán chuyển khoản qua số tài khoản ngân hàng
-                                    </span>
-                                </p>
-                            </div>
-                            <div className="md:col-span-5 w-[100%]">
-                                <input
-                                    className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black"
-                                    value={`Quý khách sẽ thanh toán bằng tiền mặt khi nhận hàng`}
-                                    type="text"
-                                    name="full_name"
-                                    id="full_name"
-                                    onChange={() => ''}
-                                />
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap justify-center gap-4 mt-2">
-                            <Button
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    // navigate(-1)
-                                }}
-                            >
-                                <div className="flex items-center justify-center gap-2">
-                                    <FaArrowCircleLeft className="text-[25px]"></FaArrowCircleLeft>
-                                    Tiếp tục mua hàng
-                                </div>
-                            </Button>
-                            <Button onClick={handleSumit}>HOÀN TẤT ĐƠN HÀNG</Button>
-                        </div>
-                    </>
-                )}
+                    </Button>
+                    <Button onClick={() => setShowModal(true)} disable={isCreating}>
+                        {isCreating ? 'Đang đặt đơn...' : 'Xác nhận đơn hàng'}
+                    </Button>
+                </div>
             </div>
 
             <div className="w-[31%]">
                 <h3 className="font-[600] text-[22px] mb-4">ĐƠN HÀNG CỦA BẠN</h3>
                 <div className="flex flex-col justify-center gap-3">
-                    {products.length === 0 ? (
-                        <h4>Chưa có sản phẩm</h4>
-                    ) : (
-                        products.map((prod, index) => <CardProdHorizontal key={index} product={prod} />)
-                    )}
+                    {shoppingCarts.map((cart, index) => (
+                        <CardProdHorizontal key={index} cart={cart} />
+                    ))}
                 </div>
-                {products.length !== 0 && (
-                    <>
-                        <div className="flex items-center gap-2 mt-2">
-                            <h6 className="font-[400] text-[20px]">TỔNG CỘNG:</h6>
-                            <h6 className="font-[600] text-main-color text-[30px]">{totalPrice}&#8363;</h6>
-                        </div>
-                        <span className="italic">Giá trên chưa bao gồm phí vận chuyển</span>
-                    </>
-                )}
+                <div className="flex items-center gap-2 mt-2">
+                    <h6 className="font-[400] text-[20px]">TỔNG CỘNG:</h6>
+                    <h6 className="font-[600] text-main-color text-[30px]">{totalPrice}&#8363;</h6>
+                </div>
+                <span className="italic">Giá trên chưa bao gồm phí vận chuyển, phí vận chuyển là 30.000đ</span>
             </div>
         </div>
     );

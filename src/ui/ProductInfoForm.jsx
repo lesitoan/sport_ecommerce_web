@@ -8,7 +8,6 @@ import Button from './Button';
 import Option from './Option';
 import { useUser } from '../hooks/authHook';
 import { useAddProductToCart } from '../hooks/productsHooks';
-import Spinner from './Spinner';
 
 const ProductInfoForm = ({ product }) => {
     const navigate = useNavigate();
@@ -54,7 +53,7 @@ const ProductInfoForm = ({ product }) => {
             navigate('/sign-in');
             return;
         }
-        addProductToCart({ userId: user.id, productId: product.id, quantity: 1, attributes: currAttributes });
+        addProductToCart({ userId: user.id, product, quantity: 1, attributes: currAttributes });
     };
 
     return (

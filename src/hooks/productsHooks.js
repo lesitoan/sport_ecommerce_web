@@ -7,6 +7,7 @@ import {
     addProductToCart as addProductToCartApi,
     getShoppingCartsByUserId,
     updateCartQuantityById as updateCartQuantityByIdApi,
+    deleteShoppingCartById as deleteShoppingCartByIdApi,
 } from '../services/productsApi';
 import { toast } from 'react-toastify';
 
@@ -121,6 +122,7 @@ export const UseUpdateCartQuantityById = () => {
     } = useMutation({
         mutationFn: updateCartQuantityByIdApi,
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['shoppingCarts'] });
             // queryClient.refetchQueries(['shoppingCarts'], { active: true, exact: true });
             toast.success('thay đổi số lượng thành công !', {
                 position: 'top-center',
@@ -135,4 +137,29 @@ export const UseUpdateCartQuantityById = () => {
     });
 
     return { updateCartQuantityById, isLoading, isSuccess };
+};
+
+export const UseDeleteShoppingCartById = () => {
+    const queryClient = useQueryClient();
+    const {
+        mutate: deleteShoppingCartById,
+        isPending: isLoading,
+        isSuccess,
+    } = useMutation({
+        mutationFn: deleteShoppingCartByIdApi,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['shoppingCarts'] });
+            // toast.success('thay đổi số lượng thành công !', {
+            //     position: 'top-center',
+            // });
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error('Xóa sản phẩm thất bại !', {
+                position: 'top-center',
+            });
+        },
+    });
+
+    return { deleteShoppingCartById, isLoading, isSuccess };
 };
