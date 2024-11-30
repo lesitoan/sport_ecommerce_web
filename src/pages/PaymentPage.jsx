@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import CardProdHorizontal from '../ui/CardProdHorizontal';
+import CartProdHorizontal from '../ui/CartProdHorizontal';
 import Button from '../ui/Button';
 import Spinner from '../ui/Spinner';
 
@@ -36,7 +36,7 @@ const PaymentPage = () => {
     };
 
     if (isSuccess) {
-        // navigate('/my-account?section=don_hang');
+        navigate('/my-account?section=don_hang');
     }
 
     if (addressesLoading || cartLoading)
@@ -92,7 +92,7 @@ const PaymentPage = () => {
                 <h3 className="font-[600] text-[22px] mb-4">ĐƠN HÀNG CỦA BẠN</h3>
                 <div className="flex flex-col justify-center gap-3">
                     {shoppingCarts.map((cart, index) => (
-                        <CardProdHorizontal key={index} cart={cart} />
+                        <CartProdHorizontal key={index} cart={cart} />
                     ))}
                 </div>
                 <div className="flex items-center gap-2 mt-2">

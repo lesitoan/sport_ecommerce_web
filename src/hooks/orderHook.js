@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createOrder as createOrderApi, getOrderDetails, getOrders } from '../services/orderApi';
+import { createOrder as createOrderApi, getOrderDetails, getOrdersByUserId } from '../services/orderApi';
 import { toast } from 'react-toastify';
 
 export const useCreateOrder = () => {
@@ -34,8 +34,8 @@ export const useGetOrderByUserId = (userId) => {
         data,
         error,
     } = useQuery({
-        queryKey: ['orders'],
-        queryFn: async () => await getOrders({ userId }),
+        queryKey: ['orders', userId],
+        queryFn: async () => await getOrdersByUserId({ userId }),
         // gcTime: 30 * 1000
     });
     if (isError) {

@@ -156,9 +156,7 @@ export const getShoppingCartsByUserId = async ({ userId }) => {
     console.log('userId: ', userId);
     const { data, error } = await supabase
         .from('shoppingCarts')
-        .select(
-            `*, products (productName, images (url)), selectedAttributes ( id, attributes (id, name, price, value))`,
-        )
+        .select(`*, products (productName, images (url)), selectedAttributes ( *, attributes (id, name, price, value))`)
         .eq('userId', userId)
         .order('id', { ascending: true });
 

@@ -3,35 +3,34 @@ import OrderDetail from './OrderDetails';
 import { useState } from 'react';
 
 const OrderRow = ({ order }) => {
-    const { id, created_at: orderDate, status, totalPrice } = order;
+    console.log(order);
+    const { id, createdAt, status, totalProductPrice, deliveryFee } = order;
     const [showDetal, setShowDetail] = useState(false);
 
-    if (!id) return null;
+    if (!id || !createdAt || !status || !totalProductPrice || !deliveryFee) return null;
 
     return (
         <>
-            <tr
-                className={`${!showDetal && 'bg-gray-300'} border-b-2 border-gray-200 hover:bg-gray-300 transition-all`}
-            >
+            <tr className={`${showDetal && 'bg-gray-300'} border-b-2 border-gray-200 hover:bg-gray-300 transition-all`}>
                 <td className="pl-3">
                     <span>{`#${id}`}</span>
                 </td>
                 <td className="pr-3 py-4 max-w-[100px]">
                     <span>
-                        {new Date(orderDate).getDate() +
+                        {new Date(createdAt).getDate() +
                             '/' +
-                            (new Date(orderDate).getMonth() + 1) +
+                            (new Date(createdAt).getMonth() + 1) +
                             '/' +
-                            new Date(orderDate).getFullYear()}
+                            new Date(createdAt).getFullYear()}
                     </span>
                 </td>
                 <td className="pr-3 py-4">
-                    <span className={`${status === 'đã nhận hàng' ? 'text-green-500' : 'text-yellow-400'} font-[500]`}>
-                        {status || 'Chờ nhận hàng'}
-                    </span>
+                    {status === 'pending' && <span className="text-yellow-600 font-[500]">Chờ xử lý</span>}
+                    {status === 'success' && <span className="text-green-600 font-[500]">Thành công</span>}
+                    {status === 'error' && <span className="text-red-600 font-[500]">Thất bại</span>}
                 </td>
                 <td className="pr-3 py-4">
-                    <span>{totalPrice}</span>
+                    <span>{Number(totalProductPrice) + Number(deliveryFee)}&#8363;</span>
                 </td>
                 <td className="py-4 cursor-pointer" onClick={() => setShowDetail((prevStatus) => !prevStatus)}>
                     <FaEllipsis />
@@ -43,8 +42,3 @@ const OrderRow = ({ order }) => {
 };
 
 export default OrderRow;
-
-// products: [
-//     { id: 147, productName: "Túi Đứng Kamito Cool 3.0", price: 20000, image: null, quantity: 2 },
-//     { id: 133, productName: "Áo Bóng Đá Đội Tuyển Bỉ Xanh Ngọc Loang Euro 2024-2025", price: 75000, image: null, qunatity: 1, size: "M", type: "hàng thun lạnh" }
-// ],
