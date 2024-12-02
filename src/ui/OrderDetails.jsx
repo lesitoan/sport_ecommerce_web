@@ -1,18 +1,18 @@
-import { useGetOrderDetailByOrderId } from '../hooks/orderHook';
+import { useGetCartsInOrder } from '../hooks/orderHook';
 import CartProdHorizontal from './CartProdHorizontal';
 
 const OrderDetail = ({ isShow, order }) => {
-    const { orderDetails } = useGetOrderDetailByOrderId(order.id);
-    console.log(orderDetails);
-    if (!orderDetails || orderDetails.length === 0) {
+    const { carts } = useGetCartsInOrder(order.id);
+    console.log(carts);
+    if (!carts || carts.length === 0) {
         return null;
     }
     return (
         <tr className={`border-b-2 border-gray-200 ${!isShow && 'hidden'}`}>
             <td className="px-3 py-4" colSpan={5}>
                 <ul className="flex flex-col">
-                    {orderDetails.map((orderDetail, index) => (
-                        <CartProdHorizontal cart={orderDetail} />
+                    {carts.map((cart, index) => (
+                        <CartProdHorizontal cart={cart} />
                     ))}
                     <li className="flex mb-1">
                         <span className="block font-[500] min-w-[200px]">Tên người nhận:</span>

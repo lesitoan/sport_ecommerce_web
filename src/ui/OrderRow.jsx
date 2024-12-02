@@ -3,7 +3,6 @@ import OrderDetail from './OrderDetails';
 import { useState } from 'react';
 
 const OrderRow = ({ order }) => {
-    console.log(order);
     const { id, createdAt, status, totalProductPrice, deliveryFee } = order;
     const [showDetal, setShowDetail] = useState(false);
 

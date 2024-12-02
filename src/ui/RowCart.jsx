@@ -1,25 +1,25 @@
 import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
-import { UseUpdateCartQuantityById, UseDeleteShoppingCartById } from '../hooks/productsHooks';
+import { useUpdateCartItem, UseDeleteShoppingCartById } from '../hooks/productsHooks';
 
-const RowCart = ({ cart }) => {
+const RowCart = ({ cart, shoppingCartData}) => {
     const id = cart?.id;
-    const productName = cart?.products?.productName;
-    const price = cart?.price || 0;
+    const productName = cart?.cartItemDetails[0]?.productDetails?.products?.productName;
+    const price = Number(cart?.price || 0);
     const quantity = cart?.quantity;
-    const attributes = cart?.selectedAttributes || [];
-    const image = cart?.products?.images[0]?.url || '/productImages/1.webp';
+    const attributes =  [];
+    const image = cart?.cartItemDetails[0]?.productDetails?.products?.images[0].url || '/productImages/1.webp';
 
     const [currQuantity, setCurrQuantity] = useState(quantity);
 
-    const { updateCartQuantityById } = UseUpdateCartQuantityById();
+    const { updateCartItem } = useUpdateCartItem();
     const { deleteShoppingCartById, isLoading: deleting } = UseDeleteShoppingCartById();
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (currQuantity !== quantity) {
-                updateCartQuantityById({ cartId: id, prevQuantity: quantity, currQuantity: currQuantity, price });
+                updateCartItem({ shoppingCartData, cartId: id, prevQuantity: quantity, currQuantity: currQuantity, price });
             }
         }, 1400);
         return () => clearTimeout(timer);
@@ -67,7 +67,7 @@ const RowCart = ({ cart }) => {
             <td className="py-4">
                 <button
                     className="flex gap-1 justify-center items-center bg-red-600 w-[80px] text-white py-[6px]  cursor-pointer rounded-md hover:bg-red-500"
-                    onClick={() => deleteShoppingCartById({ cartId: id })}
+                    onClick={() => deleteShoppingCartById({ cart, shoppingCartData, price })}
                     disabled={deleting}
                 >
                     <FaTrashAlt />

@@ -6,7 +6,7 @@ import Spinner from '../ui/Spinner';
 
 import { useUser } from '../hooks/authHook';
 import { useCreateOrder } from '../hooks/orderHook';
-import { useGetShoppingCartsByUserId } from '../hooks/productsHooks';
+import { UseGetShoppingCart } from '../hooks/productsHooks';
 import { useGetShippingAddresses } from '../hooks/addressHook';
 import ShippingInfo from '../ui/ShippingInfo';
 import { FaArrowCircleLeft } from 'react-icons/fa';
@@ -20,7 +20,10 @@ const PaymentPage = () => {
     const [shippingInfo, setShippingInfo] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
-    const { shoppingCarts, isLoading: cartLoading } = useGetShoppingCartsByUserId(user?.id);
+    const { shoppingCartData, isLoading: cartLoading } = UseGetShoppingCart(user?.id);
+    const cartItems = shoppingCartData?.cartItems || [];
+    console.log(shoppingCartData);
+
     const { shippingAddresses, isLoading: addressesLoading } = useGetShippingAddresses(user?.id);
 
     const { createOrder, isSuccess, isLoading: isCreating } = useCreateOrder();
@@ -32,12 +35,12 @@ const PaymentPage = () => {
             });
             return;
         }
-        createOrder({ shippingInfo, userId: user.id, shoppingCarts });
+        createOrder({ shippingInfo, userId: user.id, shoppingCartData });
     };
 
-    if (isSuccess) {
-        navigate('/my-account?section=don_hang');
-    }
+    // if (isSuccess) {
+    //     navigate('/my-account?section=don_hang');
+    // }
 
     if (addressesLoading || cartLoading)
         return (
@@ -45,7 +48,7 @@ const PaymentPage = () => {
                 <Spinner />
             </div>
         );
-    if (!shoppingCarts || shoppingCarts.length === 0)
+    if (!cartItems || cartItems.length === 0)
         return (
             <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">
                 <span>HÃY CHỌN SẢN PHẨM TRƯỚC KHI THANH TOÁN !</span>
@@ -54,8 +57,6 @@ const PaymentPage = () => {
                 </Link>
             </div>
         );
-
-    const totalPrice = shoppingCarts.reduce((total, cart) => total + cart?.price * cart?.quantity || 0, 0);
 
     return (
         <div className="flex justify-between min-h-[80vh] mt-10 mb-10">
@@ -91,13 +92,13 @@ const PaymentPage = () => {
             <div className="w-[31%]">
                 <h3 className="font-[600] text-[22px] mb-4">ĐƠN HÀNG CỦA BẠN</h3>
                 <div className="flex flex-col justify-center gap-3">
-                    {shoppingCarts.map((cart, index) => (
+                    {cartItems.map((cart, index) => (
                         <CartProdHorizontal key={index} cart={cart} />
                     ))}
                 </div>
                 <div className="flex items-center gap-2 mt-2">
                     <h6 className="font-[400] text-[20px]">TỔNG CỘNG:</h6>
-                    <h6 className="font-[600] text-main-color text-[30px]">{totalPrice}&#8363;</h6>
+                    <h6 className="font-[600] text-main-color text-[30px]">{shoppingCartData?.price}&#8363;</h6>
                 </div>
                 <span className="italic">Giá trên chưa bao gồm phí vận chuyển, phí vận chuyển là 30.000đ</span>
             </div>

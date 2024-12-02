@@ -25,6 +25,7 @@ const Option = ({ attributeType, handleSetAttributes, currentAttribute }) => {
                                     value: item?.value,
                                     price: item?.price,
                                     id: item?.id,
+                                    productDetailId: item?.productDetailId,
                                 },
                             });
                         }}

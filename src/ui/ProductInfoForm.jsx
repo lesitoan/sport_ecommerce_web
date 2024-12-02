@@ -8,8 +8,10 @@ import Button from './Button';
 import Option from './Option';
 import { useUser } from '../hooks/authHook';
 import { useAddProductToCart } from '../hooks/productsHooks';
+import Modal from './Modal';
 
 const ProductInfoForm = ({ product }) => {
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const [currAttributes, setCurrAttributes] = useState([]);
     const { user } = useUser();
@@ -53,11 +55,18 @@ const ProductInfoForm = ({ product }) => {
             navigate('/sign-in');
             return;
         }
-        addProductToCart({ userId: user.id, product, quantity: 1, attributes: currAttributes });
+        const price = Number(product?.price || 0) + currAttributes.reduce((total, attr) => total + Number(attr.data.price || 0), 0);
+        const productDetailIds = currAttributes.map((attr) => attr.data.productDetailId);
+        addProductToCart({ userId: user.id, price, productDetailIds });
     };
 
     return (
+        
         <div className="flex justify-between mb-10 mt-10">
+            <Modal show={showModal} onShow={setShowModal} submit={handleAddToShoppingCard}>
+                    <h3>Bạn chắc chắn muốn thêm vào giỏ hàng ? 
+                        <br/>sau khi thêm hãy đến giỏ hàng để thanh toán</h3>
+                </Modal>
             <div className="w-[30%]">
                 {/* thumnail */}
                 <img src={thumnail} alt="ảnh sản phẩm" />
@@ -92,7 +101,7 @@ const ProductInfoForm = ({ product }) => {
                     <Button>MUA NGAY</Button>
                     <Button
                         onClick={() => {
-                            handleAddToShoppingCard();
+                            setShowModal(true);
                         }}
                         disable={isLoading}
                     >

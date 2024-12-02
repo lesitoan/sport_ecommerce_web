@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createOrder as createOrderApi, getOrderDetails, getOrdersByUserId } from '../services/orderApi';
+import { createOrder as createOrderApi, getCartsInOrder, getOrdersByUserId } from '../services/orderApi';
 import { toast } from 'react-toastify';
 
 export const useCreateOrder = () => {
@@ -17,7 +17,7 @@ export const useCreateOrder = () => {
             });
         },
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['shoppingCarts'] });
+            queryClient.invalidateQueries({ queryKey: ['shoppingCart'] });
             toast.success(`Đặt hàng thành công !`, {
                 position: 'top-center',
             });
@@ -46,21 +46,20 @@ export const useGetOrderByUserId = (userId) => {
     return { isLoading, orders };
 };
 
-export const useGetOrderDetailByOrderId = (orderId) => {
+export const useGetCartsInOrder = (orderId) => {
     const {
         isPending: isLoading,
         isError,
-        data,
+        data: carts,
         error,
     } = useQuery({
-        queryKey: ['ordersDetails', orderId],
-        queryFn: async () => await getOrderDetails({ orderId }),
+        queryKey: ['ordersDetails'],
+        queryFn: async () => await getCartsInOrder({ orderId }),
         // gcTime: 30 * 1000
     });
     if (isError) {
         console.log('Error: ', error.message);
         throw new Error(error.message);
     }
-    const orderDetails = data?.orderDetails;
-    return { isLoading, orderDetails };
+    return { isLoading, carts };
 };

@@ -5,8 +5,8 @@ import {
     getProductBySlug,
     getProductsByCategory,
     addProductToCart as addProductToCartApi,
-    getShoppingCartsByUserId,
-    updateCartQuantityById as updateCartQuantityByIdApi,
+    getCartItemsByUserId,
+    updateCartItem as updateCartItemApi,
     deleteShoppingCartById as deleteShoppingCartByIdApi,
 } from '../services/productsApi';
 import { toast } from 'react-toastify';
@@ -95,34 +95,34 @@ export const useAddProductToCart = () => {
     return { addProductToCart, isLoading, isSuccess };
 };
 
-export const useGetShoppingCartsByUserId = (userId) => {
+export const UseGetShoppingCart = (userId) => {
     const {
         isPending: isLoading,
         isError,
-        data: shoppingCarts,
+        data: shoppingCartData,
         error,
     } = useQuery({
-        queryKey: ['shoppingCarts'],
-        queryFn: async () => await getShoppingCartsByUserId({ userId }),
+        queryKey: ['shoppingCart'],
+        queryFn: async () => await getCartItemsByUserId({ userId }),
         gcTime: 15 * 1000, // 15s
     });
     if (isError) {
-        console.log('useshoppingCarts: ', error.message);
+        console.log('cartItems: ', error.message);
         throw new Error(error.message);
     }
-    return { isLoading, shoppingCarts };
+    return { isLoading, shoppingCartData };
 };
 
-export const UseUpdateCartQuantityById = () => {
+export const useUpdateCartItem = () => {
     const queryClient = useQueryClient();
     const {
-        mutate: updateCartQuantityById,
+        mutate: updateCartItem,
         isPending: isLoading,
         isSuccess,
     } = useMutation({
-        mutationFn: updateCartQuantityByIdApi,
+        mutationFn: updateCartItemApi,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['shoppingCarts'] });
+            queryClient.invalidateQueries({ queryKey: ['shoppingCart'] });
             // queryClient.refetchQueries(['shoppingCarts'], { active: true, exact: true });
             toast.success('thay đổi số lượng thành công !', {
                 position: 'top-center',
@@ -136,7 +136,7 @@ export const UseUpdateCartQuantityById = () => {
         },
     });
 
-    return { updateCartQuantityById, isLoading, isSuccess };
+    return { updateCartItem, isLoading, isSuccess };
 };
 
 export const UseDeleteShoppingCartById = () => {
@@ -148,7 +148,7 @@ export const UseDeleteShoppingCartById = () => {
     } = useMutation({
         mutationFn: deleteShoppingCartByIdApi,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['shoppingCarts'] });
+            queryClient.invalidateQueries({ queryKey: ['shoppingCart'] });
             // toast.success('thay đổi số lượng thành công !', {
             //     position: 'top-center',
             // });

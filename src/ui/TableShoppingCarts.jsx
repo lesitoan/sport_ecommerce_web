@@ -2,20 +2,17 @@ import RowCart from './RowCart';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../hooks/authHook';
-import { useGetShoppingCartsByUserId } from '../hooks/productsHooks';
+import { UseGetShoppingCart } from '../hooks/productsHooks';
 import Spinner from './Spinner';
 
 const TableShoppingCarts = () => {
     const navigate = useNavigate();
     const { user } = useUser();
-    const { shoppingCarts, isLoading } = useGetShoppingCartsByUserId(user?.id);
+    const { shoppingCartData, isLoading } = UseGetShoppingCart(user?.id);
+    const cartItems = shoppingCartData?.cartItems || [];
 
-    if (shoppingCarts) {
-        console.log('shoppingCarts: ', shoppingCarts);
-    }
     if (isLoading) return <Spinner />;
-    if (!shoppingCarts || shoppingCarts.length === 0) return <h4>Chưa có sản phẩm</h4>;
-    const totalPrice = shoppingCarts.reduce((total, cart) => total + cart?.price * cart?.quantity || 0, 0);
+    if (!cartItems || cartItems.length === 0) return <h4>Chưa có sản phẩm</h4>;
 
     return (
         <div className="">
@@ -40,16 +37,16 @@ const TableShoppingCarts = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {shoppingCarts.map((cart, index) => (
-                        <RowCart key={index} cart={cart} />
+                    {cartItems.map((cart, index) => (
+                        <RowCart key={index} cart={cart} shoppingCartData={shoppingCartData} />
                     ))}
                 </tbody>
             </table>
-            {shoppingCarts.length !== 0 && (
+            {cartItems.length !== 0 && (
                 <>
                     <div className="flex items-center gap-2 mt-2">
                         <h6 className="font-[400] text-[20px]">TỔNG CỘNG:</h6>
-                        <h6 className="font-[600] text-main-color text-[30px]">{totalPrice}&#8363;</h6>
+                        <h6 className="font-[600] text-main-color text-[30px]">{shoppingCartData?.price || 0}&#8363;</h6>
                     </div>
                     <p className="italic">Giá trên chưa bao gồm phí vận chuyển</p>
                 </>

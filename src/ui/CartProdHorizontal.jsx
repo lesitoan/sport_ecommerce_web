@@ -1,10 +1,13 @@
 const CardProdHorizontal = ({ cart }) => {
-    const productName = cart?.products?.productName;
-    const price = cart?.price || 0;
+    const id = cart?.id;
+    const productName = cart?.cartItemDetails[0]?.productDetails?.products?.productName;
+    const price = Number(cart?.price || 0);
     const quantity = cart?.quantity;
-    const image = cart?.products?.images[0]?.url || '/productImages/1.webp';
-    const attributes = cart?.selectedAttributes || [];
+    const attributes =  [];
+    const image = cart?.cartItemDetails[0]?.productDetails?.products?.images[0].url || '/productImages/1.webp';
     if (!productName || !price || !quantity) return null;
+
+    
 
     return (
         <div className="flex gap-[3%] w-[100%] mb-2">
