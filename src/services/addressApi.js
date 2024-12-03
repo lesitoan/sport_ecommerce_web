@@ -5,6 +5,12 @@ export const addShippingAddressByUserId = async ({ userId, address }) => {
     province = 'Quảng Nam';
     district = 'Thăng Bình';
     ward = 'Bình Quế';
+    if(address?.wards) {
+        const newArrdess = address?.wards.split(', ');
+        province = newArrdess[2];
+        district = newArrdess[1];
+        ward = newArrdess[0];
+    }
 
     if (!province || !district || !ward || !userId || !addressDetail || !fullName || !phoneNumber) {
         throw new Error('không đủ thông tin, tạo địa chỉ thất bại !');

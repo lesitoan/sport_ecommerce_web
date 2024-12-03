@@ -5,7 +5,7 @@ import {
     getCurrentUser,
     logout as logoutApi,
     changePassword as changePasswordApi,
-    updateUser as updateUserApi,
+    // updateUser as updateUserApi,
 } from '../services/authApi';
 import { toast } from 'react-toastify';
 
@@ -113,25 +113,25 @@ export const useChangePassword = () => {
     return { changePassword, isLoading, isSuccess };
 };
 
-export const useUpdateUser = () => {
-    const {
-        mutate: updateUser,
-        isPending: isLoading,
-        isSuccess,
-    } = useMutation({
-        mutationFn: updateUserApi,
-        onSuccess: () => {
-            toast.success('Thay đổi địa chỉ giao hàng thành công !', {
-                position: 'top-center',
-            });
-        },
-        onError: (error) => {
-            console.log(error);
-            toast.error('Thay đổi địa chỉ thất bại !', {
-                position: 'top-center',
-            });
-        },
-    });
+// export const useUpdateUser = () => {
+//     const {
+//         mutate: updateUser,
+//         isPending: isLoading,
+//         isSuccess,
+//     } = useMutation({
+//         mutationFn: updateUserApi,
+//         onSuccess: () => {
+//             toast.success('Thay đổi địa chỉ giao hàng thành công !', {
+//                 position: 'top-center',
+//             });
+//         },
+//         onError: (error) => {
+//             console.log(error);
+//             toast.error('Thay đổi địa chỉ thất bại !', {
+//                 position: 'top-center',
+//             });
+//         },
+//     });
 
-    return { updateUser, isLoading, isSuccess };
-};
+//     return { updateUser, isLoading, isSuccess };
+// };

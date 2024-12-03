@@ -57,16 +57,16 @@ export const changePassword = async ({ newPassword }) => {
     if (error) throw new Error(error.message);
 };
 
-export const updateUser = async ({ addressOrder }) => {
-    const { fullName, phoneNumber, address, addressDetail } = addressOrder;
-    if (!fullName || !phoneNumber || !address || !addressDetail) return null;
-    const { error } = await supabase.auth.updateUser({
-        data: {
-            fullName,
-            phoneNumber,
-            address,
-            addressDetail,
-        },
-    });
-    if (error) throw new Error(error.message);
-};
+// export const updateUser = async ({ addressOrder }) => {
+//     const { fullName, phoneNumber, address, addressDetail } = addressOrder;
+//     if (!fullName || !phoneNumber || !address || !addressDetail) return null;
+//     const { error } = await supabase.auth.updateUser({
+//         data: {
+//             fullName,
+//             phoneNumber,
+//             address,
+//             addressDetail,
+//         },
+//     });
+//     if (error) throw new Error(error.message);
+// };
