@@ -70,7 +70,6 @@ const createCartItemDetails = async ({ cartItemId, productDetailIds }) => {
 }
 
 export const addProductToCart = async ({ userId, price, productDetailIds }) => {
-    const quantity = 1;
     if (!userId || !productDetailIds) return;
 
     // 1. check có giỏ hàng hay chưa, nếu chưa thì tạo mới, nếu có rồi thì cập nhật số lượng + 1
@@ -89,7 +88,7 @@ export const addProductToCart = async ({ userId, price, productDetailIds }) => {
     const cartItemData = await createCartItem({ shoppingCartId, price });
 
     // 3. tạo cartItemDetail
-    const cartItemDetailData = await createCartItemDetails({ cartItemId: cartItemData.id, productDetailIds });
+    await createCartItemDetails({ cartItemId: cartItemData.id, productDetailIds });
 };
 
 export const getCartItemsByUserId = async ({ userId }) => {

@@ -15,7 +15,7 @@ const Logout = () => {
             setUser(null);
             nagigate('/', { replace: true });
         }
-    }, [isSuccess]);
+    }, [isSuccess, nagigate, setUser]);
     
     return (
         <>

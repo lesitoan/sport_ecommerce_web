@@ -55,7 +55,7 @@ const AddressAndInfoForm = () => {
         watch,
     } = useForm();
     const [state, dispatch] = useReducer(reducer, { provinces: [], districts: [], wards: [] });
-    const { updateUser, isLoading } = useUpdateUser();
+    const { isLoading } = useUpdateUser();
     const { user } = useUser();
     const { addShippingAddressByUserId } = useAddShippingAddress();
 

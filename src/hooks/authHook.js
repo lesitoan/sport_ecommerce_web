@@ -65,7 +65,7 @@ export const useSignIn = () => {
 };
 
 export const useUser = () => {
-    const { isLoading, data: user, isError, error } = useQuery({
+    const { isLoading, data: user, isError } = useQuery({
         queryKey: ['user'],
         queryFn: getCurrentUser,
         retry: 1,

@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
     useEffect(() => {
         if (!user) navigate('/sign-in');
         if(user?.user_metadata?.role === 'admin') navigate('/admin');
-    }, [navigate]);
+    }, [navigate, user]);
 
     return children;
 };

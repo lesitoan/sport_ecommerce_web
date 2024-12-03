@@ -10,7 +10,7 @@ export const addShippingAddressByUserId = async ({ userId, address }) => {
         throw new Error('không đủ thông tin, tạo địa chỉ thất bại !');
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
         .from('shippingAddresses')
         .insert([
             {

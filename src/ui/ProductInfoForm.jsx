@@ -15,7 +15,7 @@ const ProductInfoForm = ({ product }) => {
     const navigate = useNavigate();
     const [currAttributes, setCurrAttributes] = useState([]);
     const { user } = useUser();
-    const { addProductToCart, isLoading, isSuccess } = useAddProductToCart();
+    const { addProductToCart, isLoading } = useAddProductToCart();
 
     const { attributes, productName, price, slug, images } = product;
     if (!attributes || !productName || !price || !slug || !images) return navigate('/');

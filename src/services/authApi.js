@@ -60,7 +60,7 @@ export const changePassword = async ({ newPassword }) => {
 export const updateUser = async ({ addressOrder }) => {
     const { fullName, phoneNumber, address, addressDetail } = addressOrder;
     if (!fullName || !phoneNumber || !address || !addressDetail) return null;
-    const { data, error } = await supabase.auth.updateUser({
+    const { error } = await supabase.auth.updateUser({
         data: {
             fullName,
             phoneNumber,

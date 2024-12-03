@@ -23,7 +23,7 @@ const RowCart = ({ cart, shoppingCartData}) => {
             }
         }, 1400);
         return () => clearTimeout(timer);
-    }, [currQuantity]);
+    }, [currQuantity, id, price, quantity, shoppingCartData, updateCartItem]);
 
     if (!id || !productName || !price || !quantity) return null;
 

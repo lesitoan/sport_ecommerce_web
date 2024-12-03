@@ -1,5 +1,5 @@
 const CardProdHorizontal = ({ cart }) => {
-    const id = cart?.id;
+    // const id = cart?.id;
     const productName = cart?.cartItemDetails[0]?.productDetails?.products?.productName;
     const price = Number(cart?.price || 0);
     const quantity = cart?.quantity;

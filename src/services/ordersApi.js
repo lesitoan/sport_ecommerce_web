@@ -49,12 +49,12 @@ export const createOrder = async ({ shippingInfo, userId, shoppingCartData }) =>
     if (!order?.id) return;
 
     // 5. update dữ liệu trong bảng cartItems
-    const cartItemIds = shoppingCartData.cartItems.map((cart) => ({
-        id: cart.id,
-        shoppingCartId: null,
-        orderDetailId: order?.id,
-    }));
-    const { data: cartItems, error: cartItemsError } = await supabase
+    // const cartItemIds = shoppingCartData.cartItems.map((cart) => ({
+    //     id: cart.id,
+    //     shoppingCartId: null,
+    //     orderDetailId: order?.id,
+    // }));
+    const { error: cartItemsError } = await supabase
         .from('cartItems')
         .update({ orderId: order.id, shoppingCartId: null })
         .eq('shoppingCartId', shoppingCartData.id);
@@ -63,7 +63,7 @@ export const createOrder = async ({ shippingInfo, userId, shoppingCartData }) =>
         throw new Error('có lỗi cập nhật cartItems !!!!!!!!!!');
     }
     // reset shoppingCartId
-    const { data: shoppingCart, error: shoppingCartError } = await supabase
+    await supabase
         .from('shoppingCarts')
         .update({ price: 0, quantity: 0 })
         .eq('id', shoppingCartData.id);

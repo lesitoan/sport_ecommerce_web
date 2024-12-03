@@ -17,7 +17,7 @@ const SignInForm = () => {
                 navigate(-1);
             }
         }
-    }, [user]);
+    }, [user,navigate]);
     const {
         register,
         handleSubmit,
