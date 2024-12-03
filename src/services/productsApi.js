@@ -65,8 +65,9 @@ export const getProductBySlug = async ({ slug }) => {
         throw new Error('getProductBySlug err:  ', error.message);
     }
     //get attributes
-    const attributes = await getAttributesByProductId({ id: product.id });
+    const {attributes, productDetailId} = await getAttributesByProductId({ id: product.id });
     if (attributes) product.attributes = attributes;
+    if (productDetailId) product.productDetailId = productDetailId;
     return product;
 };
 
@@ -79,7 +80,12 @@ const getAttributesByProductId = async ({ id }) => {
     if (error) {
         throw new Error('getAttributesByProductId err:  ', error.message);
     }
-    if (data.length === 0) return [];
+    if (!data || !data[0].attributes) return (
+        {
+            attributes: [],
+            productDetailId: data[0].id
+        }
+    );
     data = data.map((item) => {
         return {
             name: item.attributes.name,
@@ -106,7 +112,7 @@ const getAttributesByProductId = async ({ id }) => {
         }
     });
 
-    return attributes;
+    return {attributes};
 };
 
 const getShoppingCartByUserId = async ({ userId }) => {

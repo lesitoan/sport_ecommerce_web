@@ -7,6 +7,8 @@ import BoxProducts from '../ui/BoxProducts';
 const ProductDetailPage = () => {
     const { prodSlug } = useParams();
     const { isLoading, product } = useGetProductBySlug(prodSlug);
+    // const product = null;
+    // const isLoading = false;
 
     const { isLoading: isLoadingRelatedProducts, data: relatedProducts } = useGetProductsByCategory('ao_bong_da_clb');
     if (isLoading) {

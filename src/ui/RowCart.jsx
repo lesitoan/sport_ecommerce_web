@@ -34,9 +34,13 @@ const RowCart = ({ cart, shoppingCartData}) => {
             </td>
             <td className="pr-10 py-4 max-w-[100px]">
                 <h4>{productName}</h4>
-                <span className="italic text-[15px]">
-                    {attributes.map((attr) => `${attr?.name}: ${attr?.value}`).join(', ')}
-                </span>
+                <span className="italic mb-2 text-[15px]">{attributes.map((attr) => {
+                    if(attr) {
+                        return `${attr?.name}: ${attr?.value}`
+                    } else {
+                        return ''
+                    }
+                }).join(', ')}</span>
             </td>
             <td className="pr-2 py-4">
                 <div className="flex justify-start gap-2 items-center">

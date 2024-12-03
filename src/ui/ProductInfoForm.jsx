@@ -56,7 +56,12 @@ const ProductInfoForm = ({ product }) => {
             return;
         }
         const price = Number(product?.price || 0) + currAttributes.reduce((total, attr) => total + Number(attr.data.price || 0), 0);
-        const productDetailIds = currAttributes.map((attr) => attr.data.productDetailId);
+        let productDetailIds = [];
+        if(currAttributes.length > 0) {
+            productDetailIds = currAttributes.map((attr) => attr.data.productDetailId);
+        } else {
+            productDetailIds = [product.productDetailId];
+        }
         addProductToCart({ userId: user.id, price, productDetailIds });
     };
 
