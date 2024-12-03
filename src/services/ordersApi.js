@@ -1,9 +1,6 @@
 import supabase from '../config/supabase';
 
 export const createOrder = async ({ shippingInfo, userId, shoppingCartData }) => {
-    console.log(shippingInfo);
-    console.log(userId);
-    console.log(shoppingCartData);
 
     const { addressDetail, fullName, phoneNumber, district, province, ward } = shippingInfo?.shippingAddress;
     const address = `${ward} - ${district} - ${province}`;
@@ -26,7 +23,6 @@ export const createOrder = async ({ shippingInfo, userId, shoppingCartData }) =>
         shoppingCartData.cartItems.length === 0
     )
         return;
-    console.log('b1');
     // 1. tạo dữ liệu trong bảng orders
     const { data: order, error: orderError } = await supabase
         .from('orders')
@@ -46,10 +42,8 @@ export const createOrder = async ({ shippingInfo, userId, shoppingCartData }) =>
         ])
         .select()
         .single();
-    console.log('b2');
     // 2. nếu lỗi thì return
     if (orderError) {
-        console.log(orderError);
         throw new Error('có lỗi tạo đơn hàng !!!!!!!!!!');
     }
     if (!order?.id) return;
@@ -66,7 +60,6 @@ export const createOrder = async ({ shippingInfo, userId, shoppingCartData }) =>
         .eq('shoppingCartId', shoppingCartData.id);
     if (cartItemsError) {
         await supabase.from('orders').delete().eq('id', order.id);
-        console.log("cartItemsError: ", cartItemsError);
         throw new Error('có lỗi cập nhật cartItems !!!!!!!!!!');
     }
     // reset shoppingCartId
@@ -81,7 +74,6 @@ export const createOrder = async ({ shippingInfo, userId, shoppingCartData }) =>
 export const getOrdersByUserId = async ({ userId }) => {
     const { data: orders, error } = await supabase.from('orders').select('*').eq('userId', userId);
     if (error) {
-        console.log(error);
         throw new Error('có lỗi lấy đơn hàng !!!!!!!!!!');
     }
     return { orders };
@@ -96,7 +88,6 @@ export const getCartsInOrder = async ({ orderId }) => {
     .eq('orderId', orderId).order('id', { ascending: true });;
 
     if (cartItemsError) {
-        console.log('cartItemsError: ', cartItemsError.message);
         throw new Error('getAllShoppingCartItemsByUserId err:  ', cartItemsError.message);
     }
     return cartItems;

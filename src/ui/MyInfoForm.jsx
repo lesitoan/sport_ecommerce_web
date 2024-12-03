@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
-
-import { useUser } from '../hooks/authHook';
+import { useAuth } from '../context/AuthContext';
 
 const MyInfoForm = () => {
     const {
@@ -9,8 +8,8 @@ const MyInfoForm = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => console.log(data);
-    const { user } = useUser();
+    const onSubmit = (data) =>{return};
+    const { user } = useAuth();
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mb-5">

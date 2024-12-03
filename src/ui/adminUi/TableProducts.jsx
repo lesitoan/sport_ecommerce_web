@@ -7,7 +7,6 @@ const TableProducts = memo(() => {
     const handleShowDetails = (product) => {
         setSelectedProduct(product);
     };
-    console.log('aaa');
 
     return (
         <div className="overflow-x-auto">

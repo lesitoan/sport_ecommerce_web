@@ -1,4 +1,4 @@
-import CardProduct from './CardProduct';
+import CartProduct from './CartProduct';
 
 const BoxProducts = ({ products, categoryName, limit }) => {
     if (products.length === 0) return <div>KHÔNG CÓ SẢN PHẨM</div>;
@@ -8,7 +8,7 @@ const BoxProducts = ({ products, categoryName, limit }) => {
             {categoryName && <h3 className="font-[600] text-[30px] mb-2 uppercase">{categoryName}</h3>}
             <div className="w-[100%] flex justify-start flex-wrap xl:gap-[calc((var(--max-width-xl)-var(--card-width-xl)*4)/3)] 2xl:gap-[calc((var(--max-width-2xl)-var(--card-width-2xl)*5)/4)]">
                 {products.map((prod, index) => (
-                    <CardProduct product={prod} key={index} />
+                    <CartProduct product={prod} key={index} />
                 ))}
             </div>
         </div>

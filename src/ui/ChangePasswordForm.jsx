@@ -1,8 +1,7 @@
 import { useForm } from 'react-hook-form';
 
 import Button from './Button';
-import { useChangePassword, useLogout } from '../hooks/authHook';
-import { useEffect } from 'react';
+import { useChangePassword } from '../hooks/authHook';
 
 const ChangePasswordForm = () => {
     const {
@@ -11,16 +10,11 @@ const ChangePasswordForm = () => {
         formState: { errors },
         getValues,
     } = useForm();
-    const { changePassword, isLoading, isSuccess } = useChangePassword();
-    const { logout } = useLogout();
+    const { changePassword, isLoading } = useChangePassword();
+
     const onSubmit = (data) => {
-        console.log(data);
         changePassword({ newPassword: data.newPassword });
     };
-
-    useEffect(() => {
-        if (isSuccess) logout();
-    }, [isSuccess, logout]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

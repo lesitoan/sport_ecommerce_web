@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createOrder as createOrderApi, getCartsInOrder, getOrdersByUserId } from '../services/orderApi';
+import { createOrder as createOrderApi, getCartsInOrder, getOrdersByUserId } from '../services/ordersApi';
 import { toast } from 'react-toastify';
 
 export const useCreateOrder = () => {
@@ -11,7 +11,6 @@ export const useCreateOrder = () => {
     } = useMutation({
         mutationFn: createOrderApi,
         onError: (error) => {
-            console.log(error);
             toast.error('Có lỗi xảy ra khi đặt hàng !', {
                 position: 'top-center',
             });
@@ -39,7 +38,6 @@ export const useGetOrderByUserId = (userId) => {
         // gcTime: 30 * 1000
     });
     if (isError) {
-        console.log('Error: ', error.message);
         throw new Error(error.message);
     }
     const orders = data?.orders;
@@ -58,7 +56,6 @@ export const useGetCartsInOrder = (orderId) => {
         // gcTime: 30 * 1000
     });
     if (isError) {
-        console.log('Error: ', error.message);
         throw new Error(error.message);
     }
     return { isLoading, carts };

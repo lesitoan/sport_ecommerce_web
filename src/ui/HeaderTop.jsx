@@ -2,11 +2,13 @@ import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import createSlug from '../utils/createSlug';
-import { useUser } from '../hooks/authHook';
+import { useAuth } from '../context/AuthContext';
 
 const HeaderTop = () => {
     const navigate = useNavigate();
     const [findInput, setFindInput] = useState('');
+
+    const {user} = useAuth();
 
     const handleSubmitFindBtn = () => {
         if (findInput) {
@@ -16,7 +18,7 @@ const HeaderTop = () => {
         }
     };
     const ShoppingCardLength = JSON.parse(localStorage.getItem('shoppingCard') || '[]').length;
-    const { user } = useUser();
+
 
     return (
         <div className="flex justify-between items-center px-8 py-2">
@@ -27,7 +29,7 @@ const HeaderTop = () => {
                 <h5 className="hidden xl:inline-block">
                     Hotline: <span className="text-[red] font-[600]">012345347343 / 3246437432</span>
                 </h5>
-                <ul className="gap-2 hidden xl:flex">
+                <ul className="gap-2 hidden xxl:flex">
                     <li>Giới thiệu</li>
                     <li>Tin tức</li>
                     <li>Hệ thống</li>

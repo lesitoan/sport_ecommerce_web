@@ -1,9 +1,8 @@
-import { useGetCartsInOrder } from '../hooks/orderHook';
+import { useGetCartsInOrder } from '../hooks/ordersHook';
 import CartProdHorizontal from './CartProdHorizontal';
 
 const OrderDetail = ({ isShow, order }) => {
     const { carts } = useGetCartsInOrder(order.id);
-    console.log(carts);
     if (!carts || carts.length === 0) {
         return null;
     }
@@ -12,7 +11,7 @@ const OrderDetail = ({ isShow, order }) => {
             <td className="px-3 py-4" colSpan={5}>
                 <ul className="flex flex-col">
                     {carts.map((cart, index) => (
-                        <CartProdHorizontal cart={cart} />
+                        <CartProdHorizontal cart={cart} key={index}/>
                     ))}
                     <li className="flex mb-1">
                         <span className="block font-[500] min-w-[200px]">Tên người nhận:</span>

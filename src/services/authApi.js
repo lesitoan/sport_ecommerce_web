@@ -13,7 +13,6 @@ export const signUp = async ({ userName, email, password, passwordConfirm }) => 
         },
     });
     if (error) {
-        console.log(error);
         throw new Error(error.message);
     }
     return data;
@@ -25,21 +24,17 @@ export const signIn = async ({ email, password }) => {
         password,
     });
     if (error) {
-        console.log(error);
         throw new Error(error.message);
     }
     return data;
 };
 
 export const getCurrentUser = async () => {
-    console.log('getCurrentUser');
     const { data: session } = await supabase.auth.getSession();
-    console.log(session);
     if (!session) return null;
 
     const { data, error } = await supabase.auth.getUser();
     if (error) {
-        console.log(error);
         throw new Error(error.message);
     }
     return data?.user;
@@ -58,8 +53,6 @@ export const changePassword = async ({ newPassword }) => {
     //         userName: "TOANDZ123"
     //     }
     // })
-    // console.log(data)
-    console.log('changePw');
     const { error } = await supabase.auth.updateUser({ password: newPassword });
     if (error) throw new Error(error.message);
 };
@@ -76,5 +69,4 @@ export const updateUser = async ({ addressOrder }) => {
         },
     });
     if (error) throw new Error(error.message);
-    console.log(data);
 };

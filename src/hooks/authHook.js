@@ -8,7 +8,6 @@ import {
     updateUser as updateUserApi,
 } from '../services/authApi';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 
 export const useSignUp = () => {
     const {
@@ -61,31 +60,34 @@ export const useSignIn = () => {
             });
         },
     });
-    return { signIn, isLoading, isSuccess, data };
+    const isAdmin = data?.user?.user_metadata.role === 'admin';
+    return { signIn, isLoading, isSuccess, isAdmin, data };
 };
 
 export const useUser = () => {
-    const { isLoading, data: user } = useQuery({
+    const { isLoading, data: user, isError, error } = useQuery({
         queryKey: ['user'],
         queryFn: getCurrentUser,
         retry: 1,
     });
-
+    if(isError) {
+        console.log("Bạn chưa đăng nhập !!!")
+    }
     return { isLoading, user, isAuthenticated: user?.role === 'authenticated' };
 };
 
 export const useLogout = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const queryClient = useQueryClient();
-    const { mutate: logout, isPending: isLoading } = useMutation({
+    const { mutate: logout, isPending: isLoading, isSuccess } = useMutation({
         mutationFn: logoutApi,
         onSuccess: () => {
             queryClient.removeQueries(); // xóa catch
-            navigate('/', { replace: true });
+            // navigate('/', { replace: true });
         },
     });
 
-    return { logout, isLoading };
+    return { logout, isLoading, isSuccess};
 };
 
 export const useChangePassword = () => {

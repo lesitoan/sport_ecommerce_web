@@ -43,7 +43,6 @@ const reducer = (state, action) => {
                 throw new Error('Unkown');
         }
     } catch (err) {
-        console.log(err);
         return state;
     }
 };
@@ -61,12 +60,10 @@ const AddressAndInfoForm = () => {
     const { addShippingAddressByUserId } = useAddShippingAddress();
 
     const onSubmit = (data) => {
-        console.log(data);
         // const { fullName, phoneNumber, wards: address, addressDetail } = data;
         // updateUser({ addressOrder: { fullName, phoneNumber, address, addressDetail } });
         addShippingAddressByUserId({ userId: user?.id, address: data });
     };
-    console.log(isLoading);
 
     const startClickProvince = watch('fullName') ? true : false; //chỉ khi điền tên thì mới load api địa chỉ
     useEffect(() => {
@@ -132,7 +129,6 @@ const AddressAndInfoForm = () => {
                 {/* provinces */}
                 <div className="md:col-span-5 w-[31.5%]">
                     <select
-                        onChange={() => console.log('provinces')}
                         name="provinces"
                         disabled={isLoading}
                         className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"

@@ -44,7 +44,6 @@ const reducer = (state, action) => {
                 throw new Error('Unkown');
         }
     } catch (err) {
-        console.log(err);
         return state;
     }
 };
@@ -59,7 +58,7 @@ const PaymentForm = () => {
     } = useForm();
     const [state, dispatch] = useReducer(reducer, { provinces: [], districts: [], wards: [] });
 
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = (data) => {return};
 
     useEffect(() => {
         getLocation({ type: 'provinces', code: 0, _dispatch: dispatch });
@@ -120,7 +119,6 @@ const PaymentForm = () => {
                 {/* provinces */}
                 <div className="md:col-span-5 w-[31.5%]">
                     <select
-                        onChange={() => console.log('provinces')}
                         name="provinces"
                         className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
                         {...register('provinces', { required: 'TỈnh/thành phố không được để trống*' })}

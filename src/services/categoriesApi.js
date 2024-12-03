@@ -12,9 +12,7 @@ export async function getCategoryBySlug(slug) {
 export const getCategories = async () => {
     const { data: categories, error } = await supabase.from('categories').select('*');
     if (error) {
-        console.log(error.message);
         throw new Error('có lỗi !!!!!!!!!!');
     }
-    console.log(categories);
     return categories;
 };

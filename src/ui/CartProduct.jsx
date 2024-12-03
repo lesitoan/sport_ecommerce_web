@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const CardProduct = ({ product }) => {
+const CartProduct = ({ product }) => {
     let thumnail = '/productImages/1.webp';
     if (product?.images && product?.images.length > 0) {
         const img = product.images.find((img) => img.isThumbnail === true);
@@ -30,4 +30,4 @@ const CardProduct = ({ product }) => {
     );
 };
 
-export default CardProduct;
+export default CartProduct;

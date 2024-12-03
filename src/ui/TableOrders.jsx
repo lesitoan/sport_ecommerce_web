@@ -1,10 +1,10 @@
 import OrderRow from './OrderRow';
-import { useGetOrderByUserId } from '../hooks/orderHook';
+import { useGetOrderByUserId } from '../hooks/ordersHook';
 import Spinner from './Spinner';
-import { useUser } from '../hooks/authHook';
+import { useAuth } from '../context/AuthContext';
 
 const TableOrders = () => {
-    const { user } = useUser();
+    const { user } = useAuth();
     const { isLoading, orders } = useGetOrderByUserId(user?.id);
 
     if (!orders || orders?.length === 0) return <h4>Chưa có đơn hàng</h4>;

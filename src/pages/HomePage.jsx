@@ -23,7 +23,7 @@ const HomePage = () => {
                     <BoxProducts
                         products={aoBongDaCLB.products}
                         categoryName={aoBongDaCLB?.category?.categoryName}
-                        limit={5}
+                        limit={4}
                     />
                 )
             )}
@@ -34,7 +34,7 @@ const HomePage = () => {
                     <BoxProducts
                         products={aoBongDaTuyen.products}
                         categoryName={aoBongDaTuyen?.category?.categoryName}
-                        limit={5}
+                        limit={4}
                     />
                 )
             )}
@@ -45,7 +45,7 @@ const HomePage = () => {
                     <BoxProducts
                         products={giayBongDa.products}
                         categoryName={giayBongDa?.category?.categoryName}
-                        limit={5}
+                        limit={4}
                     />
                 )
             )}
@@ -56,7 +56,7 @@ const HomePage = () => {
                     <BoxProducts
                         products={phuKienBongDa.products}
                         categoryName={phuKienBongDa?.category?.categoryName}
-                        limit={5}
+                        limit={4}
                     />
                 )
             )}
@@ -67,7 +67,7 @@ const HomePage = () => {
                     <BoxProducts
                         products={quanAoBongChuyen.products}
                         categoryName={quanAoBongChuyen?.category?.categoryName}
-                        limit={5}
+                        limit={4}
                     />
                 )
             )}

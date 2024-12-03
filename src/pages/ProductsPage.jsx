@@ -7,7 +7,6 @@ import Spinner from '../ui/Spinner';
 const ProductPage = () => {
     const { categorySlug } = useParams();
     const { isLoading, data } = useGetProductsByCategory(categorySlug);
-    console.log(data);
     if (isLoading)
         return (
             <div className="h-[80vh] flex items-center justify-center">

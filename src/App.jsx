@@ -25,17 +25,20 @@ import ProductsAdmin from './pages/adminPage/ProductsAdmin';
 import UsersAdmin from './pages/adminPage/UsersAdmin';
 import AnalysisAdmin from './pages/adminPage/AnalysisAdmin';
 import OrdersAdmin from './pages/adminPage/OrdersAdmin';
+import AdminProtectedRoute from './ui/AdminProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 
 const queryClient = new QueryClient();
 
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
+            <AuthProvider>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<HomePage />} />
-                        <Route path="/category/:categorySlug" element={<ProductsPage />} />
+                        <Route path="category/:categorySlug" element={<ProductsPage />} />
                         <Route path="products/:prodSlug" element={<ProductDetailPage />} />
                         <Route path="find/:prodSlug" element={<FindProductsPage />} />
                         <Route path="sign-up" element={<SignUpPage />} />
@@ -55,7 +58,15 @@ function App() {
                         <Route path="payment" element={<PaymentPage />} />
                         <Route path="my-account" element={<AccountPage />} />
                     </Route>
-                    <Route path="/admin" element={<Nav />}>
+                        
+                    {/* admin router */}
+                    <Route 
+                    path="/admin" 
+                    element={
+                        <AdminProtectedRoute>
+                            <Nav />
+                        </AdminProtectedRoute>
+                    }>
                         <Route index element={<HomeAdmin />} />
                         <Route path="products" element={<ProductsAdmin />} />
                         <Route path="orders" element={<OrdersAdmin />} />
@@ -64,6 +75,7 @@ function App() {
                     </Route>
                 </Routes>
             </BrowserRouter>
+            </AuthProvider>
             <ReactQueryDevtools initialIsOpen={true} />
             <ToastContainer limit={3} autoClose={1000} />
         </QueryClientProvider>

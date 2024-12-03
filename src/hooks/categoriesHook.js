@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getCategories } from '../services/categoryApi';
+import { getCategories } from '../services/categoriesApi';
 
 export const useGetCategories = () => {
     const {
@@ -12,7 +12,6 @@ export const useGetCategories = () => {
         queryFn: getCategories,
     });
     if (isError) {
-        console.log('Error: ', error.message);
         throw new Error(error.message);
     }
     return [isLoading, categories];

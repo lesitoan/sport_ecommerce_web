@@ -1,6 +1,7 @@
-import { FaHome, FaShoppingCart } from 'react-icons/fa';
+import { FaHome, FaShoppingCart, FaSignOutAlt } from 'react-icons/fa';
 import { FaBox, FaChartBar, FaUser } from 'react-icons/fa6';
 import { Link, Outlet } from 'react-router-dom';
+import Logout from '../Logout';
 
 const Nav = () => {
     return (
@@ -29,6 +30,10 @@ const Nav = () => {
                     <li className="flex items-center px-4 py-2 mb-1 font-[500] cursor-pointer hover:text-black hover:bg-white transition-all">
                         <FaChartBar className="mr-2"></FaChartBar>
                         <Link to="analysis">Thống kê</Link>
+                    </li>
+                    <li className="flex gap-2 items-center px-4 py-2 mb-1 font-[500] cursor-pointer bg-red-600 rounded-sm hover:bg-red-500">
+                    <FaSignOutAlt />
+                    <Logout/>
                     </li>
                 </ul>
             </div>

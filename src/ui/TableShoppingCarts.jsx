@@ -1,13 +1,13 @@
 import RowCart from './RowCart';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../hooks/authHook';
-import { UseGetShoppingCart } from '../hooks/productsHooks';
+import { UseGetShoppingCart } from '../hooks/cartsHook';
 import Spinner from './Spinner';
+import { useAuth } from '../context/AuthContext';
 
 const TableShoppingCarts = () => {
     const navigate = useNavigate();
-    const { user } = useUser();
+    const { user } = useAuth();
     const { shoppingCartData, isLoading } = UseGetShoppingCart(user?.id);
     const cartItems = shoppingCartData?.cartItems || [];
 

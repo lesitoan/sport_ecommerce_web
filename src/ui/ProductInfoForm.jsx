@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import Button from './Button';
 import Option from './Option';
 import { useUser } from '../hooks/authHook';
-import { useAddProductToCart } from '../hooks/productsHooks';
+import { useAddProductToCart } from '../hooks/cartsHook';
 import Modal from './Modal';
 
 const ProductInfoForm = ({ product }) => {

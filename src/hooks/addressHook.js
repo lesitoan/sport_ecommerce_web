@@ -21,7 +21,6 @@ export const useAddShippingAddress = () => {
             });
         },
         onError: (error) => {
-            console.log(error);
             toast.error('Thêm địa chỉ thất bại !', {
                 position: 'top-center',
             });
@@ -43,7 +42,6 @@ export const useGetShippingAddresses = (userId) => {
         gcTime: 15 * 1000, // 15s
     });
     if (isError) {
-        console.log('useGetShippingAddress: ', error.message);
         throw new Error(error.message);
     }
     return { isLoading, shippingAddresses };
@@ -64,7 +62,6 @@ export const useDeleteShippingAddressById = () => {
             });
         },
         onError: (error) => {
-            console.log(error);
             toast.error('Xóa địa chỉ thất bại !', {
                 position: 'top-center',
             });

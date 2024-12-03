@@ -135,7 +135,7 @@ const SignUpForm = () => {
                     <FaMinus />
                     <span className="italic">
                         Quên mật khẩu:
-                        <p clpssName="text-blue-600 font-[500] hover:underline"> reset password</p>
+                        <p className="text-blue-600 font-[500] hover:underline"> reset password</p>
                     </span>
                 </div>
             </div>

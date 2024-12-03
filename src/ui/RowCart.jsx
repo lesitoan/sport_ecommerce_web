@@ -1,14 +1,14 @@
 import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
-import { useUpdateCartItem, UseDeleteShoppingCartById } from '../hooks/productsHooks';
+import { useUpdateCartItem, UseDeleteShoppingCartById } from '../hooks/cartsHook';
 
 const RowCart = ({ cart, shoppingCartData}) => {
     const id = cart?.id;
     const productName = cart?.cartItemDetails[0]?.productDetails?.products?.productName;
     const price = Number(cart?.price || 0);
     const quantity = cart?.quantity;
-    const attributes =  [];
+    const attributes = cart?.cartItemDetails.map((item) => item.productDetails?.attributes);
     const image = cart?.cartItemDetails[0]?.productDetails?.products?.images[0].url || '/productImages/1.webp';
 
     const [currQuantity, setCurrQuantity] = useState(quantity);
@@ -35,7 +35,7 @@ const RowCart = ({ cart, shoppingCartData}) => {
             <td className="pr-10 py-4 max-w-[100px]">
                 <h4>{productName}</h4>
                 <span className="italic text-[15px]">
-                    {attributes.map((attr) => `${attr?.attributes.name}: ${attr?.attributes.value}`).join(', ')}
+                    {attributes.map((attr) => `${attr?.name}: ${attr?.value}`).join(', ')}
                 </span>
             </td>
             <td className="pr-2 py-4">

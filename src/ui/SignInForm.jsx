@@ -2,27 +2,32 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaFacebook, FaGoogle, FaMinus } from 'react-icons/fa';
 import Button from './Button';
 import { useForm } from 'react-hook-form';
-import { useSignIn } from '../hooks/authHook';
+import { useAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
 
 const SignInForm = () => {
     const navigate = useNavigate();
+    const {user, signin, siginInLoading} = useAuth();
+    
+    useEffect(() => {
+        if(user) {
+            if(user?.user_metadata?.role === 'admin') {
+                navigate('/admin', {replace: true});
+            } else {
+                navigate(-1);
+            }
+        }
+    }, [user]);
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const { signIn, isLoading, isSuccess } = useSignIn();
+
     const onSubmit = (data) => {
         const { email, password } = data;
-        signIn({ email, password });
+        signin(email, password );
     };
-
-    useEffect(() => {
-        if (isSuccess) {
-            navigate('/');
-        }
-    }, [isSuccess, navigate]);
 
     return (
         <div className="flex justify-center">
@@ -37,7 +42,7 @@ const SignInForm = () => {
                                 placeholder="user@gmail.com *"
                                 type="email"
                                 name="email"
-                                disabled={isLoading}
+                                disabled={siginInLoading}
                                 {...register('email', {
                                     required: 'email không được để trống',
                                     pattern: { value: /\S+@\S+\.\S+/, message: 'email không hợp lệ' },
@@ -56,7 +61,7 @@ const SignInForm = () => {
                                 placeholder="**********"
                                 type="password"
                                 name="password"
-                                disabled={isLoading}
+                                disabled={siginInLoading}
                                 {...register('password', {
                                     required: 'Mật khẩu không được để trống',
                                     // pattern: { value: /^[^\s]*$/, message: "Mật khẩu không hợp lệ" },
@@ -68,7 +73,7 @@ const SignInForm = () => {
                             )}
                         </div>
                     </div>
-                    <Button disable={isLoading}>{!isLoading ? 'Đăng nhập' : 'Đang đăng nhập...'}</Button>
+                    <Button disable={siginInLoading}>{!siginInLoading ? 'Đăng nhập' : 'Đang đăng nhập...'}</Button>
                 </form>
                 <div className="flex gap-2 items-center justify-center mt-4 text-[16px]">
                     <span className="italic">Đăng nhập bằng: </span>
@@ -85,7 +90,7 @@ const SignInForm = () => {
                     <FaMinus />
                     <span className="italic">
                         Quên mật khẩu:
-                        <p clpssName="text-blue-600 font-[500] hover:underline "> reset password</p>
+                        <p className="text-blue-600 font-[500] hover:underline "> reset password</p>
                     </span>
                 </div>
             </div>

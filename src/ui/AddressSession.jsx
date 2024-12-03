@@ -1,10 +1,10 @@
 import AddressAndInfoForm from './AddressAndInfoForm';
 import { useState } from 'react';
-import { useUser } from '../hooks/authHook';
 import { useDeleteShippingAddressById, useGetShippingAddresses } from '../hooks/addressHook';
 import Spinner from './Spinner';
 import Button from './Button';
 import { FaTrashAlt } from 'react-icons/fa';
+import { useAuth } from '../context/AuthContext';
 
 // const fakeAddress = {
 //     fullName: "Le Si Toan 1",
@@ -15,7 +15,7 @@ import { FaTrashAlt } from 'react-icons/fa';
 
 const AddresssSession = () => {
     const [showEditForm, setShowEditForm] = useState(false);
-    const { user } = useUser();
+    const { user } = useAuth();
     const { shippingAddresses, isLoading: addressesLoading } = useGetShippingAddresses(user?.id);
     const { deleteShippingAddressById, isLoading } = useDeleteShippingAddressById();
 

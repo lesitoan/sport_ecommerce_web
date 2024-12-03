@@ -1,7 +1,7 @@
 import { FaBox, FaUser } from 'react-icons/fa';
 import { FaMoneyBillTransfer } from 'react-icons/fa6';
 
-const StatsCards = () => {
+const StatsCarts = () => {
     return (
         <div className="flex justify-between text-[18px] text-white uppercase">
             <div className="flex justify-between items-center px-5 py-2 w-[30%] min-h-[100px] bg-orange-600">
@@ -29,4 +29,4 @@ const StatsCards = () => {
     );
 };
 
-export default StatsCards;
+export default StatsCarts;

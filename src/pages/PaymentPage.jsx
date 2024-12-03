@@ -1,28 +1,27 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { FaArrowCircleLeft } from 'react-icons/fa';
 
 import CartProdHorizontal from '../ui/CartProdHorizontal';
 import Button from '../ui/Button';
 import Spinner from '../ui/Spinner';
 
-import { useUser } from '../hooks/authHook';
-import { useCreateOrder } from '../hooks/orderHook';
-import { UseGetShoppingCart } from '../hooks/productsHooks';
+import { useCreateOrder } from '../hooks/ordersHook';
+import { UseGetShoppingCart } from '../hooks/cartsHook';
 import { useGetShippingAddresses } from '../hooks/addressHook';
 import ShippingInfo from '../ui/ShippingInfo';
-import { FaArrowCircleLeft } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Modal from '../ui/Modal';
+import { useAuth } from '../context/AuthContext';
 
 const PaymentPage = () => {
     const navigate = useNavigate();
-    const { user } = useUser();
+    const { user } = useAuth();
     const [shippingInfo, setShippingInfo] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
     const { shoppingCartData, isLoading: cartLoading } = UseGetShoppingCart(user?.id);
     const cartItems = shoppingCartData?.cartItems || [];
-    console.log(shoppingCartData);
 
     const { shippingAddresses, isLoading: addressesLoading } = useGetShippingAddresses(user?.id);
 
@@ -38,9 +37,9 @@ const PaymentPage = () => {
         createOrder({ shippingInfo, userId: user.id, shoppingCartData });
     };
 
-    // if (isSuccess) {
-    //     navigate('/my-account?section=don_hang');
-    // }
+    if (isSuccess) {
+        navigate('/my-account?section=don_hang');
+    }
 
     if (addressesLoading || cartLoading)
         return (

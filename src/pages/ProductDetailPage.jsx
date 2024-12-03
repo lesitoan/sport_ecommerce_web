@@ -63,7 +63,7 @@ const ProductDetailPage = () => {
                 <Spinner />
             ) : (
                 relatedProducts?.products && (
-                    <BoxProducts products={relatedProducts.products} categoryName={'Sản phẩm liên quan'} limit={5} />
+                    <BoxProducts products={relatedProducts.products} categoryName={'Sản phẩm liên quan'} limit={4} />
                 )
             )}
         </div>

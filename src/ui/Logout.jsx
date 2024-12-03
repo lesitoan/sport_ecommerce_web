@@ -1,20 +1,27 @@
-import { useState } from 'react';
-import { useLogout } from '../hooks/authHook';
+import { useEffect, useState } from 'react';
 import Modal from './Modal';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useLogout } from '../hooks/authHook';
 
 const Logout = () => {
+    const nagigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-    const { logout, isLoading } = useLogout();
+    const { logout, isLoading, isSuccess } = useLogout();
+    const { setUser } = useAuth();
 
-    const handleClickLogout = () => {
-        setShowModal(true);
-    };
-
+    useEffect(() => {
+        if(isSuccess) {
+            setUser(null);
+            nagigate('/', { replace: true });
+        }
+    }, [isSuccess]);
+    
     return (
         <>
             <div
                 // className={`${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'} flex justify-center items-center bg-main-color text-white px-3 py-[10px] rounded-md`}
-                onClick={handleClickLogout}
+                onClick={() => setShowModal(true)}
             >
                 <span>{isLoading ? 'Đang đăng xuất' : 'Đăng xuất'}</span>
             </div>
