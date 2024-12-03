@@ -44,9 +44,7 @@
     "vite": "^5.4.9",
     "vite-plugin-eslint": "^1.8.1"
   },
-  "pnpm": {
-    "overrides": {
-      "rollup": "npm:@rollup/wasm-node"
-    }
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.9.5"
   }
 }
