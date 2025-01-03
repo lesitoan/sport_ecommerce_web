@@ -5,29 +5,24 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const { signIn, isLoading: siginInLoading, isSuccess, data } = useSignIn();
-    const {user: currentUser} = useUser();
+    const { signIn, isLoading: siginLoading, isSuccess, user: userAPi } = useSignIn();
 
     const signin = async (email, password) => {
         await signIn({ email, password });
-        if(isSuccess && data) {
-            setUser(data.user);
+        if (isSuccess && userAPi) {
+            setUser(userAPi);
         }
     };
-    
+
     useEffect(() => {
- if(currentUser) {
-        setUser(currentUser);
+        if (userAPi) {
+            setUser(userAPi);
         } else {
             setUser(null);
         }
-    }, [isSuccess, data, currentUser]);
+    }, [isSuccess, userAPi]);
 
-    return (
-        <AuthContext.Provider value={{ user,setUser, signin, siginInLoading}}>
-            {children}
-            </AuthContext.Provider>
-    )
+    return <AuthContext.Provider value={{ user, setUser, signin, siginLoading }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
@@ -36,4 +31,4 @@ export const useAuth = () => {
         throw new Error('useAuth must be used within a AuthProvider');
     }
     return context;
-}
+};

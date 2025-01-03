@@ -1,44 +1,71 @@
+import axios from 'axios';
 import supabase from '../config/supabase';
 
-export const signUp = async ({ userName, email, password, passwordConfirm }) => {
-    if (password !== passwordConfirm) return;
+const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true, // Tự động gửi cookie trong mọi yêu cầu
+});
 
-    const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-            data: {
-                userName,
-            },
-        },
-    });
-    if (error) {
-        throw new Error(error.message);
+export const signUp = async ({ userName, email, password, passwordConfirm }) => {
+    try {
+        if (password !== passwordConfirm) return;
+        const res = await axiosInstance.post('/auth/signup', {
+            userName,
+            email,
+            password,
+            passwordConfirm,
+        });
+        return res.data;
+    } catch (error) {
+        if (error.status === 500) {
+            throw new Error('Hiện tại có lỗi xảy ra, vui lòng thử lại sau !');
+        } else {
+            throw new Error('Tạo tài khoản thất bại');
+        }
     }
-    return data;
 };
 
 export const signIn = async ({ email, password }) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-    });
-    if (error) {
-        throw new Error(error.message);
+    try {
+        if (!email || !password) return;
+        const res = await axiosInstance.post('/auth/signin', {
+            email,
+            password,
+        });
+        return res.data;
+    } catch (error) {
+        if (error.status === 500) {
+            throw new Error('Hiện tại có lỗi xảy ra, vui lòng thử lại sau !');
+        } else {
+            throw new Error('Đăng nhập thất bại');
+        }
     }
-    return data;
 };
 
 export const getCurrentUser = async () => {
-    const { data: session } = await supabase.auth.getSession();
-    if (!session) return null;
-
-    const { data, error } = await supabase.auth.getUser();
-    if (error) {
-        throw new Error(error.message);
+    try {
+        const res = await axiosInstance.get('/orders');
+        console.log(res);
+        return res.data;
+    } catch (error) {
+        if (error.status === 500) {
+            throw new Error('Hiện tại có lỗi xảy ra, vui lòng thử lại sau !');
+        } else {
+            throw new Error('Đăng nhập thất bại');
+        }
     }
-    return data?.user;
 };
+
+// export const getCurrentUser = async () => {
+//     const { data: session } = await supabase.auth.getSession();
+//     if (!session) return null;
+
+//     const { data, error } = await supabase.auth.getUser();
+//     if (error) {
+//         throw new Error(error.message);
+//     }
+//     return data?.user;
+// };
 
 export const logout = async () => {
     const { error } = await supabase.auth.signOut();

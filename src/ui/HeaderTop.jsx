@@ -8,7 +8,7 @@ const HeaderTop = () => {
     const navigate = useNavigate();
     const [findInput, setFindInput] = useState('');
 
-    const {user} = useAuth();
+    const { user } = useAuth();
 
     const handleSubmitFindBtn = () => {
         if (findInput) {
@@ -18,7 +18,6 @@ const HeaderTop = () => {
         }
     };
     const ShoppingCardLength = JSON.parse(localStorage.getItem('shoppingCard') || '[]').length;
-
 
     return (
         <div className="flex justify-between items-center px-8 py-2">
@@ -73,7 +72,7 @@ const HeaderTop = () => {
                 {user ? (
                     <div className="flex gap-[2px] justify-center items-center">
                         <div className="flex justify-center items-center bg-main-color text-white px-3 py-[10px] rounded-md cursor-pointer">
-                            <Link to={'my-account'}>{user?.user_metadata?.userName || 'Không xác định'}</Link>
+                            <Link to={'my-account'}>{user?.userName || 'Không xác định'}</Link>
                         </div>
                     </div>
                 ) : (

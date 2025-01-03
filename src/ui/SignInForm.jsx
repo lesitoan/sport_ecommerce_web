@@ -7,17 +7,18 @@ import { useEffect } from 'react';
 
 const SignInForm = () => {
     const navigate = useNavigate();
-    const {user, signin, siginInLoading} = useAuth();
-    
+    const { user, signin, siginLoading } = useAuth();
+
     useEffect(() => {
-        if(user) {
-            if(user?.user_metadata?.role === 'admin') {
-                navigate('/admin', {replace: true});
+        if (user) {
+            if (user?.role === 'admin') {
+                navigate('/admin', { replace: true });
             } else {
                 navigate(-1);
             }
         }
-    }, [user,navigate]);
+    }, [user, navigate]);
+
     const {
         register,
         handleSubmit,
@@ -26,7 +27,7 @@ const SignInForm = () => {
 
     const onSubmit = (data) => {
         const { email, password } = data;
-        signin(email, password );
+        signin(email, password);
     };
 
     return (
@@ -42,7 +43,7 @@ const SignInForm = () => {
                                 placeholder="user@gmail.com *"
                                 type="email"
                                 name="email"
-                                disabled={siginInLoading}
+                                disabled={siginLoading}
                                 {...register('email', {
                                     required: 'email không được để trống',
                                     pattern: { value: /\S+@\S+\.\S+/, message: 'email không hợp lệ' },
@@ -61,7 +62,7 @@ const SignInForm = () => {
                                 placeholder="**********"
                                 type="password"
                                 name="password"
-                                disabled={siginInLoading}
+                                disabled={siginLoading}
                                 {...register('password', {
                                     required: 'Mật khẩu không được để trống',
                                     // pattern: { value: /^[^\s]*$/, message: "Mật khẩu không hợp lệ" },
@@ -73,7 +74,7 @@ const SignInForm = () => {
                             )}
                         </div>
                     </div>
-                    <Button disable={siginInLoading}>{!siginInLoading ? 'Đăng nhập' : 'Đang đăng nhập...'}</Button>
+                    <Button disable={siginLoading}>{!siginLoading ? 'Đăng nhập' : 'Đang đăng nhập...'}</Button>
                 </form>
                 <div className="flex gap-2 items-center justify-center mt-4 text-[16px]">
                     <span className="italic">Đăng nhập bằng: </span>

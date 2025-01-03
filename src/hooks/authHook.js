@@ -18,12 +18,12 @@ export const useSignUp = () => {
         mutationFn: signUpApi,
         onError: (error) => {
             console.log(error);
-            toast.error('userName, email trùng lặp hoặc có lỗi xảy ra, vui lòng thử lại !', {
+            toast.error(error.message, {
                 position: 'top-center',
             });
         },
-        onSuccess: (data) => {
-            toast.success(`Đăng kí tài khoản ${data?.user?.user_metadata?.userName} thành công !`, {
+        onSuccess: () => {
+            toast.success(`Đăng kí tài khoản thành công !`, {
                 position: 'top-center',
             });
         },
@@ -42,36 +42,36 @@ export const useSignIn = () => {
         mutationFn: signInApi,
         onError: (error) => {
             console.log(error);
-            toast.error('email hoặc mật khẩu không chính xác !', {
+            toast.error(error.message, {
                 position: 'top-center',
             });
         },
         onSuccess: (data) => {
-            console.log(data);
-            queryClient.setQueryData(['user'], data.user);
-            // const accessToken = data?.session?.access_token;
-            // const refreshToken = data?.session?.refresh_token;
-            // const userId = data?.user?.id;
-            // localStorage.setItem("actk", accessToken);
-            // localStorage.setItem("retk", refreshToken);
-            // localStorage.setItem("userId", userId);
+            queryClient.setQueryData(['user'], data?.data?.user);
+
+            // localStorage.setItem('actk', data?.data?.accessToken);
+            // localStorage.setItem('retk', data?.data?.refreshToken);
+
             toast.success(`Đăng nhập thành công !`, {
                 position: 'top-center',
             });
         },
     });
-    const isAdmin = data?.user?.user_metadata.role === 'admin';
-    return { signIn, isLoading, isSuccess, isAdmin, data };
+    return { signIn, isLoading, isSuccess, user: data?.data?.user };
 };
 
 export const useUser = () => {
-    const { isLoading, data: user, isError } = useQuery({
+    const {
+        isLoading,
+        data: user,
+        isError,
+    } = useQuery({
         queryKey: ['user'],
         queryFn: getCurrentUser,
         retry: 1,
     });
-    if(isError) {
-        console.log("Bạn chưa đăng nhập !!!")
+    if (isError) {
+        console.log('Bạn chưa đăng nhập !!!');
     }
     return { isLoading, user, isAuthenticated: user?.role === 'authenticated' };
 };
@@ -79,7 +79,11 @@ export const useUser = () => {
 export const useLogout = () => {
     // const navigate = useNavigate();
     const queryClient = useQueryClient();
-    const { mutate: logout, isPending: isLoading, isSuccess } = useMutation({
+    const {
+        mutate: logout,
+        isPending: isLoading,
+        isSuccess,
+    } = useMutation({
         mutationFn: logoutApi,
         onSuccess: () => {
             queryClient.removeQueries(); // xóa catch
@@ -87,7 +91,7 @@ export const useLogout = () => {
         },
     });
 
-    return { logout, isLoading, isSuccess};
+    return { logout, isLoading, isSuccess };
 };
 
 export const useChangePassword = () => {
