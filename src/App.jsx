@@ -47,6 +47,7 @@ function App() {
                     </Route>
 
                     {/* auth router */}
+                    
                     <Route
                         path="/"
                         element={
