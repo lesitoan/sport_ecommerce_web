@@ -2,8 +2,6 @@ import SlideShowImage from '../ui/SlideShowImage';
 import { useGetProductsByCategory } from '../hooks/productsHooks';
 import BoxProducts from '../ui/BoxProducts';
 import Spinner from '../ui/Spinner';
-import { useEffect } from 'react';
-import { getCurrentUser } from '../services/authApi';
 
 const HomePage = () => {
     const { isLoading: aoBongDaCLBLoading, data: aoBongDaCLB } = useGetProductsByCategory('ao_bong_da_clb');
@@ -12,12 +10,6 @@ const HomePage = () => {
     const { isLoading: phuKienBongDaLoading, data: phuKienBongDa } = useGetProductsByCategory('phu_kien_bong_da');
     const { isLoading: quanAoBongChuyenLoading, data: quanAoBongChuyen } =
         useGetProductsByCategory('quan_ao_bong_chuyen');
-
-    useEffect(() => {
-        (async () => {
-            await getCurrentUser();
-        })();
-    }, []);
 
     return (
         <>

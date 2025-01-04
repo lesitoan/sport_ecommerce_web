@@ -49,9 +49,6 @@ export const useSignIn = () => {
         onSuccess: (data) => {
             queryClient.setQueryData(['user'], data?.data?.user);
 
-            // localStorage.setItem('actk', data?.data?.accessToken);
-            // localStorage.setItem('retk', data?.data?.refreshToken);
-
             toast.success(`Đăng nhập thành công !`, {
                 position: 'top-center',
             });
@@ -61,19 +58,16 @@ export const useSignIn = () => {
 };
 
 export const useUser = () => {
-    const {
-        isLoading,
-        data: user,
-        isError,
-    } = useQuery({
+    const { isLoading, data, error } = useQuery({
         queryKey: ['user'],
         queryFn: getCurrentUser,
         retry: 1,
     });
-    if (isError) {
-        console.log('Bạn chưa đăng nhập !!!');
+    if (error) {
+        return { isLoading, user: null };
     }
-    return { isLoading, user, isAuthenticated: user?.role === 'authenticated' };
+    const user = data?.data?.user;
+    return { isLoading, user };
 };
 
 export const useLogout = () => {

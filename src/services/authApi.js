@@ -1,10 +1,6 @@
-import axios from 'axios';
+import axiosInstance from '../config/axios';
 import supabase from '../config/supabase';
-
-const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    withCredentials: true, // Tự động gửi cookie trong mọi yêu cầu
-});
+import { handleError } from '../utils/handleError';
 
 export const signUp = async ({ userName, email, password, passwordConfirm }) => {
     try {
@@ -17,11 +13,7 @@ export const signUp = async ({ userName, email, password, passwordConfirm }) => 
         });
         return res.data;
     } catch (error) {
-        if (error.status === 500) {
-            throw new Error('Hiện tại có lỗi xảy ra, vui lòng thử lại sau !');
-        } else {
-            throw new Error('Tạo tài khoản thất bại');
-        }
+        handleError(error, 'Tạo tài khoản thất bại');
     }
 };
 
@@ -34,43 +26,27 @@ export const signIn = async ({ email, password }) => {
         });
         return res.data;
     } catch (error) {
-        if (error.status === 500) {
-            throw new Error('Hiện tại có lỗi xảy ra, vui lòng thử lại sau !');
-        } else {
-            throw new Error('Đăng nhập thất bại');
-        }
+        handleError(error, 'Đăng nhập thất bại');
     }
 };
 
 export const getCurrentUser = async () => {
     try {
-        const res = await axiosInstance.get('/orders');
-        console.log(res);
+        const res = await axiosInstance.get('/auth/me');
+        console.log(res.data);
         return res.data;
     } catch (error) {
-        if (error.status === 500) {
-            throw new Error('Hiện tại có lỗi xảy ra, vui lòng thử lại sau !');
-        } else {
-            throw new Error('Đăng nhập thất bại');
-        }
+        handleError(error, 'Lấy thông tin người dùng thất bại');
     }
 };
 
-// export const getCurrentUser = async () => {
-//     const { data: session } = await supabase.auth.getSession();
-//     if (!session) return null;
-
-//     const { data, error } = await supabase.auth.getUser();
-//     if (error) {
-//         throw new Error(error.message);
-//     }
-//     return data?.user;
-// };
-
 export const logout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw new Error(error.message);
-    localStorage.clear();
+    try {
+        const res = await axiosInstance.get('/auth/logout');
+        return null;
+    } catch (error) {
+        handleError(error, 'Đăng xuất thất bại');
+    }
 };
 
 export const changePassword = async ({ newPassword }) => {

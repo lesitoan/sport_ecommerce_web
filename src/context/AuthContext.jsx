@@ -5,22 +5,40 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const { signIn, isLoading: siginLoading, isSuccess, user: userAPi } = useSignIn();
+    const { signIn, isLoading: siginLoading, isSuccess, user: data } = useSignIn();
+    const { user: currentUser } = useUser();
 
     const signin = async (email, password) => {
         await signIn({ email, password });
-        if (isSuccess && userAPi) {
-            setUser(userAPi);
+        console.log(isSuccess);
+        if (isSuccess) {
+            console.log('dsdsd');
+            setUser(data);
         }
     };
 
     useEffect(() => {
-        if (userAPi) {
-            setUser(userAPi);
+        if (currentUser) {
+            setUser(currentUser);
         } else {
             setUser(null);
         }
-    }, [isSuccess, userAPi]);
+    }, [isSuccess, data, currentUser]);
+    // const { data: userAPiData } = useUser();
+    // const signin = async (email, password) => {
+    //     await signIn({ email, password });
+    //     if (isSuccess && userAPi) {
+    //         setUser(userAPi);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     if (userAPi) {
+    //         setUser(userAPi);
+    //     } else {
+    //         setUser(null);
+    //     }
+    // }, [isSuccess, userAPi]);
 
     return <AuthContext.Provider value={{ user, setUser, signin, siginLoading }}>{children}</AuthContext.Provider>;
 };
