@@ -8,7 +8,7 @@ import { getCurrentUser } from '../services/authApi';
 
 const SignInForm = () => {
     const navigate = useNavigate();
-    const { user, signin, siginLoading } = useAuth();
+    const { signin, siginLoading } = ();
 
     useEffect(() => {
         if (user) {
