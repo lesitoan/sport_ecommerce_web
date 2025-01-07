@@ -1,6 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,14 +24,20 @@ import UsersAdmin from './pages/adminPage/UsersAdmin';
 import AnalysisAdmin from './pages/adminPage/AnalysisAdmin';
 import OrdersAdmin from './pages/adminPage/OrdersAdmin';
 import AdminProtectedRoute from './ui/AdminProtectedRoute';
-import { AuthProvider } from './context/AuthContext';
-
-const queryClient = new QueryClient();
+import { useAuth } from './context/AuthContext';
+import Spinner from './ui/Spinner';
 
 function App() {
+    const { isLoading } = useAuth();
+    if (isLoading)
+        return (
+            <div className="h-[80vh] flex items-center justify-center">
+                <Spinner />
+            </div>
+        );
+
     return (
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
+        <>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout />}>
@@ -47,7 +51,7 @@ function App() {
                     </Route>
 
                     {/* auth router */}
-                    
+
                     <Route
                         path="/"
                         element={
@@ -59,15 +63,16 @@ function App() {
                         <Route path="payment" element={<PaymentPage />} />
                         <Route path="my-account" element={<AccountPage />} />
                     </Route>
-                        
+
                     {/* admin router */}
-                    <Route 
-                    path="/admin" 
-                    element={
-                        <AdminProtectedRoute>
-                            <Nav />
-                        </AdminProtectedRoute>
-                    }>
+                    <Route
+                        path="/admin"
+                        element={
+                            <AdminProtectedRoute>
+                                <Nav />
+                            </AdminProtectedRoute>
+                        }
+                    >
                         <Route index element={<HomeAdmin />} />
                         <Route path="products" element={<ProductsAdmin />} />
                         <Route path="orders" element={<OrdersAdmin />} />
@@ -76,10 +81,8 @@ function App() {
                     </Route>
                 </Routes>
             </BrowserRouter>
-            </AuthProvider>
-            <ReactQueryDevtools initialIsOpen={true} />
             <ToastContainer limit={3} autoClose={1000} />
-        </QueryClientProvider>
+        </>
     );
 }
 

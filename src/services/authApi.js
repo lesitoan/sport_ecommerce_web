@@ -33,10 +33,11 @@ export const signIn = async ({ email, password }) => {
 export const getCurrentUser = async () => {
     try {
         const res = await axiosInstance.get('/auth/me');
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
     } catch (error) {
-        handleError(error, 'Lấy thông tin người dùng thất bại');
+        // handleError(error, 'Lấy thông tin người dùng thất bại');
+        return null;
     }
 };
 

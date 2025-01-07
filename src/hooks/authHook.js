@@ -8,6 +8,7 @@ import {
     // updateUser as updateUserApi,
 } from '../services/authApi';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const useSignUp = () => {
     const {
@@ -32,6 +33,7 @@ export const useSignUp = () => {
 };
 
 export const useSignIn = () => {
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const {
         mutate: signIn,
@@ -47,11 +49,12 @@ export const useSignIn = () => {
             });
         },
         onSuccess: (data) => {
-            queryClient.setQueryData(['user'], data?.data?.user);
-
+            // queryClient.setQueryData(['user'], data?.data?.user);
+            queryClient.invalidateQueries(['user']);
             toast.success(`Đăng nhập thành công !`, {
                 position: 'top-center',
             });
+            navigate('/', { replace: true });
         },
     });
     return { signIn, isLoading, isSuccess, user: data?.data?.user };
@@ -63,7 +66,7 @@ export const useUser = () => {
         queryFn: getCurrentUser,
         retry: 1,
     });
-    if (error) {
+    if (error || !data) {
         return { isLoading, user: null };
     }
     const user = data?.data?.user;

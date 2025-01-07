@@ -7,6 +7,12 @@ const ProtectedRoute = ({ children }) => {
     const navigate = useNavigate();
     const { user, isLoading } = useAuth();
 
+    useEffect(() => {
+        if (!user && !isLoading) {
+            navigate('/sign-in');
+        } else if (user?.role === 'admin') navigate('/admin');
+    }, [navigate, user, isLoading]);
+
     if (isLoading) {
         return (
             <div className="h-[80vh] flex items-center justify-center">
@@ -15,16 +21,9 @@ const ProtectedRoute = ({ children }) => {
         );
     }
 
-    if (!currentUser && !isLoading) {
-        navigate('/sign-in');
+    if (user) {
+        return children;
     }
-
-    useEffect(() => {
-        if (!user) navigate('/sign-in');
-        if (user?.user_metadata?.role === 'admin') navigate('/admin');
-    }, [navigate, user]);
-
-    return children;
 };
 
 export default ProtectedRoute;

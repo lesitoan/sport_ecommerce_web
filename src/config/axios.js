@@ -7,6 +7,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     function (request) {
+        // console.log(import.meta.env.VITE_API_URL);
         // console.log('trước khi gửi request:', request);
         return request;
     },
