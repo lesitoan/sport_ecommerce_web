@@ -1,5 +1,4 @@
 import axiosInstance from '../config/axios';
-import supabase from '../config/supabase';
 import { handleError } from '../utils/handleError';
 
 export const signUp = async ({ userName, email, password, passwordConfirm }) => {
@@ -50,27 +49,33 @@ export const logout = async () => {
     }
 };
 
-export const changePassword = async ({ newPassword }) => {
-    if (!newPassword) return null;
-    // const { data } = await supabase.auth.updateUser({
-    //     data: {
-    //         userName: "TOANDZ123"
-    //     }
-    // })
-    const { error } = await supabase.auth.updateUser({ password: newPassword });
-    if (error) throw new Error(error.message);
+export const changePassword = async (payload) => {
+    try {
+        const { newPassword, newPasswordConfirm, oldPassword } = payload;
+        if (newPassword !== newPasswordConfirm) throw new Error('Mật khẩu mới không khớp');
+        const res = await axiosInstance.patch('/auth/update-password', {
+            oldPassword,
+            newPassword,
+            newPasswordConfirm,
+        });
+        return res.data;
+    } catch (error) {
+        handleError(error, 'Thay đổi mật khẩu thất bại');
+    }
 };
 
-// export const updateUser = async ({ addressOrder }) => {
-//     const { fullName, phoneNumber, address, addressDetail } = addressOrder;
-//     if (!fullName || !phoneNumber || !address || !addressDetail) return null;
-//     const { error } = await supabase.auth.updateUser({
-//         data: {
-//             fullName,
-//             phoneNumber,
-//             address,
-//             addressDetail,
-//         },
-//     });
-//     if (error) throw new Error(error.message);
-// };
+export const resetPassword = async (payload) => {
+    try {
+        const { email, userName } = payload;
+        if (!email || !userName) throw new Error('Email và userName không được để trống');
+
+        const res = await axiosInstance.patch('/auth/reset-password', {
+            email,
+            userName,
+        });
+        console.log(res.data);
+        return res.data;
+    } catch (error) {
+        handleError(error, 'Có lỗi xảy ra khi lấy lại mật khẩu, vui lòng thử lại');
+    }
+};

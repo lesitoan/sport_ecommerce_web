@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useUser } from '../hooks/authHook';
+import axiosInstance from '../config/axios';
 
 const AuthContext = createContext();
 
@@ -14,6 +15,11 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     }, [currentUser, userLoading]);
+
+    // update user state 'null' in axios instance
+    useEffect(() => {
+        axiosInstance.setAuthContext({ setUser });
+    }, []);
 
     return <AuthContext.Provider value={{ isLoading, user, setUser }}>{children}</AuthContext.Provider>;
 };

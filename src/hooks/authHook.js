@@ -1,10 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     signUp as signUpApi,
     signIn as signInApi,
     getCurrentUser,
     logout as logoutApi,
     changePassword as changePasswordApi,
+    resetPassword as resetPasswordApi,
     // updateUser as updateUserApi,
 } from '../services/authApi';
 import { toast } from 'react-toastify';
@@ -114,25 +115,25 @@ export const useChangePassword = () => {
     return { changePassword, isLoading, isSuccess };
 };
 
-// export const useUpdateUser = () => {
-//     const {
-//         mutate: updateUser,
-//         isPending: isLoading,
-//         isSuccess,
-//     } = useMutation({
-//         mutationFn: updateUserApi,
-//         onSuccess: () => {
-//             toast.success('Thay đổi địa chỉ giao hàng thành công !', {
-//                 position: 'top-center',
-//             });
-//         },
-//         onError: (error) => {
-//             console.log(error);
-//             toast.error('Thay đổi địa chỉ thất bại !', {
-//                 position: 'top-center',
-//             });
-//         },
-//     });
+export const useResetPassword = () => {
+    const {
+        mutate: resetPassword,
+        isPending: isLoading,
+        isSuccess,
+    } = useMutation({
+        mutationFn: resetPasswordApi,
+        onSuccess: () => {
+            toast.success('Lấy lại mật khẩu thành công !', {
+                position: 'top-center',
+            });
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error('Lấy lại mật khẩu thát bại !', {
+                position: 'top-center',
+            });
+        },
+    });
 
-//     return { updateUser, isLoading, isSuccess };
-// };
+    return { resetPassword, isLoading, isSuccess };
+};

@@ -13,7 +13,7 @@ const ChangePasswordForm = () => {
     const { changePassword, isLoading } = useChangePassword();
 
     const onSubmit = (data) => {
-        changePassword({ newPassword: data.newPassword });
+        changePassword(data);
     };
 
     return (
@@ -26,12 +26,12 @@ const ChangePasswordForm = () => {
                         className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
                         placeholder="Mật khẩu cũ *"
                         type="password"
-                        name="password"
+                        name="oldPassword"
                         disabled={isLoading}
-                        {...register('password', { required: 'mật khẩu không được để trống*' })}
+                        {...register('oldPassword', { required: 'mật khẩu không được để trống*' })}
                     />
-                    {errors?.password && (
-                        <span className="text-red-700 italic text-[14px] py-10">{errors.password?.message}</span>
+                    {errors?.oldPassword && (
+                        <span className="text-red-700 italic text-[14px] py-10">{errors.oldPassword?.message}</span>
                     )}
                 </div>
 

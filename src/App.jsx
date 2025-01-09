@@ -12,20 +12,21 @@ import FindProductsPage from './pages/FindProductsPage';
 import AccountPage from './pages/AccountPage';
 
 import Layout from './ui/Layout';
+import Nav from './ui/adminUi/Nav';
+import ProtectedRoute from './ui/ProtectedRoute';
+import Spinner from './ui/Spinner';
+
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
-
-import ProtectedRoute from './ui/ProtectedRoute';
-
-import Nav from './ui/adminUi/Nav';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import HomeAdmin from './pages/adminPage/HomeAdmin';
 import ProductsAdmin from './pages/adminPage/ProductsAdmin';
 import UsersAdmin from './pages/adminPage/UsersAdmin';
 import AnalysisAdmin from './pages/adminPage/AnalysisAdmin';
 import OrdersAdmin from './pages/adminPage/OrdersAdmin';
 import AdminProtectedRoute from './ui/AdminProtectedRoute';
+
 import { useAuth } from './context/AuthContext';
-import Spinner from './ui/Spinner';
 
 function App() {
     const { isLoading } = useAuth();
@@ -47,6 +48,7 @@ function App() {
                         <Route path="find/:prodSlug" element={<FindProductsPage />} />
                         <Route path="sign-up" element={<SignUpPage />} />
                         <Route path="sign-in" element={<SignInPage />} />
+                        <Route path="reset-password" element={<ResetPasswordPage />} />
                         <Route path="*" element={<NotFound404Page />} />
                     </Route>
 
