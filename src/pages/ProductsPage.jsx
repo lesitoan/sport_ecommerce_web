@@ -1,12 +1,14 @@
 import { useParams } from 'react-router-dom';
 import Pagination from '../ui/Pagination';
-import { useGetProductsByCategory } from '../hooks/productsHooks';
+import { useGetProducts } from '../hooks/productsHooks';
 import BoxProducts from '../ui/BoxProducts';
 import Spinner from '../ui/Spinner';
 
 const ProductPage = () => {
     const { categorySlug } = useParams();
-    const { isLoading, data } = useGetProductsByCategory(categorySlug);
+    const { isLoading, data } = useGetProducts({
+        category: categorySlug,
+    });
     if (isLoading)
         return (
             <div className="h-[80vh] flex items-center justify-center">
@@ -18,8 +20,8 @@ const ProductPage = () => {
     }
     return (
         <>
-            <BoxProducts products={data.products} category={data?.category?.categoryName} />
-            <Pagination count={data?.count} />
+            <BoxProducts products={data.products} />
+            <Pagination />
             <hr className="border-t-2 border-main-color mt-3 mb-10" />
         </>
     );

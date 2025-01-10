@@ -11,8 +11,8 @@ export const useGetCategories = () => {
         queryKey: ['categories'],
         queryFn: getCategories,
     });
-    if (isError) {
-        throw new Error(error.message);
+    if (isError || !categories) {
+        return { isLoading, categories: null };
     }
-    return [isLoading, categories];
+    return { isLoading, categories };
 };

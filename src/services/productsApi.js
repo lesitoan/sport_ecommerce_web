@@ -1,7 +1,26 @@
 import supabase from '../config/supabase';
+import axiosInstance from '../config/axios';
 
-import { getCategoryBySlug } from './categoriesApi';
+import { handleError } from '../utils/handleError';
 import { NUMBER_ITEM_PER_PAGE } from '../utils/constant';
+
+export const getProducts = async (filters) => {
+    try {
+        let { limit, page, category } = filters;
+        limit = limit || NUMBER_ITEM_PER_PAGE;
+
+        let url = `/products?limit=${limit}`;
+        if (page) url += `&page=${page}`;
+        if (category) url += `&category=${category}`;
+
+        const res = await axiosInstance.get(url);
+        const data = res?.data;
+        if (data?.stauts) delete data.status;
+        return data;
+    } catch (error) {
+        handleError(error, 'Lấy sản phẩm thất bại');
+    }
+};
 
 export const getProductsByName = async ({ slug, page }) => {
     let query = supabase
@@ -21,54 +40,30 @@ export const getProductsByName = async ({ slug, page }) => {
     return { products, count };
 };
 
-export const getProductsByCategory = async ({ categorySlug, page }) => {
-    if (!categorySlug) return [];
-    const categoryData = await getCategoryBySlug(categorySlug);
-    if (!categoryData || !categoryData?.id) return {};
-
-    let query = supabase
-        .from('products')
-        .select(`id,productName,price,slug,images (url,isThumbnail)`, { count: 'exact' })
-        .eq('categoryId', categoryData.id);
-
-    if (page) {
-        const begin = (page - 1) * NUMBER_ITEM_PER_PAGE;
-        const end = begin + NUMBER_ITEM_PER_PAGE - 1;
-        query = query.range(begin, end);
-    }
-
-    const { data: products, error, count } = await query;
-    if (error) {
-        throw new Error(error.message);
-    }
-
-    const data = {
-        category: {
-            categoryName: categoryData.categoryName,
-            categorySlug: categoryData.categorySlug,
-        },
-        products,
-        count,
-    };
-    return data;
-};
-
 export const getProductBySlug = async ({ slug }) => {
-    if (!slug) return null;
-    let query = supabase
-        .from('products')
-        .select(`id,productName,price,slug,images (url,isThumbnail)`)
-        .eq('slug', `${slug}`)
-        .single();
-    const { data: product, error } = await query;
-    if (error) {
-        throw new Error('getProductBySlug err:  ', error.message);
+    try {
+        if (!slug) throw new Error("slug can't be empty");
+        const url = `/products/${slug}`;
+        const res = await axiosInstance.get(url);
+        const product = res?.data?.product;
+        return product;
+    } catch (error) {
+        handleError(error, 'Lấy sản phẩm thất bại');
     }
-    //get attributes
-    const {attributes, productDetailId} = await getAttributesByProductId({ id: product.id });
-    if (attributes) product.attributes = attributes;
-    if (productDetailId) product.productDetailId = productDetailId;
-    return product;
+    // let query = supabase
+    //     .from('products')
+    //     .select(`id,productName,price,slug,images (url,isThumbnail)`)
+    //     .eq('slug', `${slug}`)
+    //     .single();
+    // const { data: product, error } = await query;
+    // if (error) {
+    //     throw new Error('getProductBySlug err:  ', error.message);
+    // }
+    // //get attributes
+    // const { attributes, productDetailId } = await getAttributesByProductId({ id: product.id });
+    // if (attributes) product.attributes = attributes;
+    // if (productDetailId) product.productDetailId = productDetailId;
+    // return product;
 };
 
 const getAttributesByProductId = async ({ id }) => {
@@ -80,12 +75,11 @@ const getAttributesByProductId = async ({ id }) => {
     if (error) {
         throw new Error('getAttributesByProductId err:  ', error.message);
     }
-    if (!data || !data[0].attributes) return (
-        {
+    if (!data || !data[0].attributes)
+        return {
             attributes: [],
-            productDetailId: data[0].id
-        }
-    );
+            productDetailId: data[0].id,
+        };
     data = data.map((item) => {
         return {
             name: item.attributes.name,
@@ -112,31 +106,25 @@ const getAttributesByProductId = async ({ id }) => {
         }
     });
 
-    return {attributes};
+    return { attributes };
 };
 
 const getShoppingCartByUserId = async ({ userId }) => {
     if (!userId) return null;
-    const { data, error } = await supabase
-        .from('shoppingCarts')
-        .select(`*`)
-        .eq('userId', userId);
+    const { data, error } = await supabase.from('shoppingCarts').select(`*`).eq('userId', userId);
     if (error) {
         throw new Error('getShoppingCartByUserId err:  ', error.message);
     }
-    if(data.length === 0) return null;
+    if (data.length === 0) return null;
     return data[0];
-}
+};
 
-const updateShoppingCart = async ({quantity, price, shoppingCartId }) => {
-    const { error } = await supabase
-        .from('shoppingCarts')
-        .update({ quantity, price })
-        .eq('id', shoppingCartId);
+const updateShoppingCart = async ({ quantity, price, shoppingCartId }) => {
+    const { error } = await supabase.from('shoppingCarts').update({ quantity, price }).eq('id', shoppingCartId);
     if (error) {
         throw new Error('updateShoppingCart err:  ', error.message);
     }
-}
+};
 
 const createShoppingCart = async ({ userId, price }) => {
     const { data, error } = await supabase
@@ -154,22 +142,25 @@ const createShoppingCart = async ({ userId, price }) => {
         throw new Error('createShoppingCart err:  ', error.message);
     }
     return data.id;
-}
+};
 
 const createCartItem = async ({ shoppingCartId, price }) => {
-    const { data: cartItemData, error: cartItemError } = await supabase.from('cartItems').insert([
-        {
-            shoppingCartId,
-            quantity: 1,
-            price,
-        },
-    ])
-    .select('*').single();
-    if(cartItemError) {
+    const { data: cartItemData, error: cartItemError } = await supabase
+        .from('cartItems')
+        .insert([
+            {
+                shoppingCartId,
+                quantity: 1,
+                price,
+            },
+        ])
+        .select('*')
+        .single();
+    if (cartItemError) {
         throw new Error('addProductToCart err:  ', cartItemError.message);
     }
     return cartItemData;
-}
+};
 
 const createCartItemDetails = async ({ cartItemId, productDetailIds }) => {
     const cartItemDetail = productDetailIds.map((productDetailId) => ({
@@ -177,11 +168,11 @@ const createCartItemDetails = async ({ cartItemId, productDetailIds }) => {
         productDetailId,
     }));
     const { error: cartItemDetailError } = await supabase.from('cartItemDetails').insert(cartItemDetail).select('*');
-    if(cartItemDetailError) {
+    if (cartItemDetailError) {
         throw new Error('addProductToCart err:  ', cartItemDetailError.message);
     }
     return cartItemDetail;
-}
+};
 
 export const addProductToCart = async ({ userId, price, productDetailIds }) => {
     if (!userId || !productDetailIds) return;
@@ -190,9 +181,9 @@ export const addProductToCart = async ({ userId, price, productDetailIds }) => {
     const shoppingCartData = await getShoppingCartByUserId({ userId });
     let shoppingCartId = shoppingCartData?.id;
     // đã có giỏ hàng
-    if(shoppingCartId) { 
+    if (shoppingCartId) {
         const newQuantity = shoppingCartData.quantity + 1;
-        const newPrice =  Number(shoppingCartData.price) + Number(price);
+        const newPrice = Number(shoppingCartData.price) + Number(price);
         await updateShoppingCart({ quantity: newQuantity, price: newPrice, shoppingCartId });
     } else {
         shoppingCartId = await createShoppingCart({ userId, price });
@@ -202,26 +193,24 @@ export const addProductToCart = async ({ userId, price, productDetailIds }) => {
     const cartItemData = await createCartItem({ shoppingCartId, price });
 
     // 3. tạo cartItemDetail
-   await createCartItemDetails({ cartItemId: cartItemData.id, productDetailIds });
+    await createCartItemDetails({ cartItemId: cartItemData.id, productDetailIds });
 };
 
 export const getCartItemsByUserId = async ({ userId }) => {
     if (!userId) return [];
 
-    let { data: shoppingCartData, error } = await supabase
-        .from('shoppingCarts')
-        .select(`*`)
-        .eq('userId', userId);
+    let { data: shoppingCartData, error } = await supabase.from('shoppingCarts').select(`*`).eq('userId', userId);
     if (error) {
         throw new Error('getAllShoppingCartItemsByUserId err:  ', error.message);
     }
-    if(shoppingCartData.length === 0) return {};
+    if (shoppingCartData.length === 0) return {};
     shoppingCartData = shoppingCartData[0];
 
     const { data: cartItems, error: cartItemsError } = await supabase
-    .from('cartItems')
-    .select(`*, cartItemDetails (id, productDetails (products(*, images(url)), attributes (name, value)))`)
-    .eq('shoppingCartId', shoppingCartData.id).order('id', { ascending: true });;
+        .from('cartItems')
+        .select(`*, cartItemDetails (id, productDetails (products(*, images(url)), attributes (name, value)))`)
+        .eq('shoppingCartId', shoppingCartData.id)
+        .order('id', { ascending: true });
 
     if (cartItemsError) {
         throw new Error('getAllShoppingCartItemsByUserId err:  ', cartItemsError.message);
@@ -229,11 +218,11 @@ export const getCartItemsByUserId = async ({ userId }) => {
     const data = {
         ...shoppingCartData,
         cartItems,
-    }
+    };
     return data;
 };
 
-export const deleteShoppingCartById = async ({cart, shoppingCartData, price }) => {
+export const deleteShoppingCartById = async ({ cart, shoppingCartData, price }) => {
     if (!cart || !shoppingCartData) {
         throw new Error('xóa sản phẩm thất bại !');
     }
@@ -247,7 +236,7 @@ export const deleteShoppingCartById = async ({cart, shoppingCartData, price }) =
     }
     const { error: shoppingCartError } = await supabase
         .from('shoppingCarts')
-        .update({price: shoppingCartData.price - price})
+        .update({ price: shoppingCartData.price - price })
         .eq('id', shoppingCartData.id);
     if (shoppingCartError) {
         throw new Error('updateCartQuantityById err:  ', shoppingCartError.message);
@@ -270,22 +259,19 @@ export const updateCartItem = async ({ shoppingCartData, cartId, prevQuantity, c
     // update shoppingCart
     const { error: shoppingCartError } = await supabase
         .from('shoppingCarts')
-        .update({price: shoppingCartData.price - price + newPrice})
+        .update({ price: shoppingCartData.price - price + newPrice })
         .eq('id', shoppingCartData.id);
     if (shoppingCartError) {
         throw new Error('updateCartQuantityById err:  ', shoppingCartError.message);
     }
 };
 
-export const getCartQuantity = async ({userId}) => {
+export const getCartQuantity = async ({ userId }) => {
     if (!userId) return 0;
-    const { data, error } = await supabase
-        .from('shoppingCarts')
-        .select('quantity')
-        .eq('userId', userId);
+    const { data, error } = await supabase.from('shoppingCarts').select('quantity').eq('userId', userId);
     if (error) {
         throw new Error('getCartQuantity err:  ', error.message);
     }
-    if(data.length === 0) return 0;
+    if (data.length === 0) return 0;
     return data[0].quantity;
-}
+};

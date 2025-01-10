@@ -1,16 +1,13 @@
 import { useParams } from 'react-router-dom';
 import ProductInfoForm from '../ui/ProductInfoForm';
-import { useGetProductBySlug, useGetProductsByCategory } from '../hooks/productsHooks';
+import { useGetProduct } from '../hooks/productsHooks';
 import Spinner from '../ui/Spinner';
-import BoxProducts from '../ui/BoxProducts';
 
 const ProductDetailPage = () => {
     const { prodSlug } = useParams();
-    const { isLoading, product } = useGetProductBySlug(prodSlug);
-    // const product = null;
-    // const isLoading = false;
+    const { isLoading, product } = useGetProduct(prodSlug);
+    console.log('product: ', product);
 
-    const { isLoading: isLoadingRelatedProducts, data: relatedProducts } = useGetProductsByCategory('ao_bong_da_clb');
     if (isLoading) {
         return (
             <div className="h-[80vh] flex items-center justify-center">
@@ -20,12 +17,8 @@ const ProductDetailPage = () => {
     }
     if (!product) return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">KHÔNG TÌM THẤY SẢN PHẨM</div>;
 
-    // sản phẩm liên quan
-    //-------------------
-
     return (
         <div>
-            {/* image, price, size */}
             {<ProductInfoForm product={product} />}
             <hr className="border-t-2 border-main-color mb-2" />
             {/* ------------ */}
@@ -59,15 +52,16 @@ const ProductDetailPage = () => {
                     Hân hạnh được phục vụ Quý Khách!
                 </p>
             </div>
+
             {/* ------------ */}
-            <hr className="border-t-2 border-main-color mb-2" />
+            {/* <hr className="border-t-2 border-main-color mb-2" />
             {isLoadingRelatedProducts ? (
                 <Spinner />
             ) : (
                 relatedProducts?.products && (
                     <BoxProducts products={relatedProducts.products} categoryName={'Sản phẩm liên quan'} limit={4} />
                 )
-            )}
+            )} */}
         </div>
     );
 };

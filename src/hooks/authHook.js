@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     signUp as signUpApi,
     signIn as signInApi,
@@ -6,7 +6,6 @@ import {
     logout as logoutApi,
     changePassword as changePasswordApi,
     resetPassword as resetPasswordApi,
-    // updateUser as updateUserApi,
 } from '../services/authApi';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';

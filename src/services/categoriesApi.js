@@ -1,18 +1,11 @@
-import supabase from '../config/supabase';
-
-export async function getCategoryBySlug(slug) {
-    const { data, error } = await supabase.from('categories').select('*').eq('categorySlug', slug).single();
-    if (error) {
-        console.error('Error fetching category:', error);
-        return null;
-    }
-    return data;
-}
+import axiosInstance from '../config/axios';
+import { handleError } from '../utils/handleError';
 
 export const getCategories = async () => {
-    const { data: categories, error } = await supabase.from('categories').select('*');
-    if (error) {
-        throw new Error('có lỗi !!!!!!!!!!');
+    try {
+        const res = await axiosInstance.get('/categories');
+        return res?.data?.data?.categories;
+    } catch (error) {
+        handleError(error, 'Lấy danh mục thất bại');
     }
-    return categories;
 };
