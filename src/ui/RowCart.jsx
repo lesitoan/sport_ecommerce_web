@@ -3,29 +3,25 @@ import { useEffect, useState } from 'react';
 
 import { useUpdateCartItem, UseDeleteShoppingCartById } from '../hooks/cartsHook';
 
-const RowCart = ({ cart, shoppingCartData}) => {
-    const id = cart?.id;
-    const productName = cart?.cartItemDetails[0]?.productDetails?.products?.productName;
-    const price = Number(cart?.price || 0);
-    const quantity = cart?.quantity;
-    const attributes = cart?.cartItemDetails.map((item) => item.productDetails?.attributes);
-    const image = cart?.cartItemDetails[0]?.productDetails?.products?.images[0].url || '/productImages/1.webp';
+const RowCart = ({ cart }) => {
+    const { cartItemId, productName, price, quantity, attributes, imageUrls } = cart;
+    const image = imageUrls[0];
 
     const [currQuantity, setCurrQuantity] = useState(quantity);
 
     const { updateCartItem } = useUpdateCartItem();
-    const { deleteShoppingCartById, isLoading: deleting } = UseDeleteShoppingCartById();
+    const { deleteShoppingCartById, isLoading: isDeleting } = UseDeleteShoppingCartById();
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (currQuantity !== quantity) {
-                updateCartItem({ shoppingCartData, cartId: id, prevQuantity: quantity, currQuantity: currQuantity, price });
+                updateCartItem({ cartId: cartItemId, quantity: currQuantity });
             }
         }, 1400);
         return () => clearTimeout(timer);
-    }, [currQuantity, id, price, quantity, shoppingCartData, updateCartItem]);
+    }, [cartItemId, updateCartItem, currQuantity, quantity]);
 
-    if (!id || !productName || !price || !quantity) return null;
+    if (!cartItemId || !productName || !price || !quantity) return null;
 
     return (
         <tr className="items-start">
@@ -34,13 +30,17 @@ const RowCart = ({ cart, shoppingCartData}) => {
             </td>
             <td className="pr-10 py-4 max-w-[100px]">
                 <h4>{productName}</h4>
-                <span className="italic mb-2 text-[15px]">{attributes.map((attr) => {
-                    if(attr) {
-                        return `${attr?.name}: ${attr?.value}`
-                    } else {
-                        return ''
-                    }
-                }).join(', ')}</span>
+                <span className="italic mb-2 text-[15px]">
+                    {attributes
+                        .map((attr) => {
+                            if (attr) {
+                                return `${attr?.attrName}: ${attr?.attrValue}`;
+                            } else {
+                                return '';
+                            }
+                        })
+                        .join(', ')}
+                </span>
             </td>
             <td className="pr-2 py-4">
                 <div className="flex justify-start gap-2 items-center">
@@ -51,7 +51,7 @@ const RowCart = ({ cart, shoppingCartData}) => {
                                 setCurrQuantity((quan) => quan - 1);
                             }
                         }}
-                        disabled={deleting}
+                        disabled={isDeleting}
                     >
                         <FaMinus />
                     </button>
@@ -59,9 +59,11 @@ const RowCart = ({ cart, shoppingCartData}) => {
                     <button
                         className="cursor-pointer hover:bg-main-color hover:text-white px-[3px] py-[3px] rounded opacity-50"
                         onClick={() => {
-                            setCurrQuantity((quan) => quan + 1);
+                            if (currQuantity < 15) {
+                                setCurrQuantity((quan) => quan + 1);
+                            }
                         }}
-                        disabled={deleting}
+                        disabled={isDeleting}
                     >
                         <FaPlus />
                     </button>
@@ -71,8 +73,8 @@ const RowCart = ({ cart, shoppingCartData}) => {
             <td className="py-4">
                 <button
                     className="flex gap-1 justify-center items-center bg-red-600 w-[80px] text-white py-[6px]  cursor-pointer rounded-md hover:bg-red-500"
-                    onClick={() => deleteShoppingCartById({ cart, shoppingCartData, price })}
-                    disabled={deleting}
+                    onClick={() => deleteShoppingCartById({ cartId: cartItemId })}
+                    disabled={isDeleting}
                 >
                     <FaTrashAlt />
                     <span>xóa</span>

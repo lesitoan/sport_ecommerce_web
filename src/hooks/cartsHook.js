@@ -29,21 +29,23 @@ export const useAddProductToCart = () => {
     return { addProductToCart, isLoading, isSuccess };
 };
 
-export const UseGetShoppingCart = (userId) => {
+export const UseGetShoppingCart = () => {
     const {
         isPending: isLoading,
         isError,
-        data: shoppingCartData,
+        data: carts,
         error,
     } = useQuery({
         queryKey: ['shoppingCart'],
-        queryFn: async () => await getCartItemsByUserId({ userId }),
-        gcTime: 15 * 1000, // 15s
+        queryFn: async () => await getCartItemsByUserId(),
+        gcTime: 0, // 15s
     });
     if (isError) {
-        throw new Error(error.message);
+        toast.error('Hiên tại không thể hiển thị giỏ hàng !', {
+            position: 'top-center',
+        });
     }
-    return { isLoading, shoppingCartData };
+    return { isLoading, carts };
 };
 
 export const useUpdateCartItem = () => {
