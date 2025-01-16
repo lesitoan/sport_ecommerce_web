@@ -46,6 +46,26 @@ export const getProductBySlug = async ({ slug }) => {
         const url = `/products/${slug}`;
         const res = await axiosInstance.get(url);
         const product = res?.data?.product;
+
+        //rewrite attributes
+        if (product?.attributes) {
+            const groupedAttributes = Object.values(
+                product.attributes.reduce((acc, item) => {
+                    const key = item.attrName; // Group by attrName
+                    if (!acc[key]) {
+                        acc[key] = { type: key, data: [] };
+                    }
+                    acc[key].data.push({
+                        addPrice: item.addPrice,
+                        attrValue: item.attrValue,
+                        productAttributeId: item.productAttributeId,
+                    });
+                    return acc;
+                }, {}),
+            );
+            product.attributes = groupedAttributes;
+        }
+
         return product;
     } catch (error) {
         handleError(error, 'Lấy sản phẩm thất bại');
@@ -172,28 +192,6 @@ const createCartItemDetails = async ({ cartItemId, productDetailIds }) => {
         throw new Error('addProductToCart err:  ', cartItemDetailError.message);
     }
     return cartItemDetail;
-};
-
-export const addProductToCart = async ({ userId, price, productDetailIds }) => {
-    if (!userId || !productDetailIds) return;
-
-    // 1. check có giỏ hàng hay chưa, nếu chưa thì tạo mới, nếu có rồi thì cập nhật số lượng + 1
-    const shoppingCartData = await getShoppingCartByUserId({ userId });
-    let shoppingCartId = shoppingCartData?.id;
-    // đã có giỏ hàng
-    if (shoppingCartId) {
-        const newQuantity = shoppingCartData.quantity + 1;
-        const newPrice = Number(shoppingCartData.price) + Number(price);
-        await updateShoppingCart({ quantity: newQuantity, price: newPrice, shoppingCartId });
-    } else {
-        shoppingCartId = await createShoppingCart({ userId, price });
-    }
-
-    // 2. tạo cartItem
-    const cartItemData = await createCartItem({ shoppingCartId, price });
-
-    // 3. tạo cartItemDetail
-    await createCartItemDetails({ cartItemId: cartItemData.id, productDetailIds });
 };
 
 export const getCartItemsByUserId = async ({ userId }) => {

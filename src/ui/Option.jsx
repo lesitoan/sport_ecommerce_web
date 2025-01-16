@@ -1,13 +1,15 @@
-const Option = ({ attributeType, handleSetAttributes, currentAttribute }) => {
-    if (!attributeType || attributeType?.data?.length === 0) return null;
-    const data = attributeType.data;
+const Option = ({ attrData, handleSetAttributes, currentAttribute }) => {
+    if (!attrData) return null;
+    const { type, data } = attrData;
+
+    console.log(attrData);
 
     return (
         <div className="w-[100%]">
             <h6 className="mb-1">
                 Bạn đang chọn:{' '}
-                <span className="font-[600]">{`${attributeType?.name} ${
-                    currentAttribute?.name ? currentAttribute?.data.value : ''
+                <span className="font-[600]">{`${type} ${
+                    currentAttribute?.attrName ? currentAttribute?.attrValue : ''
                 }`}</span>
             </h6>
             <ul className="flex justify-start flex-wrap gap-2 mb-4">
@@ -15,22 +17,14 @@ const Option = ({ attributeType, handleSetAttributes, currentAttribute }) => {
                     <li
                         key={index}
                         className={`${
-                            currentAttribute?.data.value === item.value &&
+                            currentAttribute?.attrValue === item.attrValue &&
                             'bg-main-color !cursor-not-allowed !text-white'
                         } flex flex-col items-center justify-center rounded min-w-[100px] px-2 py-1 border border-main-color cursor-pointer hover:bg-blue-200`}
                         onClick={() => {
-                            handleSetAttributes({
-                                name: attributeType?.name,
-                                data: {
-                                    value: item?.value,
-                                    price: item?.price,
-                                    id: item?.id,
-                                    productDetailId: item?.productDetailId,
-                                },
-                            });
+                            handleSetAttributes({ ...item, attrName: type });
                         }}
                     >
-                        <p>{item?.value}</p>
+                        <p>{item?.attrValue}</p>
                     </li>
                 ))}
             </ul>
