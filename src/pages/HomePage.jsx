@@ -18,6 +18,8 @@ const HomePage = () => {
         },
         true,
     );
+    console.log('aoBongDaCLB', aoBongDaCLB);
+    console.log('aoBongDaTuyen', aoBongDaTuyen);
 
     return (
         <>

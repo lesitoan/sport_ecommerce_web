@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 import Pagination from '../ui/Pagination';
-import { useGetProductsByName } from '../hooks/productsHooks';
+import { useGetProducts } from '../hooks/productsHooks';
 import BoxProducts from '../ui/BoxProducts';
 import Spinner from '../ui/Spinner';
 
 const FindProductsPage = () => {
     const { prodSlug } = useParams();
-    const { isLoading, data } = useGetProductsByName(prodSlug);
+    const { isLoading, data } = useGetProducts({ q: prodSlug });
 
     if (isLoading)
         return (
@@ -14,12 +14,14 @@ const FindProductsPage = () => {
                 <Spinner />
             </div>
         );
-    if (data?.products && data?.products.length === 0)
-        return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">KHÔNG TÌM THẤY SẢN PHẨM</div>;
+    if (!data || !data?.products || data?.products.length === 0) {
+        return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">CHƯA CÓ SẢN PHẨM</div>;
+    }
+    console.log(data);
     return (
         <>
             <BoxProducts products={data.products} />
-            <Pagination count={data?.count} />
+            <Pagination />
             <hr className="border-t-2 border-main-color mt-3 mb-10" />
         </>
     );
