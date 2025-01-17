@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createOrder as createOrderApi, getCartsInOrder, getOrdersByUserId } from '../services/ordersApi';
+import {
+    createOrder as createOrderApi,
+    getOrder,
+    getOrders,
+    deleteOrderById as deleteOrderByIdApi,
+} from '../services/ordersApi';
 import { toast } from 'react-toastify';
 
 export const useCreateOrder = () => {
@@ -16,47 +21,67 @@ export const useCreateOrder = () => {
             });
         },
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['shoppingCart'] });
+            queryClient.invalidateQueries({ queryKey: ['carts'] });
             toast.success(`Đặt hàng thành công !`, {
                 position: 'top-center',
             });
-            localStorage.removeItem('shoppingCard');
         },
     });
     return { createOrder, isLoading, isSuccess };
 };
 
-export const useGetOrderByUserId = (userId) => {
+export const useOrders = () => {
     const {
-        isPending: isLoading,
+        isLoading,
         isError,
-        data,
-        error,
+        data: orders,
     } = useQuery({
-        queryKey: ['orders', userId],
-        queryFn: async () => await getOrdersByUserId({ userId }),
-        // gcTime: 30 * 1000
+        queryKey: ['orders'],
+        queryFn: async () => await getOrders(),
+        gcTime: 0,
     });
     if (isError) {
-        throw new Error(error.message);
+        return { isLoading, orders: null };
     }
-    const orders = data?.orders;
     return { isLoading, orders };
 };
 
-export const useGetCartsInOrder = (orderId) => {
+export const useOrder = (orderId) => {
     const {
-        isPending: isLoading,
+        isLoading,
         isError,
-        data: carts,
-        error,
+        data: order,
     } = useQuery({
-        queryKey: ['ordersDetails'],
-        queryFn: async () => await getCartsInOrder({ orderId }),
-        // gcTime: 30 * 1000
+        queryKey: ['order', orderId],
+        queryFn: async () => await getOrder(orderId),
+        gcTime: 0,
     });
     if (isError) {
-        throw new Error(error.message);
+        return { isLoading, order: null };
     }
-    return { isLoading, carts };
+    return { isLoading, order };
+};
+
+export const useDeleteOrder = (orderId) => {
+    const queryClient = useQueryClient();
+    const {
+        mutate: deleteOrder,
+        isPending: isLoading,
+        isSuccess,
+    } = useMutation({
+        mutationFn: deleteOrderByIdApi,
+        onSuccess: () => {
+            console.log(orderId);
+            queryClient.invalidateQueries({ queryKey: ['order', orderId] });
+            toast.success('Hủy đơn hàng thành công !', {
+                position: 'top-center',
+            });
+        },
+        onError: (error) => {
+            toast.error('Hủy đơn hàng thất bại !', {
+                position: 'top-center',
+            });
+        },
+    });
+    return { deleteOrder, isLoading, isSuccess };
 };

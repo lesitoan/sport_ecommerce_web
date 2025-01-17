@@ -1,4 +1,3 @@
-// import supabase from '../config/supabase';
 import axiosInstance from '../config/axios';
 
 import { handleError } from '../utils/handleError';

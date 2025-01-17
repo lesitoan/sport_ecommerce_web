@@ -1,14 +1,7 @@
 const CardProdHorizontal = ({ cart }) => {
-    // const id = cart?.id;
-    const productName = cart?.cartItemDetails[0]?.productDetails?.products?.productName;
-    const price = Number(cart?.price || 0);
-    const quantity = cart?.quantity;
-    const image = cart?.cartItemDetails[0]?.productDetails?.products?.images[0].url || '/productImages/1.webp';
-    if (!productName || !price || !quantity) return null;
-    console.log('cart', cart);
-    const attributes = cart?.cartItemDetails.map((item) => item.productDetails?.attributes);
-
-    
+    const { productName, price, quantity, imageUrls, attributes } = cart;
+    if (!productName || !price || !quantity || !imageUrls) return null;
+    const image = imageUrls[0];
 
     return (
         <div className="flex gap-[3%] w-[100%] mb-2">
@@ -17,14 +10,18 @@ const CardProdHorizontal = ({ cart }) => {
             </div>
             <div className="w-[77%]">
                 <h4 className="font-[500] text-[16px] max-h-[60px] overflow-hidden">{productName}</h4>
-                <span className="italic mb-2 text-[15px]">{attributes.map((attr) => {
-                    if(attr) {
-                        return `${attr?.name}: ${attr?.value}`
-                    } else {
-                        return ''
-                    }
-                }).join(', ')}</span>
-                
+                <span className="italic mb-2 text-[15px]">
+                    {attributes
+                        .map((attr) => {
+                            if (attr) {
+                                return `${attr?.attrName}: ${attr?.attrValue}`;
+                            } else {
+                                return '';
+                            }
+                        })
+                        .join(', ')}
+                </span>
+
                 <div className="flex justify-start text-[16px] gap-7">
                     <span className="text-red-600 font-[600]">
                         {price}

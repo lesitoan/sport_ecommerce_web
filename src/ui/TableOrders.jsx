@@ -1,19 +1,19 @@
 import OrderRow from './OrderRow';
-import { useGetOrderByUserId } from '../hooks/ordersHook';
+import { useOrders } from '../hooks/ordersHook';
 import Spinner from './Spinner';
-import { useAuth } from '../context/AuthContext';
 
 const TableOrders = () => {
-    const { user } = useAuth();
-    const { isLoading, orders } = useGetOrderByUserId(user?.id);
+    const { isLoading, orders } = useOrders();
 
     if (!orders || orders?.length === 0) return <h4>Chưa có đơn hàng</h4>;
-    if (isLoading)
+    if (isLoading) {
         return (
             <div className="m3-10">
                 <Spinner />
             </div>
         );
+    }
+
     return (
         <div className="">
             <table className="w-full text-[16px] text-left">

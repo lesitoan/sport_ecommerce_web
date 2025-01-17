@@ -2,16 +2,16 @@ import { useEffect } from 'react';
 import { FaMoneyBill1Wave, FaTruckFast } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
-const ShippingInfo = ({ shippingAddresses, onShippingInfo, shippingInfo }) => {
+const ShippingInfo = ({ addresses, onShippingInfo, shippingInfo }) => {
     useEffect(() => {
-        if (shippingAddresses && shippingAddresses.length > 0) {
+        if (addresses && addresses.length > 0) {
             onShippingInfo({
-                shippingAddress: shippingAddresses[0],
-                paymentMethod: 'thanh_toan_khi_nhan_hang',
+                ...addresses[0],
             });
         }
-    }, [onShippingInfo, shippingAddresses]);
-    if (!shippingAddresses || shippingAddresses.length === 0)
+    }, [onShippingInfo, addresses]);
+
+    if (!addresses || addresses.length === 0) {
         return (
             <div className="text-[18px] text-center">
                 hãy ấn vào thêm địa chỉ và tiếp tục thanh toán đơn hàng
@@ -21,6 +21,7 @@ const ShippingInfo = ({ shippingAddresses, onShippingInfo, shippingInfo }) => {
                 </Link>
             </div>
         );
+    }
 
     return (
         <>
@@ -32,17 +33,17 @@ const ShippingInfo = ({ shippingAddresses, onShippingInfo, shippingInfo }) => {
                     name="options"
                     className="mt-2 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 text-[18px] text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                     onChange={(e) => {
-                        const shippingAddress = shippingAddresses.find((add) => add.id === Number(e.target.value));
-                        onShippingInfo({ shippingAddress, paymentMethod: 'thanh_toan_khi_nhan_hang' });
+                        const shippingAddress = addresses.find((add) => add.id === Number(e.target.value));
+                        onShippingInfo({ ...shippingAddress });
                     }}
                 >
-                    {shippingAddresses.map((address, index) => (
+                    {addresses.map((address, index) => (
                         <option
                             value={address.id}
-                            key={index}
+                            key={address.id}
                             className="bg-slate-200 truncate  mb-2 px-4 py-2 rounded-sm"
                         >
-                            {`${address?.fullName} - ${address.addressDetail}`}
+                            {`${address?.fullName} - ${address.ward} - ${address.district} - ${address.province}`}
                         </option>
                     ))}
                 </select>
@@ -50,10 +51,10 @@ const ShippingInfo = ({ shippingAddresses, onShippingInfo, shippingInfo }) => {
                 {shippingInfo && (
                     <div className="bg-slate-200 shadow-lg flex justify-between mb-2 px-4 py-2 rounded-sm">
                         <div>
-                            <p>{shippingInfo?.shippingAddress?.fullName}</p>
-                            <p>{shippingInfo?.shippingAddress?.phoneNumber}</p>
-                            <p>{`${shippingInfo?.shippingAddress?.ward} - ${shippingInfo?.shippingAddress?.district} - ${shippingInfo?.shippingAddress?.province}`}</p>
-                            <p>{shippingInfo?.shippingAddress?.addressDetail}</p>
+                            <p>{shippingInfo?.fullName}</p>
+                            <p>{shippingInfo.phoneNumber}</p>
+                            <p>{`${shippingInfo.ward} - ${shippingInfo.district} - ${shippingInfo.province}`}</p>
+                            <p>{shippingInfo.addressDetail}</p>
                         </div>
                     </div>
                 )}
