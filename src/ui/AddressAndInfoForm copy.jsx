@@ -5,79 +5,82 @@ import axios from 'axios';
 import Button from './Button';
 import { useAddAddress } from '../hooks/addressHook';
 
-const getLocation = async (url) => {
+const getLocation = async ({ type, code, _dispatch }) => {
+    // dispatchs({ type: "START_GET_DATA" })
     try {
+        let url;
+        if (!type || type === 'provinces') {
+            url = 'https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1';
+        } else if (type === 'districts') {
+            url = `https://vn-public-apis.fpo.vn/districts/getByProvince?provinceCode=${code}&limit=-1`;
+        } else {
+            url = `https://vn-public-apis.fpo.vn/wards/getByDistrict?districtCode=${code}&limit=-1`;
+        }
         const response = await axios.get(url);
-        return response?.data?.data;
+        if (!type || type === 'provinces') {
+            _dispatch({ type: 'getProvinces', payload: { provinces: response?.data?.data?.data } });
+        } else if (type === 'districts') {
+            _dispatch({ type: 'getDistricts', payload: { districts: response?.data?.data?.data } });
+        } else {
+            _dispatch({ type: 'getWards', payload: { wards: response?.data?.data?.data } });
+        }
     } catch (error) {
-        return null;
+        console.error(error);
     }
 };
 
 const reducer = (state, action) => {
-    switch (action.type) {
-        case 'SET_PROVINCES':
-            return { ...state, provinces: action.payload.provinces };
-        case 'SET_DISTRICTS':
-            return { ...state, districts: action.payload.districts };
-        case 'SET_WARDS':
-            return { ...state, wards: action.payload.wards };
-        default:
-            return state;
+    try {
+        switch (action.type) {
+            case 'getProvinces':
+                return { ...state, provinces: action.payload.provinces };
+            case 'getDistricts':
+                return { ...state, districts: action.payload.districts, wards: [] };
+            case 'getWards':
+                return { ...state, wards: action.payload.wards };
+            default:
+                throw new Error('Unkown');
+        }
+    } catch (err) {
+        return state;
     }
 };
 
 const AddressAndInfoForm = () => {
-    const { isLoading, addAddress } = useAddAddress();
-
     const {
         register,
         handleSubmit,
         formState: { errors },
         watch,
     } = useForm();
+    const [state, dispatch] = useReducer(reducer, { provinces: [], districts: [], wards: [] });
 
-    const [addressesData, dispatch] = useReducer(reducer, { provinces: [], districts: [], wards: [] });
-
-    const isChangeName = watch('fullName') ? true : false; //chỉ khi điền tên thì mới load api địa chỉ
-    useEffect(() => {
-        if (isChangeName) {
-            getLocation('https://esgoo.net/api-tinhthanh/1/0.htm').then((data) => {
-                dispatch({ type: 'SET_PROVINCES', payload: { provinces: data } });
-            });
-        }
-    }, [isChangeName]);
-
-    const provinceId = watch('province');
-    useEffect(() => {
-        if (provinceId) {
-            getLocation(`https://esgoo.net/api-tinhthanh/2/${provinceId}.htm`).then((data) => {
-                dispatch({ type: 'SET_DISTRICTS', payload: { districts: data } });
-            });
-        }
-    }, [provinceId]);
-
-    const districtId = watch('district');
-    useEffect(() => {
-        if (districtId) {
-            getLocation(`https://esgoo.net/api-tinhthanh/3/${districtId}.htm`).then((data) => {
-                dispatch({ type: 'SET_WARDS', payload: { wards: data } });
-            });
-        }
-    }, [districtId]);
-
-    const wardId = watch('ward');
-    useEffect(() => {
-        if (wardId) {
-            getLocation(`https://esgoo.net/api-tinhthanh/5/${wardId}.htm`).then((data) => {});
-        }
-    }, [wardId]);
+    const { isLoading, addAddress } = useAddAddress();
 
     const onSubmit = (data) => {
-        getLocation(`https://esgoo.net/api-tinhthanh/5/${data.ward}.htm`).then((fullAddress) => {
-            addAddress({ fullAddress, ...data });
-        });
+        addAddress(data);
     };
+
+    const startClickProvince = watch('fullName') ? true : false; //chỉ khi điền tên thì mới load api địa chỉ
+    useEffect(() => {
+        if (startClickProvince) {
+            getLocation({ type: 'provinces', code: 0, _dispatch: dispatch });
+        }
+    }, [startClickProvince]);
+
+    const selectedProvince = watch('provinces');
+    useEffect(() => {
+        if (selectedProvince) {
+            getLocation({ type: 'districts', code: selectedProvince, _dispatch: dispatch });
+        }
+    }, [selectedProvince]);
+
+    const selectDistricts = watch('districts');
+    useEffect(() => {
+        if (selectDistricts) {
+            getLocation({ type: 'wards', code: selectDistricts, _dispatch: dispatch });
+        }
+    }, [selectDistricts]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -129,10 +132,10 @@ const AddressAndInfoForm = () => {
                         // {...register('province', { required: 'TỈnh/thành phố không được để trống*' })}
                     >
                         <option value="">Chọn tỉnh/thành phố *</option>
-                        {addressesData?.provinces?.length > 0 &&
-                            addressesData?.provinces.map((province) => (
-                                <option key={province.id} value={province.id}>
-                                    {province.full_name}
+                        {state?.provinces?.length > 0 &&
+                            state?.provinces.map((province) => (
+                                <option key={province.code} value={province.code}>
+                                    {province.name_with_type}
                                 </option>
                             ))}
                     </select>
@@ -151,10 +154,10 @@ const AddressAndInfoForm = () => {
                         // {...register('district', { required: 'Quận/huyện không được để trống*' })}
                     >
                         <option value="">Chọn quân/huyện *</option>
-                        {addressesData?.districts?.length > 0 &&
-                            addressesData?.districts.map((district) => (
-                                <option key={district.id} value={district.id}>
-                                    {district.full_name}
+                        {state?.districts?.length > 0 &&
+                            state?.districts.map((district) => (
+                                <option key={district.code} value={district.code}>
+                                    {district.name_with_type}
                                 </option>
                             ))}
                     </select>
@@ -173,10 +176,10 @@ const AddressAndInfoForm = () => {
                         // {...register('ward', { required: 'Xã/phường không được để trống*' })}
                     >
                         <option value="">Chọn xã/phường *</option>
-                        {addressesData?.wards?.length > 0 &&
-                            addressesData?.wards.map((ward) => (
-                                <option key={ward.id} value={ward.id}>
-                                    {ward.full_name}
+                        {state?.wards?.length > 0 &&
+                            state?.wards.map((ward) => (
+                                <option key={ward.code} value={ward.path_with_type}>
+                                    {ward.name_with_type}
                                 </option>
                             ))}
                     </select>

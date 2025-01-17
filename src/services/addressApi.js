@@ -1,59 +1,45 @@
-import supabase from '../config/supabase';
+import axiosInstance from '../config/axios';
+import { handleError } from '../utils/handleError';
 
-export const addShippingAddressByUserId = async ({ userId, address }) => {
-    let { province, district, ward, addressDetail, fullName, phoneNumber } = address;
-    province = 'Quảng Nam';
-    district = 'Thăng Bình';
-    ward = 'Bình Quế';
-    if(address?.wards) {
-        const newArrdess = address?.wards.split(', ');
-        province = newArrdess[2];
-        district = newArrdess[1];
-        ward = newArrdess[0];
-    }
-
-    if (!province || !district || !ward || !userId || !addressDetail || !fullName || !phoneNumber) {
-        throw new Error('không đủ thông tin, tạo địa chỉ thất bại !');
-    }
-
-    const { error } = await supabase
-        .from('shippingAddresses')
-        .insert([
-            {
-                phoneNumber: phoneNumber,
-                fullName: fullName,
-                userId: userId,
-                province: province,
-                district: district,
-                ward: ward,
-                addressDetail: addressDetail,
-            },
-        ])
-        .select('id')
-        .single();
-
-    if (error) {
-        throw new Error('addAddressByUserId err:  ', error.message);
+export const getAddresses = async () => {
+    try {
+        const res = await axiosInstance.get('/addresses');
+        return res.data?.addresses;
+    } catch (error) {
+        handleError(error, 'Lấy thông tin địa chỉ thất bại');
     }
 };
 
-export const getShippingAddressesByUserId = async ({ userId }) => {
-    const { data, error } = await supabase.from('shippingAddresses').select('*').eq('userId', userId);
-
-    if (error) {
-        throw new Error('getAddressByUserId err:  ', error.message);
+export const deleteAddressById = async (addressId) => {
+    try {
+        if (!addressId) {
+            throw new Error('Không có id địa chỉ');
+        }
+        const res = await axiosInstance.delete(`/addresses/${addressId}`);
+        return res.data;
+    } catch (error) {
+        handleError(error, 'Xóa địa chỉ thất bại');
     }
-
-    return data;
 };
 
-export const deleteShippingAddressById = async ({ addressId }) => {
-    if (!addressId) {
-        throw new Error('không có id, xóa địa chỉ thất bại !');
-    }
-    const { error } = await supabase.from('shippingAddresses').delete().eq('id', addressId);
+export const addAddress = async (address) => {
+    try {
+        console.log(address);
+        const { fullAddress, addressDetail, fullName, phoneNumber } = address;
+        const ward = fullAddress.name.split(',')[0];
+        const district = fullAddress.name.split(',')[1];
+        const province = fullAddress.name.split(',')[2];
 
-    if (error) {
-        throw new Error('deleteAddressById err:  ', error.message);
+        const res = await axiosInstance.post('/addresses', {
+            phoneNumber,
+            fullName,
+            province,
+            district,
+            ward,
+            addressDetail,
+        });
+        return res.data;
+    } catch (error) {
+        handleError(error, 'Thêm địa chỉ thất bại');
     }
 };

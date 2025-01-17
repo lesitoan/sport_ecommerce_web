@@ -1,62 +1,38 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import {
-    addShippingAddressByUserId as addShippingAddressByUserIdApi,
-    getShippingAddressesByUserId,
-    deleteShippingAddressById as deleteShippingAddressByIdApi,
+    addAddress as addAddressApi,
+    getAddresses,
+    deleteAddressById as deleteAddressByIdApi,
 } from '../services/addressApi';
 
-export const useAddShippingAddress = () => {
-    const queryClient = useQueryClient();
-    const {
-        mutate: addShippingAddressByUserId,
-        isPending: isLoading,
-        isSuccess,
-    } = useMutation({
-        mutationFn: addShippingAddressByUserIdApi,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['shippingAddresses'] });
-            toast.success('Thêm địa chỉ thành công !', {
-                position: 'top-center',
-            });
-        },
-        onError: (error) => {
-            toast.error('Thêm địa chỉ thất bại !', {
-                position: 'top-center',
-            });
-        },
-    });
-
-    return { addShippingAddressByUserId, isLoading, isSuccess };
-};
-
-export const useGetShippingAddresses = (userId) => {
+export const useAddresses = () => {
     const {
         isPending: isLoading,
         isError,
-        data: shippingAddresses,
+        data: addresses,
         error,
     } = useQuery({
-        queryKey: ['shippingAddresses', userId],
-        queryFn: async () => await getShippingAddressesByUserId({ userId }),
-        gcTime: 15 * 1000, // 15s
+        queryKey: ['addresses'],
+        queryFn: async () => await getAddresses(),
+        gcTime: 3 * 1000, // 3s
     });
     if (isError) {
-        throw new Error(error.message);
+        return { isLoading, addresses: null };
     }
-    return { isLoading, shippingAddresses };
+    return { isLoading, addresses };
 };
 
-export const useDeleteShippingAddressById = () => {
+export const useDeleteAddress = () => {
     const queryClient = useQueryClient();
     const {
-        mutate: deleteShippingAddressById,
+        mutate: deleteAddress,
         isPending: isLoading,
         isSuccess,
     } = useMutation({
-        mutationFn: deleteShippingAddressByIdApi,
+        mutationFn: deleteAddressByIdApi,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['shippingAddresses'] });
+            queryClient.invalidateQueries({ queryKey: ['addresses'] });
             toast.success('Xóa địa chỉ thành công !', {
                 position: 'top-center',
             });
@@ -68,5 +44,29 @@ export const useDeleteShippingAddressById = () => {
         },
     });
 
-    return { deleteShippingAddressById, isLoading, isSuccess };
+    return { deleteAddress, isLoading };
+};
+
+export const useAddAddress = () => {
+    const queryClient = useQueryClient();
+    const {
+        mutate: addAddress,
+        isPending: isLoading,
+        isSuccess,
+    } = useMutation({
+        mutationFn: addAddressApi,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['addresses'] });
+            toast.success('Thêm địa chỉ thành công !', {
+                position: 'top-center',
+            });
+        },
+        onError: (error) => {
+            toast.error('Thêm địa chỉ thất bại !', {
+                position: 'top-center',
+            });
+        },
+    });
+
+    return { addAddress, isLoading, isSuccess };
 };
