@@ -4,7 +4,7 @@ const CardProdHorizontal = ({ cart }) => {
     const image = imageUrls[0];
 
     return (
-        <div className="flex gap-[3%] w-[100%] mb-2">
+        <div className="flex  gap-[3%] w-[100%] mb-2">
             <div className="w-[20%]">
                 <img className="w-[85px]" src={image} alt="product" />
             </div>

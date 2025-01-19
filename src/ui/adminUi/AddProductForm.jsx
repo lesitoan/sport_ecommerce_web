@@ -9,7 +9,7 @@ const AddProductForm = () => {
     } = useForm();
 
     const onSubmit = (data) => {
-        return
+        return;
     };
 
     return (

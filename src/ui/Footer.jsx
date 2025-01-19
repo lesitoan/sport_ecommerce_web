@@ -1,4 +1,3 @@
-
 const Footer = () => {
     return (
         <div className="bg-main-color py-6 text-[#fff] flex justify-center">
@@ -12,7 +11,7 @@ const Footer = () => {
                     </ul>
                 </div>
                 <div>
-                    <h4 className="font-[500] text-[20px] mb-2" >HỖ TRỢ KHÁCH HÀNG</h4>
+                    <h4 className="font-[500] text-[20px] mb-2">HỖ TRỢ KHÁCH HÀNG</h4>
                     <ul className="flex flex-col gap-y-1">
                         <li>Giao hàng và trả hàng</li>
                         <li>Chính sách bảo hành</li>
@@ -20,7 +19,7 @@ const Footer = () => {
                         <li>Hệ thống chi nhánh</li>
                     </ul>
                 </div>
-                <div className="font-[500] text-[20px] mb-2" >
+                <div className="font-[500] text-[20px] mb-2">
                     <h4>FANPAGE FACEBOOK</h4>
                     <div className="mt-3">
                         <img src="/logo.png" alt="logo" />
@@ -28,7 +27,7 @@ const Footer = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Footer;

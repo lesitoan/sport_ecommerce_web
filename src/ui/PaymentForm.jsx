@@ -58,7 +58,9 @@ const PaymentForm = () => {
     } = useForm();
     const [state, dispatch] = useReducer(reducer, { provinces: [], districts: [], wards: [] });
 
-    const onSubmit = (data) => {return};
+    const onSubmit = (data) => {
+        return;
+    };
 
     useEffect(() => {
         getLocation({ type: 'provinces', code: 0, _dispatch: dispatch });

@@ -7,7 +7,7 @@ const Layout = () => {
         <div>
             <Header />
 
-            <div className="2xl:max-w-[var(--max-width-2xl)] xl:max-w-[var(--max-width-xl)] m-auto">
+            <div className="2xl:max-w-[1500px] m-auto">
                 <Outlet />
             </div>
 

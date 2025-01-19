@@ -11,12 +11,12 @@ const Logout = () => {
     const { setUser } = useAuth();
 
     useEffect(() => {
-        if(isSuccess) {
+        if (isSuccess) {
             setUser(null);
             nagigate('/', { replace: true });
         }
     }, [isSuccess, nagigate, setUser]);
-    
+
     return (
         <>
             <div

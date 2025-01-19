@@ -9,7 +9,7 @@ const AddCategoryForm = () => {
     } = useForm();
 
     const onSubmit = (data) => {
-        return
+        return;
     };
 
     return (
