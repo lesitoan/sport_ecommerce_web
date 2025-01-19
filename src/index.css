@@ -13,11 +13,11 @@ body {
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 62.5%;
+    /* font-size: 62.5%; */
 }
 
 :root {
-    font-size: 1.5rem;
+    /* font-size: 1.5rem; */
     vertical-align: baseline;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -25,9 +25,4 @@ body {
 
     --main-color: #312783;
     --main-color-90: #5849ca;
-    --max-width-xl: 1400px;
-    --max-width-2xl: 1500px;
-
-    --card-width-xl: 250px;
-    --card-width-2xl: 280px;
 }

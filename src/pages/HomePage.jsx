@@ -2,6 +2,7 @@ import SlideShowImage from '../ui/SlideShowImage';
 import { useGetProducts } from '../hooks/productsHooks';
 import BoxProducts from '../ui/BoxProducts';
 import Spinner from '../ui/Spinner';
+import News from '../ui/News';
 
 const HomePage = () => {
     const { isLoading: aoBongDaCLBLoading, data: aoBongDaCLB } = useGetProducts(
@@ -23,7 +24,7 @@ const HomePage = () => {
 
     return (
         <>
-            <div className="w-[99vw] relative left-1/2 -translate-x-1/2">
+            <div className=" hidden lg:block w-[99vw] relative left-1/2 -translate-x-1/2">
                 <SlideShowImage />
             </div>
 
@@ -31,10 +32,10 @@ const HomePage = () => {
                 <Spinner />
             ) : (
                 <>
-                    <h3 className="font-[600] text-[30px] mb-2 mt-8 uppercase">
+                    <h3 className="font-semibold text-xl sm:text-2xl xl:text-3xl mb-2 uppercase mt-8">
                         {aoBongDaCLB?.products[0]?.categoryName}
                     </h3>
-                    <BoxProducts products={aoBongDaCLB.products} />
+                    <BoxProducts products={aoBongDaCLB.products} boxBaner={true} limit={4} />
                 </>
             )}
 
@@ -42,36 +43,13 @@ const HomePage = () => {
                 <Spinner />
             ) : (
                 <>
-                    <h3 className="font-[600] text-[30px] mb-2 uppercase">
+                    <h3 className="font-semibold text-xl sm:text-2xl xl:text-3xl mb-2 uppercase">
                         {aoBongDaTuyen?.products[0]?.categoryName}
                     </h3>
-                    <BoxProducts products={aoBongDaTuyen.products} />
+                    <BoxProducts products={aoBongDaTuyen.products} boxBaner={true} limit={4} />
                 </>
             )}
-
-            {/* cẩm nang thể thao */}
-            <div className="mb-[40px] mt-[25px]">
-                <hr className="border-t-2 border-main-color mb-2" />
-                <h3 className="font-[600] text-[35px] mb-2">Cẩm nang thể thao</h3>
-                <div className="grid grid-cols-4 grid-rows-2 gap-2 auto-cols-min auto-rows-min">
-                    <div className="bg-amber-400 min-h-[200px] col-start-1 col-span-2 row-span-full overflow-hidden">
-                        {/* <img className="w-[100%]" src="/messi/5.jfif" alt="photo" /> */}
-                    </div>
-                    <div className="bg-amber-400 h-[200px] overflow-hidden">
-                        <img className="w-[100%]" src="/messi/1.jpg" alt="Ảnh sản phẩm" />
-                    </div>
-                    <div className="bg-amber-400 h-[200px] overflow-hidden">
-                        <img className="w-[100%]" src="/messi/2.jfif" alt="Ảnh sản phẩm" />
-                    </div>
-                    <div className="bg-amber-400 h-[200px] overflow-hidden">
-                        <img className="w-[100%]" src="/messi/3.webp" alt="Ảnh sản phẩm" />
-                    </div>
-                    <div className="bg-amber-400 h-[200px] overflow-hidden">
-                        <img className="w-[100%]" src="/messi/4.webp" alt="Ảnh sản phẩm" />
-                    </div>
-                </div>
-                <hr className="border-t-2 border-main-color mt-3" />
-            </div>
+            <News />
         </>
     );
 };

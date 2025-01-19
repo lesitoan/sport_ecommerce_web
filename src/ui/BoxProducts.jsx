@@ -1,11 +1,23 @@
 import CartProduct from './CartProduct';
 
-const BoxProducts = ({ products, limit }) => {
+const BoxProducts = ({ products, limit, boxBaner }) => {
     if (products.length === 0) return null;
     if (limit) products = products.slice(0, limit);
     return (
-        <div className="mb-[40px] mt-[25px]">
-            <div className="w-[100%] flex justify-start flex-wrap xl:gap-[calc((var(--max-width-xl)-var(--card-width-xl)*4)/3)] 2xl:gap-[calc((var(--max-width-2xl)-var(--card-width-2xl)*5)/4)]">
+        <div className="mb-10 mt-4 ">
+            <div className="w-full flex justify-between flex-wrap gap-y-4">
+                {/* show banner if home page */}
+                {boxBaner && (
+                    <div className="hidden xl:block w-56 2xl:w-64">
+                        <img
+                            className="w-full h-full object-cover"
+                            src="../public/ao_bong_da_clb.png"
+                            alt="Ảnh sản phẩm"
+                        />
+                    </div>
+                )}
+                {/*  */}
+
                 {products.map((prod, index) => (
                     <CartProduct product={prod} key={index} />
                 ))}

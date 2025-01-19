@@ -1,7 +1,7 @@
 const Footer = () => {
     return (
-        <div className="bg-main-color py-6 text-[#fff] flex justify-center">
-            <div className="2xl:max-w-[1500px] xl:max-w-[1200px] flex justify-start gap-x-[14vw] py-6 px-8 text-[#fff]">
+        <div className="pl-12 bg-main-color py-6 text-white flex justify-center">
+            <div className="2xl:max-w-[1500px] flex justify-start gap-x-8 lg:gap-x-16 gap-y-8 text-white flex-wrap">
                 <div>
                     <h4 className="font-[500] text-[20px] mb-2">CHẤP NHẬN THANH TOÁN</h4>
                     <ul className="flex flex-col gap-y-1">
