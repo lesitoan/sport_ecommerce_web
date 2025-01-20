@@ -1,4 +1,9 @@
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
+import { AiOutlineInfoCircle, AiOutlineShoppingCart } from 'react-icons/ai';
+import { BsCardChecklist } from 'react-icons/bs';
+import { HiOutlineLocationMarker } from 'react-icons/hi';
+import { BiLogOut } from 'react-icons/bi';
+
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -19,65 +24,70 @@ const AccountPage = () => {
     };
 
     return (
-        <div className="flex gap-2 mt-8 mb-8 min-h-[100vh] text-[16px]">
+        <div className="sm:flex gap-2 mt-8 mb-8 min-h-[100vh] text-[16px]">
             {/* navigation */}
-            <div className="w-[30%]">
+            <div className="sm:w-[30%] ">
                 {/* <hr className="border-t-2 border-main-color" /> */}
 
-                <ul className="uppercase font-[500]">
+                <ul className="flex justify-evenly flex-wrap sm:block gap-2 sm:gap-0 uppercase font-[500]">
                     <li
                         className={`${
                             activeSection === 'gioi_thieu' && 'bg-main-color text-white'
-                        } px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('gioi_thieu')}
                     >
+                        <AiOutlineInfoCircle />
                         giới thiệu
                     </li>
 
                     <li
                         className={`${
                             activeSection === 'gio_hang' && 'bg-main-color text-white'
-                        } px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('gio_hang')}
                     >
+                        <AiOutlineShoppingCart />
                         giỏ hàng
                     </li>
 
                     <li
                         className={`${
                             activeSection === 'don_hang' && 'bg-main-color text-white'
-                        } px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('don_hang')}
                     >
+                        <BsCardChecklist />
                         đơn hàng
                     </li>
                     <li
                         className={`${
                             activeSection === 'dia_chi' && 'bg-main-color text-white'
-                        } px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('dia_chi')}
                     >
+                        <HiOutlineLocationMarker />
                         Địa chỉ
                     </li>
 
                     <li
                         className={`${
                             activeSection === 'tai_khoan' && 'bg-main-color text-white'
-                        } px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('tai_khoan')}
                     >
+                        <FaUserCircle />
                         tài khoản
                     </li>
 
-                    <li className="px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out flex gap-1 items-center">
-                        <FaSignOutAlt />
+                    <li className="w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out">
+                        <BiLogOut />
                         <Logout />
                     </li>
                 </ul>
             </div>
 
             {/* content */}
-            <div className=" w-[70%] px-4 ">
+            <div className=" sm:w-[70%] px-4 ">
                 <hr className="border-t-2 border-main-color mb-2" />
                 {/* giới thiệu */}
 

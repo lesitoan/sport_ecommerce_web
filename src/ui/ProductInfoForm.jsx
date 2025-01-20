@@ -50,7 +50,7 @@ const ProductInfoForm = ({ product }) => {
     };
 
     return (
-        <div className="flex justify-between mb-10 mt-10">
+        <div className="sm:flex justify-between mb-10 mt-10 gap-x-4 lg:gap-x-8">
             <Modal show={showModal} onShow={setShowModal} submit={handleAddToShoppingCard}>
                 <h3>
                     Bạn chắc chắn muốn thêm vào giỏ hàng ?
@@ -58,22 +58,24 @@ const ProductInfoForm = ({ product }) => {
                     sau khi thêm hãy đến giỏ hàng để thanh toán
                 </h3>
             </Modal>
-            <div className="w-[30%]">
+
+            <div className="sm:w-1/3">
                 {/* thumnail */}
                 <img src={thumnail} alt="ảnh sản phẩm" />
                 <ul className="flex justify-start gap-2 flex-nowrap mt-3">
                     {images.length > 0 &&
                         images.map((url, index) => {
                             return (
-                                <li className="w-[80px] cursor-pointer" key={index}>
+                                <li className="w-20 cursor-pointer" key={index}>
                                     <img src={url} alt="ảnh sản phẩm" />
                                 </li>
                             );
                         })}
                 </ul>
             </div>
-            <div className="w-[68%] p-3">
-                <h3 className="font-[700] text-[26px] mb-1">{productName}</h3>
+
+            <div className="sm:w-2/3">
+                <h3 className="font-semibold text-xl sm:text-2xl xl:text-3xl my-4 sm:my-0">{productName}</h3>
                 {attributes.length > 0 &&
                     attributes.map((attr, index) => (
                         <Option
@@ -83,25 +85,27 @@ const ProductInfoForm = ({ product }) => {
                             currentAttribute={currAttributes.find((item) => item.attrName === attr.type)}
                         />
                     ))}
-                <h3 className="font-[700] text-[26px] mb-4 text-red-600">
+                <h3 className="font-bold text-xl sm:text-2xl 2xl:text-3xl my-4 text-red-600">
                     {totalPrice}
                     <span>&#8363;</span>
                 </h3>
 
-                <div className="flex items-center justify-start gap-2">
+                <div className="sm:flex items-center justify-start gap-2 lg:w-2/3">
                     <Button>MUA NGAY</Button>
-                    <Button
-                        onClick={() => {
-                            setShowModal(true);
-                        }}
-                        disable={isLoading}
-                    >
-                        {/* <FaCartShopping /> */}
-                        {isLoading ? 'Đang thêm...' : <FaCartShopping />}
-                    </Button>
-                    <Button>
-                        <FaFacebookMessenger />
-                    </Button>
+                    <div className="flex w-full gap-x-4 sm:gap-x-2">
+                        <Button
+                            onClick={() => {
+                                setShowModal(true);
+                            }}
+                            disable={isLoading}
+                        >
+                            {/* <FaCartShopping /> */}
+                            {isLoading ? 'Đang thêm...' : <FaCartShopping className="w-full" />}
+                        </Button>
+                        <Button>
+                            <FaFacebookMessenger className="w-full" />
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

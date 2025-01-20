@@ -22,8 +22,8 @@ const ProductDetailPage = () => {
             {<ProductInfoForm product={product} />}
             <hr className="border-t-2 border-main-color mb-2" />
             {/* ------------ */}
-            <div>
-                <h3 className="font-[600] text-[35px] mb-2">Chi tiết sản phẩm</h3>
+            <div className="text-base sm:text-lg 2xl:text-xl">
+                <h3 className="font-semibold text-xl sm:text-2xl xl:text-3xl my-3 uppercase">Chi tiết sản phẩm</h3>
                 <p className="mb-8">
                     3. HƯỚNG DẪN BẢO QUẢN - Không sử dụng chất tẩy <br />
                     - Lật mặt trái trước khi giặt để màu sắc được luôn như mới
@@ -52,16 +52,6 @@ const ProductDetailPage = () => {
                     Hân hạnh được phục vụ Quý Khách!
                 </p>
             </div>
-
-            {/* ------------ */}
-            {/* <hr className="border-t-2 border-main-color mb-2" />
-            {isLoadingRelatedProducts ? (
-                <Spinner />
-            ) : (
-                relatedProducts?.products && (
-                    <BoxProducts products={relatedProducts.products} categoryName={'Sản phẩm liên quan'} limit={4} />
-                )
-            )} */}
         </div>
     );
 };
