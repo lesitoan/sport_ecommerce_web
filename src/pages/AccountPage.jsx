@@ -24,16 +24,14 @@ const AccountPage = () => {
     };
 
     return (
-        <div className="sm:flex gap-2 mt-8 mb-8 min-h-[100vh] text-[16px]">
+        <div className="sm:flex gap-6 my-8 min-h-screen text-sm sm:text-base 2xl:text-lg">
             {/* navigation */}
-            <div className="sm:w-[30%] ">
-                {/* <hr className="border-t-2 border-main-color" /> */}
-
-                <ul className="flex justify-evenly flex-wrap sm:block gap-2 sm:gap-0 uppercase font-[500]">
+            <div className="sm:w-1/3">
+                <ul className="flex justify-evenly flex-wrap sm:block gap-2 sm:gap-0 uppercase font-medium">
                     <li
                         className={`${
                             activeSection === 'gioi_thieu' && 'bg-main-color text-white'
-                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-2/5 sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('gioi_thieu')}
                     >
                         <AiOutlineInfoCircle />
@@ -43,7 +41,7 @@ const AccountPage = () => {
                     <li
                         className={`${
                             activeSection === 'gio_hang' && 'bg-main-color text-white'
-                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-2/5 sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('gio_hang')}
                     >
                         <AiOutlineShoppingCart />
@@ -53,7 +51,7 @@ const AccountPage = () => {
                     <li
                         className={`${
                             activeSection === 'don_hang' && 'bg-main-color text-white'
-                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-2/5 sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('don_hang')}
                     >
                         <BsCardChecklist />
@@ -62,7 +60,7 @@ const AccountPage = () => {
                     <li
                         className={`${
                             activeSection === 'dia_chi' && 'bg-main-color text-white'
-                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-2/5 sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('dia_chi')}
                     >
                         <HiOutlineLocationMarker />
@@ -72,14 +70,14 @@ const AccountPage = () => {
                     <li
                         className={`${
                             activeSection === 'tai_khoan' && 'bg-main-color text-white'
-                        } w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
+                        } w-2/5 sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out`}
                         onClick={() => handleCLickNav('tai_khoan')}
                     >
                         <FaUserCircle />
                         tài khoản
                     </li>
 
-                    <li className="w-[45%] sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out">
+                    <li className="w-2/5 sm:w-full flex items-center gap-2 px-3 py-3 mb-1 cursor-pointer hover:bg-main-color hover:text-white transition duration-300 ease-in-out">
                         <BiLogOut />
                         <Logout />
                     </li>
@@ -87,12 +85,12 @@ const AccountPage = () => {
             </div>
 
             {/* content */}
-            <div className=" sm:w-[70%] px-4 ">
-                <hr className="border-t-2 border-main-color mb-2" />
+            <div className=" sm:w-2/3">
+                <hr className="border-t-2 border-main-color mb-4 w-full" />
                 {/* giới thiệu */}
 
                 {activeSection === 'gioi_thieu' && (
-                    <p className="text-[18px]">
+                    <p className="text-base sm:text-lg 2xl:text-xl border-solid border-2 border-main-color rounded-md p-2 sm:p-4">
                         Xin chào quý khách hàng đã tin tưởng và lựa chọn sản phẩm của chúng mình, nếu cần tư vấn hay có
                         bất kì lỗi gì hãy liên hệ với chúng mình để được giải quyết kịp thời. xin cảm ơn @@
                     </p>

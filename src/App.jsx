@@ -83,7 +83,24 @@ function App() {
                     </Route>
                 </Routes>
             </BrowserRouter>
-            <ToastContainer limit={3} autoClose={1000} />
+            <ToastContainer
+                limit={3}
+                autoClose={2000}
+                toastClassName={(context) => {
+                    const baseClasses =
+                        'mx-5 sm:mx-0 mt-5 relative flex items-center justify-between p-4 rounded-lg shadow-md';
+                    const typeClasses = {
+                        success: 'bg-green-500 text-white',
+                        error: 'bg-red-500 text-white',
+                        info: 'bg-blue-500 text-white',
+                        warning: 'bg-yellow-500 text-black',
+                    };
+
+                    return `${baseClasses} ${typeClasses[context?.type || 'info']}`;
+                }}
+                bodyClassName="text-sm"
+                progressClassName="bg-white h-1"
+            />
         </>
     );
 }

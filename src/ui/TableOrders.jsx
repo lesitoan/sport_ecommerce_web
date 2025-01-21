@@ -16,13 +16,13 @@ const TableOrders = () => {
 
     return (
         <div className="">
-            <table className="w-full text-[16px] text-left">
+            <table className="w-full text-left">
                 <thead className=" bg-main-color text-white">
                     <tr>
                         <th scope="col" className="pl-3 pr-1 py-2">
                             Đơn hàng
                         </th>
-                        <th scope="col" className="pr-3 py-2">
+                        <th scope="col" className="pr-3 py-2 hidden sm:table-cell">
                             Ngày đặt hàng
                         </th>
                         <th scope="col" className="pr-3 py-2">

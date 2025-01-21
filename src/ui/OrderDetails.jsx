@@ -35,15 +35,17 @@ const OrderDetail = ({ isShow, orderId }) => {
 
             <td className="px-3 py-4" colSpan={5}>
                 <ul className="flex flex-col">
-                    {order.products.map((product) => (
-                        <CartProdHorizontal cart={product} key={product.productId} />
-                    ))}
+                    <li className="mb-4">
+                        {order.products.map((product) => (
+                            <CartProdHorizontal cart={product} key={product.productId} />
+                        ))}
+                    </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Tên người nhận:</span>
+                        <span className="block font-medium min-w-48">Tên người nhận:</span>
                         <span>{order.address.fullName}</span>
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Ngày đặt:</span>
+                        <span className="block font-medium min-w-48">Ngày đặt:</span>
                         <span>
                             {new Date(order.createAt).getDate() +
                                 '/' +
@@ -53,58 +55,58 @@ const OrderDetail = ({ isShow, orderId }) => {
                         </span>
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Trạng thái:</span>
+                        <span className="block font-medium min-w-48">Trạng thái:</span>
                         {order.orderStatus === 'pending' && (
-                            <span className="text-yellow-600 font-[500]">Chờ xử lý</span>
+                            <span className="text-yellow-600 font-medium">Chờ xử lý</span>
                         )}
                         {order.orderStatus === 'confirmed' && (
-                            <span className="text-orange-600 font-[500]">Đã xác nhận</span>
+                            <span className="text-orange-600 font-medium">Đã xác nhận</span>
                         )}
                         {order.orderStatus === 'inTransit' && (
-                            <span className="text-blue-600 font-[500]">Đang vận chuyển</span>
+                            <span className="text-blue-600 font-medium">Đang vận chuyển</span>
                         )}
                         {order.orderStatus === 'completed' && (
-                            <span className="text-green-600 font-[500]">Thành công</span>
+                            <span className="text-green-600 font-medium">Thành công</span>
                         )}
-                        {order.orderStatus === 'error' && <span className="text-red-600 font-[500]">Thất bại</span>}
+                        {order.orderStatus === 'error' && <span className="text-red-600 font-medium">Thất bại</span>}
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Phương thức thanh toán:</span>
+                        <span className="block font-medium min-w-48">Phương thức thanh toán:</span>
                         <span>{'Thanh toán khi nhận hàng'}</span>
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Số điện thoại nhận hàng:</span>
+                        <span className="block font-medium min-w-48">Số điện thoại nhận hàng:</span>
                         <span>{order.address.phoneNumber}</span>
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Địa chỉ nhận hàng:</span>
+                        <span className="block font-medium min-w-48">Địa chỉ nhận hàng:</span>
                         <span>{`${order.address.ward} - ${order.address.district} - ${order.address.province}`}</span>
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Địa chỉ nhận hàng cụ thể:</span>
+                        <span className="block font-medium min-w-48">Địa chỉ nhận hàng cụ thể:</span>
                         <span>{order.address.addressDetail}</span>
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Ghi chú:</span>
+                        <span className="block font-medium min-w-48">Ghi chú:</span>
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Tổng tiền sản phẩm:</span>
+                        <span className="block font-medium min-w-48">Tổng tiền sản phẩm:</span>
                         <span>{order.price}&#8363;</span>
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Phí giao hàng</span>
+                        <span className="block font-medium min-w-48">Phí giao hàng</span>
                         <span>{order.shippingFee}&#8363;</span>
                     </li>
                     <li className="flex mb-1">
-                        <span className="block font-[500] min-w-[200px]">Tổng cộng:</span>
-                        <span className="text-red-500 font-[500]">
+                        <span className="block font-medium min-w-48">Tổng cộng:</span>
+                        <span className="text-red-500 font-medium">
                             {Number(order.price) + Number(order.shippingFee || 0)}&#8363;
                         </span>
                     </li>
                     {order.orderStatus === 'pending' && (
-                        <div className="flex width-[100%] justify-center">
+                        <div className="flex justify-center">
                             <button
-                                className=" bg-red-600 w-[200px] h-[38px] mt-2 text-white py-[2px]  cursor-pointer rounded-md hover:bg-red-500"
+                                className=" bg-red-600 w-36 sm:w-44 h-8 sm:h-9 mt-2 text-white py-[2px]  cursor-pointer rounded-md hover:bg-red-500"
                                 onClick={() => {
                                     setShowModal(true);
                                 }}

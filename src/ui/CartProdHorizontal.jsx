@@ -4,13 +4,13 @@ const CardProdHorizontal = ({ cart }) => {
     const image = imageUrls[0];
 
     return (
-        <div className="flex  gap-[3%] w-[100%] mb-2">
-            <div className="w-[20%]">
-                <img className="w-[85px]" src={image} alt="product" />
+        <div className="flex  gap-6 w-full mb-2">
+            <div className="w-1/4 lg:w-1/5">
+                <img className="w-full " src={image} alt="product" />
             </div>
-            <div className="w-[77%]">
-                <h4 className="font-[500] text-[16px] max-h-[60px] overflow-hidden">{productName}</h4>
-                <span className="italic mb-2 text-[15px]">
+            <div className="w-3/4 lg:w-4/5">
+                <h4 className="font-medium overflow-hidden">{productName}</h4>
+                <span className="italic mb-2">
                     {attributes
                         .map((attr) => {
                             if (attr) {
@@ -22,13 +22,13 @@ const CardProdHorizontal = ({ cart }) => {
                         .join(', ')}
                 </span>
 
-                <div className="flex justify-start text-[16px] gap-7">
-                    <span className="text-red-600 font-[600]">
+                <div className="flex justify-start gap-7">
+                    <span className="text-red-600 font-semibold">
                         {price}
                         <span>&#8363;</span>
                     </span>
-                    <div className="flex justify-start gap-2 text-[15px] items-center">
-                        <span className="font-[400]">{`Số lượng: ${quantity}`}</span>
+                    <div className="flex justify-start gap-2 items-center">
+                        <span className="font-normal">{`Số lượng: ${quantity}`}</span>
                     </div>
                 </div>
             </div>
