@@ -8,9 +8,8 @@ const HeaderButtom = () => {
     return (
         <div className="bg-main-color w-full min-h-12 flex items-center">
             <ul
-                className="hidden md:flex justify-start 2xl:max-w-[1500px] m-auto gap-x-6 gap-y-2 flex-wrap px-2 py-3 text-white
-                font-[500] cursor-pointer text-sm
-            "
+                className="hidden px-6 lg:px-8 xl:px-10 min-[1400px]:px-24 2xl:px-0 2xl:max-w-[1500px] m-auto md:flex justify-start gap-x-6 gap-y-2 flex-wrap py-3 text-white
+                font-normal cursor-pointer text-sm"
             >
                 {!isLoading &&
                     categories.map((category) => (

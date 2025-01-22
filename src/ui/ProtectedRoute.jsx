@@ -14,11 +14,7 @@ const ProtectedRoute = ({ children }) => {
     }, [navigate, user, isLoading]);
 
     if (isLoading) {
-        return (
-            <div className="h-[80vh] flex items-center justify-center">
-                <Spinner />
-            </div>
-        );
+        return <Spinner size={'lg'} css={'w-full h-full'} />;
     }
 
     if (user) {

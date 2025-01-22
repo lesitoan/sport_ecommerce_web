@@ -98,9 +98,9 @@ const ProductInfoForm = ({ product }) => {
                                 setShowModal(true);
                             }}
                             disable={isLoading}
+                            isLoadinng={isLoading}
                         >
-                            {/* <FaCartShopping /> */}
-                            {isLoading ? 'Đang thêm...' : <FaCartShopping className="w-full" />}
+                            <FaCartShopping className="w-full" />
                         </Button>
                         <Button>
                             <FaFacebookMessenger className="w-full" />

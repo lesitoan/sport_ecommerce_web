@@ -18,7 +18,7 @@ const ChangePasswordForm = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <h3 className="font-[600] text-[22px] mb-1">THAY ĐỔI MẬT KHẨU</h3>
+            <h3 className="font-semibold text-xl lg:text-2xl  mb-3 uppercase">THAY ĐỔI MẬT KHẨU</h3>
             <div className="flex flex-wrap justify-between">
                 {/* pw */}
                 <div className="md:col-span-5 w-[100%]">
@@ -76,7 +76,7 @@ const ChangePasswordForm = () => {
                 </div>
             </div>
             <div className="flex flex-wrap justify-center gap-4 mt-2">
-                <Button>
+                <Button isLoadinng={isLoading} disable={isLoading}>
                     <div className="flex items-center justify-center gap-2">Thay đổi mật khẩu</div>
                 </Button>
             </div>

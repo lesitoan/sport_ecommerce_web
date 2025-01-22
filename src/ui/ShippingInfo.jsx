@@ -25,13 +25,13 @@ const ShippingInfo = ({ addresses, onShippingInfo, shippingInfo }) => {
 
     return (
         <>
-            <div className="mb-6">
-                <h3 className="font-[600] text-[22px] mb-1">THÔNG TIN GIAO HÀNG</h3>
-                <label className="mt-3 font-[500] block text-[18px] text-gray-800">Chọn địa chỉ của bạn:</label>
+            <div className="mb-6 text-sm sm:text-base lg:test-lg font-medium">
+                <h3 className="font-semibold text-xl lg:text-2xl  mb-2 uppercase">THÔNG TIN GIAO HÀNG</h3>
+                <label className=" text-gray-800">Chọn địa chỉ của bạn:</label>
                 <select
                     id="options"
                     name="options"
-                    className="mt-2 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 text-[18px] text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="my-2 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                     onChange={(e) => {
                         const shippingAddress = addresses.find((add) => add.id === Number(e.target.value));
                         onShippingInfo({ ...shippingAddress });
@@ -41,15 +41,15 @@ const ShippingInfo = ({ addresses, onShippingInfo, shippingInfo }) => {
                         <option
                             value={address.id}
                             key={address.id}
-                            className="bg-slate-200 truncate  mb-2 px-4 py-2 rounded-sm"
+                            className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm"
                         >
                             {`${address?.fullName} - ${address.ward} - ${address.district} - ${address.province}`}
                         </option>
                     ))}
                 </select>
-                <label className="mt-3 mb-1 font-[500] block text-[18px] text-gray-800">Bạn đang chọn địa chỉ:</label>
+                <label className="mt-3 mb-1 text-gray-800">Bạn đang chọn địa chỉ:</label>
                 {shippingInfo && (
-                    <div className="bg-slate-200 shadow-lg flex justify-between mb-2 px-4 py-2 rounded-sm">
+                    <div className="bg-slate-200 shadow-lg flex justify-between my-2 px-4 py-2 rounded-sm">
                         <div>
                             <p>{shippingInfo?.fullName}</p>
                             <p>{shippingInfo.phoneNumber}</p>
@@ -59,37 +59,24 @@ const ShippingInfo = ({ addresses, onShippingInfo, shippingInfo }) => {
                     </div>
                 )}
             </div>
-            <h3 className="font-[600] text-[22px] mb-2 mt-5">PHƯƠNG THỨC THANH TOÁN</h3>
-            <div className="flex flex-wrap justify-between">
-                <div className="flex justify-between items-center border-solid border-2 border-main-color p-2 gap-3 md:col-span-5 w-[49%] cursor-pointer hover:bg-main-color hover:text-white">
-                    <FaTruckFast className="text-[45px] text-orange-400"></FaTruckFast>
+            <h3 className="font-semibold text-xl lg:text-2xl  mb-3 uppercase">PHƯƠNG THỨC THANH TOÁN</h3>
+            <div className="flex flex-wrap justify-between gap-3 sm:gap-0 md:gap-3">
+                <div className="flex justify-start items-center border-solid border-2 border-main-color p-2 gap-3 w-full sm:w-[49%] md:w-full xl:w-[49%] cursor-pointer hover:bg-main-color hover:text-white">
+                    <FaTruckFast className="text-3xl text-orange-400"></FaTruckFast>
                     <p>
-                        <input
-                            type="text"
-                            name="paymentMethod"
-                            className="hidden"
-                            defaultValue="thanh_toan_khi_nhan_hang"
-                        />
-                        <span className="font-[600] text-[16px]">Thanh toán khi nhận hàng </span>
+                        <input type="text" name="paymentMethod" className="hidden" />
+                        <span className="font-semibold text-inherit">Thanh toán khi nhận hàng </span>
                         <br />
-                        <span className="text-[14px]">Quý khách sẽ thanh toán bằng tiền mặt khi nhận hàng</span>
+                        <span className=" text-inherit">Quý khách sẽ thanh toán bằng tiền mặt khi nhận hàng</span>
                     </p>
                 </div>
-                <div className="flex justify-between items-center border-solid border-2 p-2 gap-3 md:col-span-5 w-[49%] cursor-not-allowed opacity-80">
-                    <FaMoneyBill1Wave className="text-[45px] text-orange-400"></FaMoneyBill1Wave>
+                <div className="flex justify-start items-center border-solid border-2 p-2 gap-3 w-full sm:w-[49%] md:w-full xl:w-[49%] cursor-not-allowed opacity-70">
+                    <FaMoneyBill1Wave className="text-3xl text-orange-400"></FaMoneyBill1Wave>
                     <p>
-                        <span className="font-[600] text-[16px]">Thanh toán chuyển khoản</span>
+                        <span className="font-semibold text-inherit">Thanh toán chuyển khoản</span>
                         <br />
-                        <span className="text-[14px]">Thanh toán chuyển khoản qua số tài khoản ngân hàng</span>
+                        <span className=" text-inherit">Thanh toán chuyển khoản qua số tài khoản ngân hàng</span>
                     </p>
-                </div>
-                <div className="md:col-span-5 w-[100%]">
-                    <input
-                        className="h-7 bg-slate-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black"
-                        value={`Quý khách sẽ thanh toán bằng tiền mặt khi nhận hàng`}
-                        type="text"
-                        onChange={() => ''}
-                    />
                 </div>
             </div>
         </>

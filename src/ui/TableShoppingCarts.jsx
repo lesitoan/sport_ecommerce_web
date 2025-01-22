@@ -9,7 +9,7 @@ const TableShoppingCarts = () => {
     const { carts, isLoading } = UseGetShoppingCart();
     const totalPrice = carts?.reduce((acc, cart) => acc + cart.price, 0);
 
-    if (isLoading) return <Spinner />;
+    if (isLoading) return <Spinner size={'md'} css={'mt-14'} />;
     if (!carts || carts.length === 0) return <h4>Chưa có sản phẩm</h4>;
 
     return (

@@ -5,14 +5,8 @@ import Spinner from './Spinner';
 const TableOrders = () => {
     const { isLoading, orders } = useOrders();
 
+    if (isLoading) return <Spinner size={'md'} css={'mt-14'} />;
     if (!orders || orders?.length === 0) return <h4>Chưa có đơn hàng</h4>;
-    if (isLoading) {
-        return (
-            <div className="m3-10">
-                <Spinner />
-            </div>
-        );
-    }
 
     return (
         <div className="">

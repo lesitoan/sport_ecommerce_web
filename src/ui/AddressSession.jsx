@@ -10,11 +10,12 @@ const AddresssSession = () => {
     const { addresses, isLoading: addressesLoading } = useAddresses();
     const { deleteAddress, isLoading: isDeleting } = useDeleteAddress();
 
-    if (addressesLoading) return <Spinner />;
+    if (addressesLoading) return <Spinner size={'md'} css={'mt-14'} />;
+
     return (
         <div className="">
             <div className="mb-6">
-                <h3 className="font-semibold text-xl sm:text-2xl xl:text-3xl mb-2 uppercase">THÔNG TIN GIAO HÀNG</h3>
+                <h3 className="font-semibold text-xl lg:text-2xl  mb-2 uppercase">THÔNG TIN GIAO HÀNG</h3>
                 <div className="border-b border-white py-2">
                     {addresses.length === 0 ? (
                         <h4>Chưa có địa chỉ nhận hàng</h4>

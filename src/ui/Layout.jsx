@@ -7,7 +7,7 @@ const Layout = () => {
         <div>
             <Header />
 
-            <div className="px-6 lg:px-8 xl:px-10 min-[1450px]:px-16 2xl:max-w-[1500px] m-auto">
+            <div className="px-6 lg:px-8 xl:px-10 min-[1400px]:px-24 2xl:px-0 2xl:max-w-[1500px] m-auto">
                 <Outlet />
             </div>
 

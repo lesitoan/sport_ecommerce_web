@@ -19,6 +19,7 @@ const PaymentPage = () => {
     const [showModal, setShowModal] = useState(false);
 
     const { carts, isLoading: cartsLoading } = UseGetShoppingCart();
+    const totalPrice = carts?.reduce((acc, cart) => acc + cart.price, 0);
 
     const { addresses, isLoading: addressesLoading } = useAddresses();
 
@@ -58,44 +59,50 @@ const PaymentPage = () => {
     }
 
     return (
-        <div className="flex justify-between min-h-[80vh] mt-10 mb-10">
-            <div className="w-[54%]">
-                {/* <PaymentForm /> */}
-                <Modal show={showModal} onShow={setShowModal} submit={handleSumit}>
-                    <h3>Bạn chắc chắn muốn đăt đơn hàng này ?</h3>
-                </Modal>
-                <ShippingInfo addresses={addresses} onShippingInfo={setShippingInfo} shippingInfo={shippingInfo} />
-                <div className="flex flex-wrap justify-center gap-4 mt-8">
-                    <Button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            navigate(-1);
-                        }}
-                        disable={isCreating}
-                    >
-                        <div className="flex items-center justify-center gap-2">
-                            <FaArrowCircleLeft className="text-[25px]"></FaArrowCircleLeft>
-                            Quay lại giỏ hàng
-                        </div>
-                    </Button>
-                    <Button onClick={() => setShowModal(true)} disable={isCreating}>
-                        {isCreating ? 'Đang đặt đơn...' : 'Xác nhận đơn hàng'}
-                    </Button>
-                </div>
-            </div>
-
-            <div className="w-[31%]">
-                <h3 className="font-[600] text-[22px] mb-4">ĐƠN HÀNG CỦA BẠN</h3>
+        <div className="md:flex justify-between min-h-screen my-6">
+            <div className="md:w-2/5">
+                <h3 className="font-semibold text-xl lg:text-2xl  mb-3 uppercase">ĐƠN HÀNG CỦA BẠN</h3>
                 <div className="flex flex-col justify-center gap-3">
                     {carts.map((cart, index) => (
                         <CartProdHorizontal key={cart.cartItemId} cart={cart} />
                     ))}
                 </div>
-                <div className="flex items-center gap-2 mt-2">
-                    <h6 className="font-[400] text-[20px]">TỔNG CỘNG:</h6>
-                    {/* <h6 className="font-[600] text-main-color text-[30px]">{carts?.price}&#8363;</h6> */}
+                <>
+                    <div className="flex items-center gap-2 mt-5 text-lg sm:text-xl lg:text-2xl">
+                        <h6 className="font-normal">TỔNG CỘNG:</h6>
+                        <h6 className="font-bold text-main-color">{totalPrice || 0}&#8363;</h6>
+                    </div>
+                    <p className="italic">Giá trên chưa bao gồm phí vận chuyển, phí vận chuyển là 30.000đ</p>
+                </>
+            </div>
+
+            <div className="md:w-7/12 lg:w-1/2 mt-8 md:mt-0">
+                {/* <PaymentForm /> */}
+                <Modal show={showModal} onShow={setShowModal} submit={handleSumit}>
+                    <h3>Bạn chắc chắn muốn đăt đơn hàng này ?</h3>
+                </Modal>
+                <ShippingInfo addresses={addresses} onShippingInfo={setShippingInfo} shippingInfo={shippingInfo} />
+                <div className="flex flex-wrap justify-between mt-8">
+                    <div className="w-full sm:w-[49%]">
+                        <Button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate(-1);
+                            }}
+                            disable={isCreating}
+                        >
+                            <div className="flex items-center justify-center gap-2">
+                                <FaArrowCircleLeft />
+                                Quay lại giỏ hàng
+                            </div>
+                        </Button>
+                    </div>
+                    <div className="w-full sm:w-[49%]">
+                        <Button onClick={() => setShowModal(true)} disable={isCreating}>
+                            {isCreating ? 'Đang đặt đơn...' : 'Xác nhận đơn hàng'}
+                        </Button>
+                    </div>
                 </div>
-                <span className="italic">Giá trên chưa bao gồm phí vận chuyển, phí vận chuyển là 30.000đ</span>
             </div>
         </div>
     );

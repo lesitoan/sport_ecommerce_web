@@ -15,7 +15,7 @@ const MyInfoForm = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mb-5">
-            <h3 className="font-[600] text-[22px] mb-1">THÔNG TIN CÁ NHÂN</h3>
+            <h3 className="font-semibold text-xl lg:text-2xl  mb-3 uppercase">THÔNG TIN CÁ NHÂN</h3>
             <div className="flex flex-wrap justify-between">
                 {/* name */}
 

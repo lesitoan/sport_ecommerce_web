@@ -1,4 +1,6 @@
-const Button = ({ children, onClick, disable }) => {
+import Spinner from './Spinner';
+
+const Button = ({ children, onClick, disable, isLoadinng }) => {
     return (
         <button
             className={`${
@@ -7,7 +9,7 @@ const Button = ({ children, onClick, disable }) => {
             onClick={onClick}
             disabled={disable}
         >
-            {children}
+            {isLoadinng ? <Spinner size={'sm'} /> : children}
         </button>
     );
 };
