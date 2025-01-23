@@ -15,13 +15,7 @@ const AdminProtectedRoute = ({ children }) => {
         }
     }, [navigate, user, isLoading]);
 
-    if (isLoading) {
-        return (
-            <div className="h-[80vh] flex items-center justify-center">
-                <Spinner />
-            </div>
-        );
-    }
+    if (isLoading) return <Spinner size={'lg'} css={'w-full h-[100vh]'} />;
 
     if (user && user.role === 'admin') {
         return children;

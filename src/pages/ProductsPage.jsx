@@ -9,14 +9,14 @@ const ProductPage = () => {
     const { isLoading, data } = useGetProducts({
         category: categorySlug,
     });
-    if (isLoading)
+    if (isLoading) return <Spinner size={'lg'} css={'w-full h-[100vh]'} />;
+
+    if (!data || !data?.products || data?.products.length === 0) {
         return (
-            <div className="h-[80vh] flex items-center justify-center">
-                <Spinner />
+            <div className="h-screen mt-10 text-base sm:text-lg lg:text-xl text-center">
+                Chân thành xin lỗi, sản phẩm danh mục này đã hết, bạn hãy quay lại sau nhé 😢
             </div>
         );
-    if (!data || !data?.products || data?.products.length === 0) {
-        return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">CHƯA CÓ SẢN PHẨM</div>;
     }
     return (
         <>

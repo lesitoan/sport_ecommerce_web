@@ -29,7 +29,7 @@ const HomePage = () => {
             </div>
 
             {aoBongDaCLBLoading ? (
-                <Spinner />
+                <Spinner size={'lg'} css={'w-full h-[20vh]'} />
             ) : (
                 <>
                     <h3 className="font-semibold text-xl sm:text-2xl xl:text-3xl mb-2 uppercase mt-8">
@@ -40,7 +40,7 @@ const HomePage = () => {
             )}
 
             {aoBongDaTuyenLoading ? (
-                <Spinner />
+                <Spinner size={'lg'} css={'w-full h-[20vh]'} />
             ) : (
                 <>
                     <h3 className="font-semibold text-xl sm:text-2xl xl:text-3xl mb-2 uppercase">

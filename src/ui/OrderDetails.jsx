@@ -15,13 +15,12 @@ const OrderDetail = ({ isShow, orderId }) => {
         }
     }, [isSuccess]);
 
-    if (isLoading) {
+    if (isLoading)
         return (
-            <div className="m3-10">
-                <Spinner />
-            </div>
+            <td className="px-3 py-4" colSpan={5}>
+                <Spinner size={'md'} css={'w-full h-[40vh]'} />
+            </td>
         );
-    }
 
     if (!order) {
         return null;

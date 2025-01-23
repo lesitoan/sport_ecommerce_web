@@ -3,10 +3,10 @@ import HeaderButtom from './HeaderButtom';
 
 const Header = () => {
     return (
-        <header>
+        <>
             <HeaderTop />
             <HeaderButtom />
-        </header>
+        </>
     );
 };
 

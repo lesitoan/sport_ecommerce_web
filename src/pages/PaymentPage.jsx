@@ -38,14 +38,7 @@ const PaymentPage = () => {
     if (isSuccess) {
         navigate('/my-account?section=don_hang');
     }
-
-    if (addressesLoading || cartsLoading) {
-        return (
-            <div className="min-h-[80vh] flex items-center justify-center">
-                <Spinner />
-            </div>
-        );
-    }
+    if (addressesLoading || cartsLoading) return <Spinner size={'lg'} css={'w-full h-[100vh]'} />;
 
     if (!carts || carts.length === 0) {
         return (

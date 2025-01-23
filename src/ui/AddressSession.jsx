@@ -17,14 +17,16 @@ const AddresssSession = () => {
             <div className="mb-6">
                 <h3 className="font-semibold text-xl lg:text-2xl  mb-2 uppercase">THÔNG TIN GIAO HÀNG</h3>
                 <div className="border-b border-white py-2">
-                    {addresses.length === 0 ? (
-                        <h4>Chưa có địa chỉ nhận hàng</h4>
+                    {!addresses || addresses.length === 0 ? (
+                        <div className="text-base sm:text-lg lg:text-xl text-center">
+                            Không có địa chỉ nhận hàng, ấn "thêm địa chỉ" để thêm ngay 💕
+                        </div>
                     ) : (
                         <ul>
                             {addresses.map((address) => (
                                 <li
                                     key={address?.id}
-                                    className="bg-slate-200 flex justify-between mb-2 p-2 sm:p-4 rounded-sm"
+                                    className="bg-slate-200 flex justify-between mb-2 p-2 sm:p-4 rounded-md"
                                 >
                                     <div>
                                         <p className="font-semibold text-green-500">{address.fullName}</p>
@@ -46,10 +48,12 @@ const AddresssSession = () => {
                     )}
                 </div>
                 <div className="mt-4 flex justify-end">
-                    <Button onClick={() => setShowEditForm((prev) => !prev)}>Thêm dịa chỉ</Button>
+                    <Button onClick={() => setShowEditForm((prev) => !prev)}>
+                        {showEditForm ? 'Ẩn' : 'Thêm địa chỉ'}
+                    </Button>
                 </div>
             </div>
-            {showEditForm && <AddressAndInfoForm />}
+            {showEditForm && <AddressAndInfoForm onShow={setShowEditForm} />}
         </div>
     );
 };

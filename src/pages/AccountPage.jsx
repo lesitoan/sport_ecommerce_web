@@ -86,7 +86,7 @@ const AccountPage = () => {
 
             {/* content */}
             <div className=" sm:w-2/3">
-                <hr className="border-t-2 border-main-color mb-4 w-full" />
+                <hr className="border-t-2 border-main-color mb-4 w-full mt-4 sm:mt-0" />
                 {/* giới thiệu */}
 
                 {activeSection === 'gioi_thieu' && (

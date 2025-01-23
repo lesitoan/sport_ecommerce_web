@@ -27,14 +27,15 @@ const reducer = (state, action) => {
     }
 };
 
-const AddressAndInfoForm = () => {
-    const { isLoading, addAddress } = useAddAddress();
+const AddressAndInfoForm = ({ onShow }) => {
+    const { isLoading, addAddress, isSuccess } = useAddAddress();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
         watch,
+        reset,
     } = useForm();
 
     const [addressesData, dispatch] = useReducer(reducer, { provinces: [], districts: [], wards: [] });
@@ -79,14 +80,19 @@ const AddressAndInfoForm = () => {
         });
     };
 
+    if (isSuccess) {
+        reset();
+        onShow(false);
+    }
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <h3 className="font-[600] text-[22px] mb-1">THÊM ĐỊA CHỈ GIAO HÀNG</h3>
+            <h3 className="font-semibold text-xl lg:text-2xl  mb-3 uppercase">THÊM ĐỊA CHỈ GIAO HÀNG</h3>
             <div className="flex flex-wrap justify-between">
                 {/* name */}
-                <div className="md:col-span-5 w-[49%]">
+                <div className="w-full md:w-[49%] mb-4 text-sm sm:text-base">
                     <input
-                        className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
+                        className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
                         placeholder="Họ và tên *"
                         type="text"
                         name="fullName"
@@ -97,14 +103,14 @@ const AddressAndInfoForm = () => {
                         })}
                     />
                     {errors?.fullName && (
-                        <span className="text-red-700 italic text-[14px] py-10">{errors.fullName?.message}</span>
+                        <span className="text-red-700 italic text-sm">{errors.fullName?.message}</span>
                     )}
                 </div>
 
                 {/* phone */}
-                <div className="md:col-span-5 w-[49%]">
+                <div className="w-full md:w-[49%] mb-4 text-sm sm:text-base">
                     <input
-                        className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
+                        className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
                         placeholder="Số điện thoại *"
                         type="text"
                         name="phoneNumber"
@@ -115,16 +121,16 @@ const AddressAndInfoForm = () => {
                         })}
                     />
                     {errors?.phoneNumber && (
-                        <span className="text-red-700 italic text-[14px] py-10">{errors.phoneNumber?.message}</span>
+                        <span className="text-red-700 italic text-sm">{errors.phoneNumber?.message}</span>
                     )}
                 </div>
 
                 {/* provinces */}
-                <div className="md:col-span-5 w-[31.5%]">
+                <div className="w-full md:w-[31.5%] mb-4 text-sm sm:text-base">
                     <select
                         name="province"
                         disabled={isLoading}
-                        className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
+                        className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
                         {...register('province')}
                         // {...register('province', { required: 'TỈnh/thành phố không được để trống*' })}
                     >
@@ -137,16 +143,16 @@ const AddressAndInfoForm = () => {
                             ))}
                     </select>
                     {errors?.province && (
-                        <span className="text-red-700 italic text-[14px] py-10">{errors?.province?.message}</span>
+                        <span className="text-red-700 italic text-sm">{errors?.province?.message}</span>
                     )}
                 </div>
 
                 {/* districts */}
-                <div className="md:col-span-5 w-[31.5%]">
+                <div className="w-full md:w-[31.5%] mb-4 text-sm sm:text-base">
                     <select
                         name="district"
                         disabled={isLoading}
-                        className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
+                        className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
                         {...register('district')}
                         // {...register('district', { required: 'Quận/huyện không được để trống*' })}
                     >
@@ -159,16 +165,16 @@ const AddressAndInfoForm = () => {
                             ))}
                     </select>
                     {errors?.district && (
-                        <span className="text-red-700 italic text-[14px] py-10">{errors?.district?.message}</span>
+                        <span className="text-red-700 italic text-sm">{errors?.district?.message}</span>
                     )}
                 </div>
 
                 {/* wards */}
-                <div className="md:col-span-5 w-[31.5%]">
+                <div className="w-full md:w-[31.5%] mb-4 text-sm sm:text-base">
                     <select
                         name="ward"
                         disabled={isLoading}
-                        className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
+                        className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
                         {...register('ward')}
                         // {...register('ward', { required: 'Xã/phường không được để trống*' })}
                     >
@@ -180,15 +186,13 @@ const AddressAndInfoForm = () => {
                                 </option>
                             ))}
                     </select>
-                    {errors?.ward && (
-                        <span className="text-red-700 italic text-[14px] py-10">{errors?.ward?.message}</span>
-                    )}
+                    {errors?.ward && <span className="text-red-700 italic text-sm">{errors?.ward?.message}</span>}
                 </div>
 
                 {/* specific address*/}
-                <div className="md:col-span-5 w-[100%]">
+                <div className=" w-full mb-4 text-sm sm:text-base">
                     <input
-                        className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
+                        className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
                         placeholder="Địa chỉ cụ thể *"
                         type="text"
                         name="addressDetail"
@@ -199,14 +203,14 @@ const AddressAndInfoForm = () => {
                         })}
                     />
                     {errors?.addressDetail && (
-                        <span className="text-red-700 italic text-[14px] py-10">{errors.addressDetail?.message}</span>
+                        <span className="text-red-700 italic text-sm">{errors.addressDetail?.message}</span>
                     )}
                 </div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-4 mt-2">
-                <Button disable={isLoading}>{!isLoading ? 'Lưu địa chỉ' : 'Đang thay đổi ...'}</Button>
-            </div>
+            <Button disable={isLoading} isLoadinng={isLoading}>
+                Lưu địa chỉ
+            </Button>
         </form>
     );
 };

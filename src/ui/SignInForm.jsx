@@ -28,15 +28,15 @@ const SignInForm = () => {
     };
 
     return (
-        <div className="flex justify-center">
-            <div className="mt-[14vh] mb-[14vh] w-96 backdrop-blur-lg bg-opacity-80 shadow-2xl p-5 border border-slate-250">
-                <h2 className="text-2xl font-[600] pb-5">Đăng nhập</h2>
+        <div className="flex justify-center items-center h-[80vh] min-h-min">
+            <div className="h-max w-96 lg:w-[500px] backdrop-blur-lg shadow-2xl p-5 rounded-md border-slate-250">
+                <h2 className="text-center text-xl lg:text-2xl font-semibold mb-5 uppercase">Đăng nhập</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-4">
-                        <label className="block mb-1 text-[16px] font-[400]">Email</label>
-                        <div className="md:col-span-5 w-[100%]">
+                    <div className="mb-4 text-sm sm:text-base">
+                        <label className="block mb-1 font-normal">Email</label>
+                        <>
                             <input
-                                className="mb-1 h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 px-1 w-full placeholder:italic placeholder:text-gray-600 text-black"
+                                className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
                                 placeholder="user@gmail.com *"
                                 type="email"
                                 name="email"
@@ -47,15 +47,16 @@ const SignInForm = () => {
                                 })}
                             />
                             {errors?.email && (
-                                <span className="text-red-700 italic text-[14px]">{errors.email?.message}</span>
+                                <span className="text-red-700 italic text-sm">{errors.email?.message}</span>
                             )}
-                        </div>
+                        </>
                     </div>
-                    <div className="mb-4">
-                        <label className="block mb-1 text-[16px] font-[400]">Mật khẩu</label>
-                        <div className="md:col-span-5 w-[100%]">
+
+                    <div className="mb-4 text-sm sm:text-base">
+                        <label className="block mb-1 font-normal">Mật khẩu</label>
+                        <>
                             <input
-                                className="mb-1 h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 px-1 w-full placeholder:italic placeholder:text-gray-600 text-black"
+                                className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
                                 placeholder="**********"
                                 type="password"
                                 name="password"
@@ -67,28 +68,32 @@ const SignInForm = () => {
                                 })}
                             />
                             {errors?.password && (
-                                <span className="text-red-700 italic text-[14px]">{errors.password?.message}</span>
+                                <span className="text-red-700 italic text-sm">{errors.password?.message}</span>
                             )}
-                        </div>
+                        </>
                     </div>
-                    <Button disable={isLoading}>{!isLoading ? 'Đăng nhập' : 'Đang đăng nhập...'}</Button>
+
+                    <Button disable={isLoading} isLoadinng={isLoading}>
+                        Đăng nhập
+                    </Button>
                 </form>
-                <div className="flex gap-2 items-center justify-center mt-4 text-[16px]">
+
+                <div className="flex gap-2 items-center justify-center my-4 text-sm sm:text-base">
                     <span className="italic">Đăng nhập bằng: </span>
-                    <FaGoogle className="text-[25px] text-red-600 cursor-pointer"></FaGoogle>
-                    <FaFacebook className="text-[25px] text-blue-600 cursor-pointer"></FaFacebook>
+                    <FaGoogle className="text-2xl text-red-600 cursor-pointer"></FaGoogle>
+                    <FaFacebook className="text-2xl text-blue-600 cursor-pointer"></FaFacebook>
                 </div>
-                <div className="flex gap-2 items-center justify-center mt-4 text-[16px]">
+
+                <div className="flex flex-col gap-2 items-center justify-center text-sm sm:text-base">
                     <span className="italic">
                         chưa có tài khoản:
-                        <span className="text-blue-600 font-[500] hover:underline cursor-pointer">
+                        <span className="text-blue-600 font-medium hover:underline cursor-pointer">
                             <Link to="/sign-up">Đăng kí</Link>
                         </span>
                     </span>
-                    <FaMinus />
                     <span className="italic">
                         Quên mật khẩu:
-                        <span className="text-blue-600 font-[500] hover:underline cursor-pointer">
+                        <span className="text-blue-600 font-medium hover:underline cursor-pointer">
                             <Link to="/reset-password">Lấy lại mật khẩu</Link>
                         </span>
                     </span>

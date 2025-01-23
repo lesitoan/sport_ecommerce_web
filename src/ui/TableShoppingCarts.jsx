@@ -10,7 +10,12 @@ const TableShoppingCarts = () => {
     const totalPrice = carts?.reduce((acc, cart) => acc + cart.price, 0);
 
     if (isLoading) return <Spinner size={'md'} css={'mt-14'} />;
-    if (!carts || carts.length === 0) return <h4>Chưa có sản phẩm</h4>;
+    if (!carts || carts.length === 0)
+        return (
+            <div className="mt-10 text-base sm:text-lg lg:text-xl text-center">
+                Chưa có sản phẩm nào trong giỏ hàng 🤷‍♂️
+            </div>
+        );
 
     return (
         <div className="">

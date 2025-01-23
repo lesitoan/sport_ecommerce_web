@@ -6,7 +6,8 @@ const TableOrders = () => {
     const { isLoading, orders } = useOrders();
 
     if (isLoading) return <Spinner size={'md'} css={'mt-14'} />;
-    if (!orders || orders?.length === 0) return <h4>Chưa có đơn hàng</h4>;
+    if (!orders || orders?.length === 0)
+        return <div className="mt-10 text-base sm:text-lg lg:text-xl text-center">Bạn chưa có đơn hàng nào 🤦‍♂️</div>;
 
     return (
         <div className="">

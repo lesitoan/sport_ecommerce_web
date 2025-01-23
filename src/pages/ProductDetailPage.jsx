@@ -8,13 +8,8 @@ const ProductDetailPage = () => {
     const { isLoading, product } = useGetProduct(prodSlug);
     console.log('product: ', product);
 
-    if (isLoading) {
-        return (
-            <div className="h-[80vh] flex items-center justify-center">
-                <Spinner />
-            </div>
-        );
-    }
+    if (isLoading) return <Spinner size={'lg'} css={'w-full h-[100vh]'} />;
+
     if (!product) return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">KHÔNG TÌM THẤY SẢN PHẨM</div>;
 
     return (

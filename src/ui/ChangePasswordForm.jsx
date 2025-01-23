@@ -19,27 +19,32 @@ const ChangePasswordForm = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <h3 className="font-semibold text-xl lg:text-2xl  mb-3 uppercase">THAY ĐỔI MẬT KHẨU</h3>
-            <div className="flex flex-wrap justify-between">
-                {/* pw */}
-                <div className="md:col-span-5 w-[100%]">
+
+            <div className="mb-4 text-sm sm:text-base">
+                <label className="block mb-1 font-normal">Mật khẩu hiện tại</label>
+                <>
                     <input
-                        className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
-                        placeholder="Mật khẩu cũ *"
+                        className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
+                        placeholder="**********"
                         type="password"
                         name="oldPassword"
                         disabled={isLoading}
-                        {...register('oldPassword', { required: 'mật khẩu không được để trống*' })}
+                        {...register('oldPassword', {
+                            required: 'Mật khẩu không được để trống',
+                        })}
                     />
-                    {errors?.oldPassword && (
-                        <span className="text-red-700 italic text-[14px] py-10">{errors.oldPassword?.message}</span>
+                    {errors?.password && (
+                        <span className="text-red-700 italic text-[14px]">{errors.oldPassword?.message}</span>
                     )}
-                </div>
+                </>
+            </div>
 
-                {/* new pw */}
-                <div className="md:col-span-5 w-[100%]">
+            <div className="mb-4 text-sm sm:text-base">
+                <label className="block mb-1 font-normal">Mật khẩu mới</label>
+                <>
                     <input
-                        className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
-                        placeholder="Mật khẩu mới *"
+                        className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
+                        placeholder="**********"
                         type="password"
                         name="newPassword"
                         disabled={isLoading}
@@ -49,16 +54,18 @@ const ChangePasswordForm = () => {
                             minLength: { value: 8, message: 'Mật khẩu mới phải lớn hơn 8 kí tự' },
                         })}
                     />
-
-                    {errors?.newPassword && (
-                        <span className="text-red-700 italic text-[14px] py-10">{errors.newPassword?.message}</span>
+                    {errors?.password && (
+                        <span className="text-red-700 italic text-[14px]">{errors.newPassword?.message}</span>
                     )}
-                </div>
-                {/* new pw confirm */}
-                <div className="md:col-span-5 w-[100%]">
+                </>
+            </div>
+
+            <div className="mb-4 text-sm sm:text-base">
+                <label className="block mb-1 font-normal">Xác nhận mật khẩu mới</label>
+                <>
                     <input
-                        className="h-7 bg-gray-200 shadow-lg  text-[16px] focus:outline-0 border-solid border-1 border-sky-500 mt-3 px-1 w-full placeholder:italic placeholder:text-black mb-1"
-                        placeholder="Xác nhận mật khẩu mới *"
+                        className="mb-1 px-3 py-2 bg-gray-200 shadow-lg focus:outline-0 border-solid border-1 border-sky-500 w-full placeholder:italic placeholder:text-gray-600 text-black rounded-md"
+                        placeholder="**********"
                         type="password"
                         name="newPasswordConfirm"
                         disabled={isLoading}
@@ -68,18 +75,15 @@ const ChangePasswordForm = () => {
                                 curValue === getValues().newPassword || 'không khớp với mật khẩu mới',
                         })}
                     />
-                    {errors?.newPasswordConfirm && (
-                        <span className="text-red-700 italic text-[14px] py-10">
-                            {errors.newPasswordConfirm?.message}
-                        </span>
+                    {errors?.password && (
+                        <span className="text-red-700 italic text-[14px]">{errors.newPasswordConfirm?.message}</span>
                     )}
-                </div>
+                </>
             </div>
-            <div className="flex flex-wrap justify-center gap-4 mt-2">
-                <Button isLoadinng={isLoading} disable={isLoading}>
-                    <div className="flex items-center justify-center gap-2">Thay đổi mật khẩu</div>
-                </Button>
-            </div>
+
+            <Button isLoadinng={isLoading} disable={isLoading}>
+                <div className="flex items-center justify-center gap-2">Thay đổi mật khẩu</div>
+            </Button>
         </form>
     );
 };
