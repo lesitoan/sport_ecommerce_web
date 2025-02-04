@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { NUMBER_ITEM_PER_PAGE } from '../utils/constant';
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const Pagination = ({ count }) => {
     count = 30;
@@ -13,26 +13,26 @@ const Pagination = ({ count }) => {
     if (count <= NUMBER_ITEM_PER_PAGE) return null;
 
     return (
-        <div className="flex gap-2 justify-center items-center">
+        <div className="flex gap-2 justify-center items-center text-sm sm:text-base 2xl:text-lg">
             <span
-                className="bg-main-color px-2.5 py-1.5 border border-main-color hover:bg-main-color text-[#fff] font-[500]"
+                className="flex justify-center items-center rounded-md bg-main-color h-8 px-2 border border-main-color hover:bg-main-color text-[#fff] font-[500]"
                 onClick={() => {
                     if (currPage === 1) return;
                     handleClickPage(currPage - 1);
                 }}
             >
-                <FaArrowAltCircleLeft />
+                <FaChevronLeft />
             </span>
-            <span className="bg-main-color px-2.5 py-1.5 border border-main-color hover:bg-main-color text-[#fff]  cursor-not-allowed font-[500]">
-                {currPage}
+            <span className="flex justify-center items-center rounded-md bg-main-color h-8 px-2 border border-main-color hover:bg-main-color text-[#fff]  cursor-not-allowed font-[500]">
+                {`${currPage} trên 20`}
             </span>
             <span
-                className="bg-main-color px-2.5 py-1.5 border border-main-color hover:bg-main-color text-[#fff] font-[500]"
+                className="flex justify-center items-center rounded-md bg-main-color h-8 px-2 border border-main-color hover:bg-main-color text-[#fff] font-[500]"
                 onClick={() => {
                     handleClickPage(currPage + 1);
                 }}
             >
-                <FaArrowAltCircleRight />
+                <FaChevronRight />
             </span>
         </div>
     );

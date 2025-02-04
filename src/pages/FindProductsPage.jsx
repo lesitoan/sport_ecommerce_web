@@ -11,11 +11,41 @@ const FindProductsPage = () => {
     if (isLoading) return <Spinner size={'lg'} css={'w-full h-[100vh]'} />;
 
     if (!data || !data?.products || data?.products.length === 0) {
-        return <div className="h-[50vh] mt-10 mb-10 text-[40px] italic">CHƯA CÓ SẢN PHẨM</div>;
+        return (
+            <div className="h-screen mt-10 text-base sm:text-lg lg:text-xl text-center">
+                Sản phẩm bạn tìm không tồn tại 😢
+            </div>
+        );
     }
-    console.log(data);
     return (
         <>
+            <select
+                name="filter"
+                id="filter"
+                className="my-5 ml-auto lg:w-1/4 block bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base 2xl:text-lg"
+            >
+                <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="default">
+                    Sắp xếp theo mặc định
+                </option>
+                <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="price">
+                    Giá tăng dần
+                </option>
+                <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="price">
+                    Giá giảm dần
+                </option>
+                <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="price">
+                    Hàng mới nhất
+                </option>
+                <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="price">
+                    Hàng cũ nhất
+                </option>
+                <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="price">
+                    A - Z
+                </option>
+                <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="price">
+                    Z - A
+                </option>
+            </select>
             <BoxProducts products={data.products} />
             <Pagination />
             <hr className="border-t-2 border-main-color mt-3 mb-10" />
