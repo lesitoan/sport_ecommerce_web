@@ -3,6 +3,7 @@ import Pagination from '../ui/Pagination';
 import { useGetProducts } from '../hooks/productsHooks';
 import BoxProducts from '../ui/BoxProducts';
 import Spinner from '../ui/Spinner';
+import { NUMBER_ITEM_PER_PAGE } from '../utils/constant';
 
 const FindProductsPage = () => {
     const { prodSlug } = useParams();
@@ -17,6 +18,7 @@ const FindProductsPage = () => {
             </div>
         );
     }
+    const numberPage = Math.ceil(data.count / NUMBER_ITEM_PER_PAGE);
     return (
         <>
             <select
@@ -47,7 +49,7 @@ const FindProductsPage = () => {
                 </option>
             </select>
             <BoxProducts products={data.products} />
-            <Pagination />
+            <Pagination count={numberPage} />
             <hr className="border-t-2 border-main-color mt-3 mb-10" />
         </>
     );

@@ -1,39 +1,40 @@
 import { useSearchParams } from 'react-router-dom';
-import { NUMBER_ITEM_PER_PAGE } from '../utils/constant';
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const Pagination = ({ count }) => {
-    count = 30;
     const [searchParams, setSearchParams] = useSearchParams();
     const currPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
     const handleClickPage = (pageIndex) => {
         searchParams.set('page', pageIndex);
         setSearchParams(searchParams);
     };
-    if (count <= NUMBER_ITEM_PER_PAGE) return null;
+    if (!count || count === 1) return null;
 
     return (
         <div className="flex gap-2 justify-center items-center text-sm sm:text-base 2xl:text-lg">
-            <span
-                className="flex justify-center items-center rounded-md bg-main-color h-8 px-2 border border-main-color hover:bg-main-color text-[#fff] font-[500]"
-                onClick={() => {
-                    if (currPage === 1) return;
-                    handleClickPage(currPage - 1);
-                }}
-            >
-                <FaChevronLeft />
-            </span>
+            {currPage > 1 && (
+                <span
+                    className="flex justify-center items-center rounded-md bg-main-color h-8 px-2 border border-main-color hover:bg-main-color text-[#fff] font-[500]"
+                    onClick={() => {
+                        handleClickPage(currPage - 1);
+                    }}
+                >
+                    <FaChevronLeft />
+                </span>
+            )}
             <span className="flex justify-center items-center rounded-md bg-main-color h-8 px-2 border border-main-color hover:bg-main-color text-[#fff]  cursor-not-allowed font-[500]">
-                {`${currPage} trên 20`}
+                {`${currPage} trên ${count}`}
             </span>
-            <span
-                className="flex justify-center items-center rounded-md bg-main-color h-8 px-2 border border-main-color hover:bg-main-color text-[#fff] font-[500]"
-                onClick={() => {
-                    handleClickPage(currPage + 1);
-                }}
-            >
-                <FaChevronRight />
-            </span>
+            {currPage < count && (
+                <span
+                    className="flex justify-center items-center rounded-md bg-main-color h-8 px-2 border border-main-color hover:bg-main-color text-[#fff] font-[500]"
+                    onClick={() => {
+                        handleClickPage(currPage + 1);
+                    }}
+                >
+                    <FaChevronRight />
+                </span>
+            )}
         </div>
     );
 
