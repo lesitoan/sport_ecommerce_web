@@ -1,10 +1,10 @@
 import { useSearchParams } from 'react-router-dom';
 
-const OrderBy = () => {
+const SortSelector = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const handleClickPage = (e) => {
-        searchParams.set('order', e.target.value);
+        searchParams.set('sort', e.target.value);
         setSearchParams(searchParams);
     };
 
@@ -21,23 +21,23 @@ const OrderBy = () => {
             <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="price">
                 Giá tăng dần
             </option>
-            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="price-desc">
+            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="price_desc">
                 Giá giảm dần
             </option>
-            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="time">
+            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="newest">
                 Hàng mới nhất
             </option>
-            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="time-desc">
+            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="oldest">
                 Hàng cũ nhất
             </option>
-            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="keyword">
+            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="name">
                 A - Z
             </option>
-            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="keyword-desc">
+            <option className="bg-slate-200 truncate mb-2 px-4 py-2 rounded-sm" value="name_desc">
                 Z - A
             </option>
         </select>
     );
 };
 
-export default OrderBy;
+export default SortSelector;

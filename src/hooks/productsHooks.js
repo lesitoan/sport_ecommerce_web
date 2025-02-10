@@ -5,10 +5,11 @@ import { getProductBySlug, getProducts } from '../services/productsApi';
 export const useGetProducts = (filters, isHomePage = false) => {
     const [searchParams] = useSearchParams();
     const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
-    filters = { ...filters, page };
+    const sort = searchParams.get('sort') || 'default';
+    filters = { ...filters, page, sort };
 
     const { isLoading, isError, data, error } = useQuery({
-        queryKey: ['products', `${filters?.category}`, `${filters?.q}`, page, isHomePage],
+        queryKey: ['products', `${filters?.category}`, `${filters?.q}`, page, isHomePage, sort],
         queryFn: async () => await getProducts(filters),
         gcTime: isHomePage ? 120 * 1000 : 0,
     });
