@@ -25,12 +25,12 @@ const ProductPage = () => {
 
     return (
         <>
-            <h3 className="font-semibold text-lg sm:text-xl md:text-2xl xl:text-3xl mt-5 mb-2 uppercase">
+            {/* <h3 className="font-semibold text-lg sm:text-xl md:text-2xl xl:text-3xl mt-5 mb-2 uppercase">
                 Áo bóng đá câu lạc bộ
-            </h3>
+            </h3> */}
 
             <div className="my-5 flex gap-y-5 flex-col lg:flex-row justify-between items-center text-sm sm:text-base 2xl:text-lg">
-                <ul className="flex justify-start gap-x-2 gap-y-4 lg:w-3/4 flex-wrap">
+                {/* <ul className="flex justify-start gap-x-2 gap-y-4 lg:w-3/4 flex-wrap">
                     <li>
                         <a
                             href="#"
@@ -63,7 +63,7 @@ const ProductPage = () => {
                             Ligue1
                         </a>
                     </li>
-                </ul>
+                </ul> */}
                 <SortSelector />
             </div>
 

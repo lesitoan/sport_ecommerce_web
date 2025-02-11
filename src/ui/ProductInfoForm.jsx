@@ -8,9 +8,11 @@ import Button from './Button';
 import Option from './Option';
 import { useAddProductToCart } from '../hooks/cartsHook';
 import Modal from './Modal';
+import ImageSlider from './ImageSlider ';
 
 const ProductInfoForm = ({ product }) => {
     const [showModal, setShowModal] = useState(false);
+    const [showImageSlider, setShowImageSlider] = useState(false);
     const navigate = useNavigate();
     const [currAttributes, setCurrAttributes] = useState([]);
     const { addProductToCart, isLoading } = useAddProductToCart();
@@ -59,15 +61,17 @@ const ProductInfoForm = ({ product }) => {
                 </h3>
             </Modal>
 
+            <ImageSlider images={images} show={showImageSlider} onShow={setShowImageSlider} />
+
             <div className="sm:w-1/3">
                 {/* thumnail */}
-                <img src={thumnail} alt="ảnh sản phẩm" />
+                <img src={thumnail} alt="ảnh sản phẩm" onClick={() => setShowImageSlider(true)} />
                 <ul className="flex justify-start gap-2 flex-nowrap mt-3">
                     {images.length > 0 &&
                         images.map((url, index) => {
                             return (
                                 <li className="w-20 cursor-pointer" key={index}>
-                                    <img src={url} alt="ảnh sản phẩm" />
+                                    <img src={url} alt="ảnh sản phẩm" onClick={() => setShowImageSlider(true)} />
                                 </li>
                             );
                         })}
