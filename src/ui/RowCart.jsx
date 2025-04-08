@@ -26,7 +26,7 @@ const RowCart = ({ cart }) => {
     return (
         <tr className="items-start">
             <td className="">
-                <img src={image} className="w-20 h-full" alt="ảnh sản phẩm" />
+                <img src={image} className="w-20 h-auto" alt="ảnh sản phẩm" />
             </td>
             <td className="pr-10 py-4 max-w-24">
                 <h4>{productName}</h4>

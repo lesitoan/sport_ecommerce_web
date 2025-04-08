@@ -31,6 +31,7 @@ const SignInForm = () => {
         <div className="flex justify-center items-center h-[80vh] min-h-min">
             <div className="h-max w-96 lg:w-[500px] backdrop-blur-lg shadow-2xl p-5 rounded-md border-slate-250">
                 <h2 className="text-center text-xl lg:text-2xl font-semibold mb-5 uppercase">Đăng nhập</h2>
+                <h4 className="mb-2 text-center text-green-500">tk demo: user@gmail.com | 123456789</h4>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-4 text-sm sm:text-base">
                         <label className="block mb-1 font-normal">Email</label>
